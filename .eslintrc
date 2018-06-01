@@ -1,0 +1,33 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true,
+      "impliedStrict": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "amd": true,
+    "node": true
+  },
+  "globals": {
+    "angular": false,
+    "module": false,
+    "inject": false,
+    "document": false
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "rules": {
+    "no-console": 0,
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "all"
+      }
+    ],
+    "react/jsx-uses-vars": ["error"]
+  }
+}
