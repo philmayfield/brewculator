@@ -3,20 +3,31 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const VersionSchema = new Schema({
+  // recipe: {
+  //   type: Number,
+  //   required: true
+  // },
   recipe: {
-    type: Number,
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: "Recipe"
   },
   version: {
-    type: Number,
+    type: String,
     required: true
   },
   notes: {
-    type: String,
-    required: true
+    type: String
   },
   date: {
     type: Date,
     default: Date.now
+  },
+  brews: {
+    type: Schema.Types.ObjectId,
+    ref: "Brew"
   }
 });
+
+let Version = mongoose.model("version", VersionSchema);
+
+module.exports = Version;

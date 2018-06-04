@@ -3,12 +3,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const path = require("path");
+// const path = require("path");
 
 // routes
-const users = require("./routes/api/users");
-// const profile = require("./routes/api/profile");
-// const posts = require("./routes/api/posts");
+const user = require("./routes/api/user");
+const recipe = require("./routes/api/recipe");
+const version = require("./routes/api/version");
+const versions = require("./routes/api/versions");
+const brew = require("./routes/api/brew");
+const brews = require("./routes/api/brews");
+const gravity = require("./routes/api/gravity");
+const gravities = require("./routes/api/gravities");
 
 // init express
 const app = express();
@@ -27,15 +32,20 @@ mongoose
   .catch(e => console.error("Error connecting to DB:", e));
 
 // passport middleware
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 // passport config
-// require("./config/passport")(passport);
+require("./config/passport")(passport);
 
 // Use Routes
-app.use("/api/users", users);
-// app.use("/api/profile", profile);
-// app.use("/api/posts", posts);
+app.use("/api/user", user);
+app.use("/api/recipe", recipe);
+app.use("/api/version", version);
+app.use("/api/versions", versions);
+app.use("/api/brew", brew);
+app.use("/api/brews", brews);
+app.use("/api/gravity", gravity);
+app.use("/api/gravities", gravities);
 
 // // serve static assets if in production
 // if (process.env.NODE_ENV === "production") {
