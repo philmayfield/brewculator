@@ -12,6 +12,12 @@ module.exports = function validateRegisterInput(data = {}) {
   if (!Validator.isLength(data.username, { min: 2, max: 20 })) {
     errors.username = "Username must be between 2 and 20 characters long";
   }
+  if (!Validator.isAlphanumeric(data.username)) {
+    errors.username = "Username can only be alpha-numeric";
+  }
+  if (!Validator.equals(data.username.split(" ").length.toString(), "1")) {
+    errors.username = "Username cant have spaces (duh)";
+  }
   if (Validator.isEmpty(data.username)) {
     errors.username = "Username field is required";
   }
