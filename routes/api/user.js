@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
+const notEmpty = require("../../validation/empty").notEmpty;
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -59,7 +60,7 @@ router.post("/register", (req, res) => {
 });
 
 // @route   POST api/user/login
-// @desc    Login user / Returning token
+// @desc    Login user, Returning token
 // @access  Public
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
@@ -127,6 +128,33 @@ router.get(
       id: req.user.id,
       username: req.user.username
     });
+  }
+);
+
+// @route   GET api/user/:user_id
+// @desc    Find a user by id
+// @access  Private
+router.get(
+  "/:user_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    User.findOne({ _id: req.params.user_id })
+      .then(user => {
+        if (notEmpty(user)) {
+          // user was found, return it with 200 status
+          return res.json(user);
+        }
+
+        // user was not found
+        errors.nouser = "Sorry, we couldnt find that user :(";
+        return res.status(404).json(errors);
+      })
+      .catch(err => {
+        errors.nouser = "Sorry, we couldnt find that user :(";
+        return res.status(404).json({ err, errors });
+      });
   }
 );
 

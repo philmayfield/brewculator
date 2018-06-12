@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { loginUser } from "../../actions/authActions";
+import { notEmpty } from "../../common/empty";
 import Input from "../common/Input";
 
 class Login extends Component {
@@ -14,6 +15,7 @@ class Login extends Component {
     this.state = {
       username: user ? user : "",
       password: "",
+      newUser: notEmpty(user),
       errors: {}
     };
 
@@ -36,18 +38,45 @@ class Login extends Component {
     this.props.loginUser(myDude);
   }
 
+  componentDidMount() {
+    this.handleAlreadyAuth(this.props.auth.isAuth);
+  }
+
+  componentDidUpdate() {
+    this.handleAlreadyAuth(this.props.auth.isAuth);
+  }
+
+  handleAlreadyAuth(isAuth) {
+    if (isAuth) {
+      this.props.history.push("/recipes");
+    }
+  }
+
   render() {
     const { errors } = this.props;
+
+    const newUserMsg = (
+      <div className="alert alert-success" role="alert">
+        <h5>Welcome {this.state.username}!</h5>
+        <hr className="my-1" />
+        <p className="mb-0">
+          You&rsquo;re all registered up! Go ahead and login with the password
+          you entered previously and get to brewing!
+        </p>
+      </div>
+    );
 
     return (
       <div className="login">
         <h1>Login</h1>
+        {this.state.newUser ? newUserMsg : null}
         <form onSubmit={this.formSubmit}>
           <Input
             placeholder="Enter your username"
             label="Username"
             type="text"
             name="username"
+            autoFocus={!this.state.newUser}
             value={this.state.username}
             error={errors.username}
             onChange={this.inputChange}
@@ -57,27 +86,34 @@ class Login extends Component {
             label="Password"
             type="password"
             name="password"
+            autoFocus={this.state.newUser}
             value={this.state.password}
             error={errors.password}
             onChange={this.inputChange}
           />
-          <input type="submit" value="Login" />
-          <Link className="" to="/signup">
-            Sign up
-          </Link>
+          <input className="btn btn-primary" type="submit" value="Login" />
         </form>
+        <p>
+          Don&rsquo;t have an account?
+          <Link className="ml-2" to="/signup">
+            Sign up now!
+          </Link>
+        </p>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   errors: state.errors
 });
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       user: PropTypes.string
@@ -85,4 +121,7 @@ Login.propTypes = {
   })
 };
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Route
   // Switch
 } from "react-router-dom";
@@ -12,9 +12,14 @@ import setAuthToken from "./common/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 
 // Components
+import Header from "./components/layout/Header";
+import Loading from "./components/common/Loading";
 import Landing from "./components/layout/Landing";
 import Signup from "./components/register/Signup";
 import Login from "./components/login/Login";
+import Recipes from "./components/recipes/Recipes";
+import Recipe from "./components/recipe/Recipe";
+import AddEditRecipe from "./components/recipe/AddEditRecipe";
 
 import "./App.css";
 
@@ -47,13 +52,20 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
+        <BrowserRouter>
           <div className="App">
-            <Route path="/" component={Landing} exact />
-            <Route path="/signup" component={Signup} exact />
-            <Route path="/login/:user?" component={Login} exact />
+            <Header />
+            <Loading />
+            <main className="container-fluid">
+              <Route path="/" component={Landing} exact />
+              <Route path="/signup" component={Signup} exact />
+              <Route path="/login/:user?" component={Login} exact />
+              <Route path="/recipe/:id" component={Recipe} exact />
+              <Route path="/recipes" component={Recipes} exact />
+              <Route path="/recipe/edit/:id?" component={AddEditRecipe} exact />
+            </main>
           </div>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
   }

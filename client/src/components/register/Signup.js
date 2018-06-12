@@ -60,7 +60,7 @@ class Register extends Component {
             onChange={this.inputChange}
             required={true}
           />
-          <input type="submit" value="Beer Me" />
+          <input className="btn btn-primary" type="submit" value="Beer Me" />
         </form>
       </div>
     );
@@ -78,4 +78,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Register));

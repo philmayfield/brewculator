@@ -3,9 +3,16 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../common/setAuthToken";
-import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from "./actionTypes";
+import {
+  GET_ERRORS,
+  CLEAR_ERRORS,
+  GET_USERS,
+  SET_CURRENT_USER,
+  IS_LOADING,
+  NOT_LOADING
+} from "./actionTypes";
 
-// register a new user
+// CREATE - new user
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/user/register", userData)
@@ -13,6 +20,24 @@ export const registerUser = (userData, history) => dispatch => {
       dispatch({ type: CLEAR_ERRORS });
       // successful registration, send user to login page
       return history.push(`/login/${userData.username}`);
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// GET - user by id
+export const getUser = id => dispatch => {
+  axios
+    .get(`/api/user/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_USERS,
+        payload: res.data
+      });
     })
     .catch(err => {
       dispatch({
@@ -72,4 +97,23 @@ export const logoutUser = () => dispatch => {
 
   // set current user to empty object which will also set isAuth to false
   dispatch(setCurrentUser({}));
+};
+
+// Helpers
+
+// clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
+};
+
+// app is loading state
+export const isLoading = () => {
+  return { type: IS_LOADING };
+};
+
+// app is not loading state
+export const notLoading = () => {
+  return { type: NOT_LOADING };
 };

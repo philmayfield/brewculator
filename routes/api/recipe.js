@@ -28,14 +28,13 @@ router.get("/all", (req, res) => {
       }
 
       // no recipes found
-      errors.noRecipes =
+      errors.recipeError =
         "Hey, there arent any recipes here yet.  Why dont you add some!";
       return res.status(404).json(errors);
     })
     .catch(err => {
-      return res
-        .status(404)
-        .json({ err, req, noRecipes: "Could not fetch recipes" });
+      errors.recipeError = "There was a problem fetching the recipes :(";
+      return res.status(404).json(errors);
     });
 });
 
@@ -53,12 +52,12 @@ router.get("/:recipe_id", (req, res) => {
       }
 
       // recipe was not found
-      errors.noRecipe = "Sorry, we couldnt find that recipe :(";
+      errors.recipeError = "Sorry, we couldnt find that recipe :(";
       return res.status(404).json(errors);
     })
-    .catch(err => {
-      errors.noRecipe = "Sorry, we couldnt find that recipe :(";
-      return res.status(404).json({ err, errors });
+    .catch(() => {
+      errors.recipeError = "Sorry, we couldnt find that recipe :(";
+      return res.status(404).json(errors);
     });
 });
 
@@ -89,12 +88,10 @@ router.post(
     new Recipe(recipeFields)
       .save()
       .then(profile => res.json(profile))
-      .catch(err =>
-        res.status(400).json({
-          err,
-          createrecipe: "We ran into a problem creating your recipe."
-        })
-      );
+      .catch(() => {
+        errors.recipeError = "We ran into a problem creating your recipe.";
+        res.status(400).json(errors);
+      });
   }
 );
 
@@ -131,12 +128,12 @@ router.post(
         if (notEmpty(recipe)) {
           return res.json(recipe);
         }
-        errors.noRecipe = "Could not find that recipe to update :(";
-        return res.status(404).json({ errors });
+        errors.recipeError = "Could not find that recipe to update :(";
+        return res.status(404).json(errors);
       })
-      .catch(err => {
-        errors.noRecipe = "Could not find that recipe to update :(";
-        return res.status(404).json({ err, errors });
+      .catch(() => {
+        errors.recipeError = "Could not find that recipe to update :(";
+        return res.status(404).json(errors);
       });
   }
 );

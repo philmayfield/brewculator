@@ -18,9 +18,9 @@ router.get("/:recipe_id", (req, res) => {
     .then(versions => {
       if (isEmpty(versions)) {
         // no versions found
-        errors.noversions =
+        errors.noVersions =
           "Hey, there arent any versions of that brew yet.  How about you add one!";
-        return res.status(404).json(errors);
+        return res.json(errors);
       }
 
       // found some versions, return with 200 status
@@ -29,7 +29,7 @@ router.get("/:recipe_id", (req, res) => {
     .catch(err => {
       return res
         .status(404)
-        .json({ err, req, noversions: "Could not fetch versions" });
+        .json({ err, req, noVersions: "Could not fetch versions" });
     });
 });
 

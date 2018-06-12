@@ -11,25 +11,26 @@ const Input = ({
   onChange,
   disabled,
   info,
-  required = false
+  required = false,
+  autoFocus = false
 }) => {
   return (
-    <div className="input">
-      <label>
-        {label}
-        <input
-          type={type}
-          className={`${error ? "is-invalid" : ""}`}
-          placeholder={placeholder}
-          name={name}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-          required={required}
-        />
-      </label>
+    <div className="form-group">
+      <label htmlFor={name}>{label}</label>
+      <input
+        type={type}
+        className={`form-control ${error ? "is-invalid" : ""}`}
+        placeholder={placeholder}
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        required={required}
+        autoFocus={autoFocus}
+      />
       {info && <small className="form-text text-muted">{info}</small>}
-      <div className="feedback">{error}</div>
+      <div className="invalid-feedback">{error}</div>
     </div>
   );
 };
@@ -44,7 +45,8 @@ Input.propTypes = {
   disabled: PropTypes.string,
   onChange: PropTypes.func,
   info: PropTypes.string,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  autoFocus: PropTypes.bool
 };
 
 Input.defaultProps = {

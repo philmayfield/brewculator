@@ -1,0 +1,50 @@
+.btn-empty {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+}
+
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 7rem;
+}
+
+.app-control {
+  background-color: rgb(247, 247, 247);
+  border-top: 1px solid #ccc;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  z-index: 2;
+}
+
+.app-loading {
+  animation-duration: 0.15s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+  background-color: rgba(255, 255, 255, 0.75);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

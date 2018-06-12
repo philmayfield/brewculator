@@ -15,7 +15,7 @@ class Landing extends Component {
     return (
       <div>
         <h1>Landing</h1>
-        <Link className="btn btn-primary" to="/register">
+        <Link className="btn btn-primary" to="/login">
           Log In
         </Link>
         <Link className="btn btn-primary" to="/signup">
