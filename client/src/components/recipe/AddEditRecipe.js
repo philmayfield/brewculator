@@ -29,6 +29,8 @@ class AddEditRecipe extends Component {
       // check if recipe already in the store
       if (storeRecipe && notEmpty(storeRecipe)) {
         this.props.setRecipe(storeRecipe);
+        this.state.name = storeRecipe.name;
+        this.state.style = storeRecipe.style;
       } else {
         this.props.getRecipe(id);
       }

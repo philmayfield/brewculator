@@ -63,26 +63,30 @@ export const getVersion = id => dispatch => {
     });
 };
 
-// UPDATE - one recipes by id
-// export const saveRecipe = (recipe, history) => dispatch => {
-//   dispatch(clearErrors());
-//   dispatch(isLoading());
+// UPDATE - one versions by id
+export const saveVersion = (version, history) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
 
-//   const { _id } = recipe;
+  const { _id } = version;
 
-//   axios
-//     .get(`/api/recipe/${_id}`, recipe)
-//     .then(() => {
-//       return history.push(`/recipe/${_id}`);
-//     })
-//     .catch(err => {
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: err.response.data
-//       });
-//     })
-//     .finally(() => dispatch(notLoading()));
-// };
+  axios
+    .post(`/api/version/${_id}`, version)
+    .then(() => {
+      dispatch({
+        type: SET_VERSION,
+        payload: version
+      });
+      return history.push(`/version/${_id}`);
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    })
+    .finally(() => dispatch(notLoading()));
+};
 
 // CREATE - one new version
 export const makeVersion = (version, history) => dispatch => {
@@ -92,12 +96,10 @@ export const makeVersion = (version, history) => dispatch => {
   axios
     .post(`/api/version/`, version)
     .then(({ data }) => {
-      console.log("then", data, version);
       dispatch(notLoading());
       return history.push(`/version/${data._id}`);
     })
     .catch(err => {
-      console.log("catch", err);
       dispatch(notLoading());
       dispatch({
         type: GET_ERRORS,

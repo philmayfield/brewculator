@@ -3,74 +3,61 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
+import { notEmpty } from "../../common/empty";
 import { getRecipe } from "../../actions/recipeActions";
-import { makeVersion } from "../../actions/versionActions";
+import {
+  saveVersion,
+  getVersion,
+  setVersion
+} from "../../actions/versionActions";
 
 import Input from "../common/Input";
 import TextArea from "../common/TextArea";
 
-class AddVersion extends Component {
+class EditVersion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipe: {
-        author: "",
-        name: "",
-        style: "",
-        date: "",
-        version: {},
-        versions: []
-      },
+      _id: "",
       version: "",
       notes: "",
       errors: {}
     };
 
     const { recipe, match } = this.props;
-    const { id } = match.params; // recipe id
-    const hasStoreRecipe = recipe && recipe._id === id;
+    const { id } = match.params; // version id
+    const hasStoreRecipe = recipe && notEmpty(recipe._id);
+    let hasStoreVersion;
 
-    if (!hasStoreRecipe) {
-      // fetch recipe, should only happen on reload of edit page
-      this.props.getRecipe(id);
+    if (hasStoreRecipe) {
+      hasStoreVersion = recipe.version && recipe.version._id === id;
+
+      if (hasStoreVersion) {
+        this.props.setVersion(recipe.version);
+        this.state._id = recipe.version._id;
+        this.state.version = recipe.version.version;
+        this.state.notes = recipe.version.notes;
+      }
+    }
+
+    if (!hasStoreRecipe || !hasStoreVersion) {
+      this.props.getVersion(id);
     }
 
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
-    // const versions = recipe && recipe.versions;
-    // const hasVersions =
-    //   versions && Array.isArray(versions) && notEmpty(versions);
-    // let storeRecipe;
-
-    // console.log(">", id, recipe, versions, hasVersions);
-    // console.log("hasVersions", hasVersions);
-
-    // if (hasVersions) {
-    //   console.log("hasVersions");
-    //   storeRecipe = this.props.recipe.versions.find(version => {
-    //     console.log("-", version);
-    //     return version._id === id;
-    //   });
-    // } else {
-    // }
-
-    // console.log(">", storeRecipe);
-
-    // check if recipe already in the store
-    // if (storeVersion && notEmpty(storeVersion)) {
-    //   this.props.setVersion(storeVersion);
-    // } else {
-    //   this.props.getVersion(id);
-    // }
   }
 
   static getDerivedStateFromProps(nextProps, nextState) {
-    const pRecipe = nextProps.recipe;
-    const sRecipe = nextState.recipe;
+    // console.log("gdsfp", nextProps.recipe, nextState);
+    const { version } = nextProps.recipe;
 
-    if (pRecipe._id !== sRecipe._id) {
-      return { recipe: pRecipe };
+    if (version && version._id !== nextState._id) {
+      return {
+        _id: version._id,
+        version: version.version,
+        notes: version.notes
+      };
     }
     return null;
   }
@@ -85,41 +72,43 @@ class AddVersion extends Component {
     e.preventDefault();
 
     const newVersion = {
-      recipe: this.state.recipe._id,
+      ...this.props.recipe.version,
       version: this.state.version,
       notes: this.state.notes
     };
 
-    this.props.makeVersion(newVersion, this.props.history);
+    console.log(">>> Edit version submit:", newVersion);
+
+    this.props.saveVersion(newVersion, this.props.history);
   }
 
   render() {
-    const { auth, errors } = this.props;
-    const { recipe } = this.state;
+    const { recipe, auth, errors } = this.props;
+    const { version, notes } = this.state;
     const author = auth.users.find(user => user._id === recipe.author);
     let formContent;
 
     formContent = (
-      <form id="addVersionForm" onSubmit={this.handleSubmit}>
-        <h4>Add a new version</h4>
+      <form id="addUpdateVersionForm" onSubmit={this.handleSubmit}>
+        <h4>Editing version {version}</h4>
         <Input
           placeholder="Enter a version"
-          label={`New Version for ${recipe.name}`}
+          label={`Version for ${recipe.name}`}
           type="text"
           name="version"
           info="Example: 1, A, First, etc"
           autoFocus={true}
-          value={this.state.version}
+          value={version}
           error={errors.version}
           onChange={this.handleInput}
           required={true}
         />
         <TextArea
           placeholder="Optionally add some notes"
-          label={`Version ${this.state.version} Notes`}
+          label={`Version ${version} Notes`}
           name="notes"
           autoFocus={false}
-          value={this.state.notes}
+          value={notes}
           error={errors.notes}
           onChange={this.handleInput}
         />
@@ -127,7 +116,7 @@ class AddVersion extends Component {
     );
 
     return (
-      <div className="addVersion">
+      <div className="editVersion">
         <RecipeDeets recipe={recipe} author={author} version={null} />
         {formContent}
         <AppControl>
@@ -135,13 +124,13 @@ class AddVersion extends Component {
             className="btn btn-secondary mr-3"
             onClick={this.props.history.goBack}
           >
-            Back
+            Cancel
           </button>
           <input
-            className="btn btn-primary"
+            className="btn btn-success"
             type="submit"
-            value="Make New Version"
-            form="addVersionForm"
+            value="Save Changes"
+            form="addUpdateVersionForm"
           />
         </AppControl>
       </div>
@@ -149,7 +138,7 @@ class AddVersion extends Component {
   }
 }
 
-AddVersion.propTypes = {
+EditVersion.propTypes = {
   auth: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
   errors: PropTypes.oneOfType([
@@ -158,7 +147,9 @@ AddVersion.propTypes = {
   ]),
   history: PropTypes.object.isRequired,
   getRecipe: PropTypes.func.isRequired,
-  makeVersion: PropTypes.func.isRequired,
+  saveVersion: PropTypes.func.isRequired,
+  getVersion: PropTypes.func.isRequired,
+  setVersion: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string
@@ -174,5 +165,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getRecipe, makeVersion }
-)(AddVersion);
+  { getRecipe, saveVersion, getVersion, setVersion }
+)(EditVersion);

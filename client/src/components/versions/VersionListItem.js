@@ -25,7 +25,7 @@ class VersionListItem extends Component {
           <h5 className="m-0">{version.version}</h5>
           <p className="m-0">{version.notes}</p>
         </Link>
-        <Link className="mr-3" to={`/editVersion/${version._id}`}>
+        <Link className="mr-3" to={`/version/edit/${version._id}`}>
           Edit
         </Link>
         <button

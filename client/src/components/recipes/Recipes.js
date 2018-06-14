@@ -7,6 +7,7 @@ import { notEmpty } from "../../common/empty";
 import RecipeList from "./RecipeList";
 import AreYouSure from "../common/AreYouSure";
 import AppControl from "../layout/AppControl";
+import Alert from "../common/Alert";
 
 class Recipes extends Component {
   componentDidMount() {
@@ -26,10 +27,12 @@ class Recipes extends Component {
       recipeContent = <RecipeList recipes={recipes} />;
     } else if (!loading) {
       recipeContent = (
-        <p>
-          Hey, there aren&rsquo;t any recipes here yet. Why don&rsquo;t you add
-          some!
-        </p>
+        <Alert bsStyle="alert-success" heading="No Recipes">
+          <p>
+            Hey, there aren&rsquo;t any recipes here yet. Why don&rsquo;t you
+            add some!
+          </p>
+        </Alert>
       );
     }
 
@@ -52,7 +55,6 @@ class Recipes extends Component {
     return (
       <div>
         <h1>Recipes</h1>
-
         {recipeContent}
 
         {controlContent}

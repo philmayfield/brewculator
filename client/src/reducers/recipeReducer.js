@@ -18,6 +18,9 @@ const defaultState = {
 };
 
 export default (state = defaultState, action) => {
+  // if (action.type === SET_VERSION) {
+  //   console.log(">>>", state, action.payload);
+  // }
   switch (action.type) {
     case GET_RECIPE:
     case SET_RECIPE:
@@ -27,7 +30,6 @@ export default (state = defaultState, action) => {
       };
 
     case DELETE_RECIPE:
-      // return state.filter(recipe => recipe._id !== action.payload);
       return defaultState;
 
     case GET_VERSIONS:
@@ -40,7 +42,13 @@ export default (state = defaultState, action) => {
     case SET_VERSION:
       return {
         ...state,
-        version: action.payload
+        version: action.payload,
+        versions: [
+          ...state.versions.filter(
+            version => version._id !== action.payload._id
+          ),
+          ...action.payload
+        ]
       };
 
     case DELETE_VERSION:

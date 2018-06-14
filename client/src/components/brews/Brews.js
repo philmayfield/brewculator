@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import BrewList from "./BrewList";
+import Alert from "../common/Alert";
 
 const Brews = props => {
   const makeBrewContent = brews => {
@@ -12,10 +13,9 @@ const Brews = props => {
       brewsContent = <BrewList brews={brews} />;
     } else if (noBrews) {
       brewsContent = (
-        <div className="alert alert-success" role="alert">
-          <h4 className="alert-heading">No brews yet</h4>
+        <Alert bsStyle="alert-success" heading="No brews yet">
           <p className="mb-0">{noBrews}</p>
-        </div>
+        </Alert>
       );
     }
     return brewsContent;

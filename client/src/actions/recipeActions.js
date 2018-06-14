@@ -73,7 +73,12 @@ export const saveRecipe = (recipe, history) => dispatch => {
 
   axios
     .post(`/api/recipe/${_id}`, recipe)
-    .then(() => {
+    .then(res => {
+      dispatch({
+        type: SET_RECIPE,
+        payload: res.data
+      });
+      dispatch(notLoading());
       return history.push(`/recipe/${_id}`);
     })
     .catch(err => {
@@ -81,8 +86,7 @@ export const saveRecipe = (recipe, history) => dispatch => {
         type: GET_ERRORS,
         payload: err.response.data
       });
-    })
-    .finally(() => dispatch(notLoading()));
+    });
 };
 
 // CREATE - one new recipe
@@ -93,6 +97,7 @@ export const makeRecipe = (recipe, history) => dispatch => {
   axios
     .post("/api/recipe/", recipe)
     .then(({ data }) => {
+      dispatch(notLoading());
       return history.push(`/recipe/${data._id}`);
     })
     .catch(err => {
@@ -100,8 +105,7 @@ export const makeRecipe = (recipe, history) => dispatch => {
         type: GET_ERRORS,
         payload: err.response.data
       });
-    })
-    .finally(() => dispatch(notLoading()));
+    });
 };
 
 // DELETE - one recipe by id

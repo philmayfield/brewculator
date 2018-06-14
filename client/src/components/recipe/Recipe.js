@@ -15,19 +15,12 @@ import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
 import Versions from "../versions/Versions";
 import AreYouSure from "../common/AreYouSure";
+import Alert from "../common/Alert";
 
 class Recipe extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      recipe: {
-        author: "",
-        name: "",
-        style: "",
-        date: "",
-        versions: []
-      }
-    };
+    this.state = {};
 
     const { id } = this.props.match.params;
     const { recipes } = this.props;
@@ -48,19 +41,6 @@ class Recipe extends Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, nextState) {
-    const pRecipe = nextProps.recipe;
-    const sRecipe = nextState.recipe;
-
-    if (
-      pRecipe._id !== sRecipe._id ||
-      pRecipe.versions.length !== sRecipe.versions.length
-    ) {
-      return { recipe: pRecipe };
-    }
-    return null;
-  }
-
   componentDidUpdate(prevProps) {
     const usingStoreRecipe = this.state.usingStoreRecipe;
 
@@ -69,7 +49,6 @@ class Recipe extends Component {
       const pAuthor = prevProps.recipe.author;
 
       if (author !== pAuthor) {
-        console.log(":D");
         this.props.getUser(author);
       }
     }
@@ -89,11 +68,10 @@ class Recipe extends Component {
   }
 
   render() {
-    const { recipe } = this.state;
-    const hasRecipe = notEmpty(recipe._id);
-    const { errors, auth, appJunk } = this.props;
+    const { recipe, errors, auth, appJunk } = this.props;
     const { isAuth } = auth;
     const { loading, confirmObject } = appJunk;
+    const hasRecipe = notEmpty(recipe._id);
     const author = auth.users.find(user => user._id === recipe.author);
     let errorContent, controlContent;
 
@@ -108,18 +86,16 @@ class Recipe extends Component {
     if (notEmpty(errors)) {
       if (notEmpty(errors.recipeError)) {
         errorContent = (
-          <div className="alert alert-danger" role="alert">
-            <h4 className="alert-heading">Recipe not found</h4>
+          <Alert bsStyle="alert-danger" heading="Recipe not found">
             <p className="mb-0">{errors.recipeError}</p>
-          </div>
+          </Alert>
         );
       } else {
         errorContent = (
-          <div className="alert alert-danger" role="alert">
-            <h4 className="alert-heading">Error</h4>
+          <Alert bsStyle="alert-danger" heading="Error">
             <p>{errors}</p>
             <p className="mb-0">Probably just need to refresh.</p>
-          </div>
+          </Alert>
         );
       }
     }
@@ -136,12 +112,15 @@ class Recipe extends Component {
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          <button
+          {/* <button
             className="btn btn-secondary mr-3"
             onClick={this.props.history.goBack}
           >
             Back
-          </button>
+          </button> */}
+          <Link className="btn btn-secondary mr-3" to="/recipes">
+            Back
+          </Link>
           <button
             className={`btn btn-danger mr-3 ${hasRecipe ? "" : "d-none"}`}
             onClick={this.handleDelete}
@@ -156,7 +135,7 @@ class Recipe extends Component {
           </Link>
           <Link
             className={`btn btn-primary ${hasRecipe ? "" : "d-none"}`}
-            to={`/version/edit/${recipe._id}`}
+            to={`/version/add/${recipe._id}`}
           >
             Add a Version
           </Link>

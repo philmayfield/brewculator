@@ -22,6 +22,7 @@ import Recipe from "./components/recipe/Recipe";
 import AddEditRecipe from "./components/recipe/AddEditRecipe";
 import Version from "./components/version/Version";
 import AddVersion from "./components/version/AddVersion";
+import EditVersion from "./components/version/EditVersion";
 
 import "./App.css";
 
@@ -67,7 +68,7 @@ class App extends Component {
               <Route path="/recipe/edit/:id?" component={AddEditRecipe} exact />
               <Route path="/version/:id" component={Version} exact />
               <Route path="/version/add/:id?" component={AddVersion} exact />
-              <Route path="/version/edit/:id?" component={AddVersion} exact />
+              <Route path="/version/edit/:id?" component={EditVersion} exact />
             </main>
           </div>
         </BrowserRouter>
