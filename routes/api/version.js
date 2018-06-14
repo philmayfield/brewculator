@@ -38,15 +38,63 @@ router.get("/:version_id", (req, res) => {
     );
 });
 
-// @route   POST api/version/recipe/:recipe_id
-// @desc    Create or Update a recipe version
+// @route   POST api/version/
+// @desc    Create a version
 // @access  Private
 router.post(
-  "/recipe/:recipe_id",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // validate request
-    const recipeId = req.params.recipe_id;
+    const { body } = req;
+    const recipe_id = body.recipe;
+    const { errors, isValid } = validateVersionInput(body);
+
+    // check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    // get fields
+    const versionFields = {};
+    versionFields.recipe = recipe_id ? recipe_id : "";
+    versionFields.version = body.version ? body.version : "1";
+    versionFields.notes = body.notes ? body.notes : "";
+
+    Recipe.findOne({ _id: recipe_id })
+      .then(recipe => {
+        if (notEmpty(recipe)) {
+          // found the recipe, add the version
+
+          new Version(versionFields)
+            .save()
+            .then(version => res.json(version))
+            .catch(err => {
+              errors.err = err;
+              errors.createVersion = "We ran into a problem creating the brew.";
+              res.status(400).json(errors);
+            });
+        } else {
+          errors.noRecipe = "Could not find the recipe to make a version of :(";
+          res.status(404).json({ errors });
+        }
+      })
+      .catch(err => {
+        errors.noRecipe = "Could not find the recipe to make a version of :(";
+        res.status(404).json({ err, errors });
+      });
+  }
+);
+
+// @route   POST api/version/:version_id
+// @desc    Update a version
+// @access  Private
+router.post(
+  "/:version_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // validate request
+    const versionId = req.params.version_id;
     const { body } = req;
     const { errors, isValid } = validateVersionInput(body);
 
@@ -57,45 +105,24 @@ router.post(
 
     // get fields
     const versionFields = {};
-    versionFields.recipe = recipeId ? recipeId : "";
     versionFields.version = body.version ? body.version : "1";
     versionFields.notes = body.notes ? body.notes : "";
 
-    Recipe.findOne({ _id: recipeId })
-      .then(recipe => {
-        if (notEmpty(recipe)) {
-          // found the recipe, add or update the version
-
-          Version.findOneAndUpdate(
-            { version: versionFields.version }, // object to find and update
-            { $set: versionFields }, // data
-            { new: true } // new option returns the updated object
-          )
-            .then(version => {
-              if (notEmpty(version)) {
-                // version found - UPDATE
-                return res.json(version);
-              }
-
-              // version NOT found - CREATE
-              new Version(versionFields)
-                .save()
-                .then(version => res.json(version))
-                .catch(err => {
-                  errors.createVersion =
-                    "We ran into a problem creating the version.";
-                  return res.status(400).json({ err, errors });
-                });
-            })
-            .catch(err => {
-              errors.createVersion =
-                "We ran into a problem updating the version.";
-              return res.status(400).json({ err, errors });
-            });
+    Version.findOneAndUpdate(
+      { _id: versionId }, // object to find and update
+      { $set: versionFields }, // data
+      { new: true } // new option returns the updated object
+    )
+      .then(version => {
+        if (version) {
+          return res.json(version);
+        } else {
+          errors.noVersion = "Could not find that version to update :(";
+          return res.status(404).json({ errors });
         }
       })
       .catch(err => {
-        errors.noRecipe = "Could not find the recipe to make a version of :(";
+        errors.noversion = "Could not find that version to update :(";
         res.status(404).json({ err, errors });
       });
   }

@@ -20,16 +20,16 @@ router.get("/:version_id", (req, res) => {
         // no brews found
         errors.noBrews =
           "Hey, there arent any brews of that version yet.  How about you add one!";
-        return res.status(404).json(errors);
+        return res.json(errors);
       }
 
       // found some brews, return with 200 status
       return res.json(brews);
     })
     .catch(err => {
-      return res
-        .status(404)
-        .json({ err, req, noBrews: "Could not fetch brews" });
+      errors.err = err;
+      errors.noBrews = "Could not fetch brews";
+      return res.status(404).json(errors);
     });
 });
 

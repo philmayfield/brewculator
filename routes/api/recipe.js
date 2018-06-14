@@ -33,6 +33,8 @@ router.get("/all", (req, res) => {
       return res.status(404).json(errors);
     })
     .catch(err => {
+      errors.req = req;
+      errors.err = err;
       errors.recipeError = "There was a problem fetching the recipes :(";
       return res.status(404).json(errors);
     });

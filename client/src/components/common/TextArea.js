@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Input = ({
+const TextArea = ({
   name,
   label,
   placeholder,
   value,
   error,
-  type,
   onChange,
   disabled,
   info,
@@ -16,12 +15,8 @@ const Input = ({
 }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>
-        {label}
-        {required && " *"}
-      </label>
-      <input
-        type={type}
+      <label htmlFor={name}>{label}</label>
+      <textarea
         className={`form-control ${error ? "is-invalid" : ""}`}
         placeholder={placeholder}
         id={name}
@@ -32,19 +27,18 @@ const Input = ({
         required={required}
         autoFocus={autoFocus}
       />
-      <div className="invalid-feedback">{error}</div>
       {info && <small className="form-text text-muted">{info}</small>}
+      <div className="invalid-feedback">{error}</div>
     </div>
   );
 };
 
-Input.propTypes = {
+TextArea.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string,
   error: PropTypes.string,
-  type: PropTypes.string.isRequired,
   disabled: PropTypes.string,
   onChange: PropTypes.func,
   info: PropTypes.string,
@@ -52,8 +46,4 @@ Input.propTypes = {
   autoFocus: PropTypes.bool
 };
 
-Input.defaultProps = {
-  type: "text"
-};
-
-export default Input;
+export default TextArea;

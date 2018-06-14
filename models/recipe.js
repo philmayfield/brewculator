@@ -19,10 +19,10 @@ const RecipeSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  // user: {
-  //   type: String,
-  //   required: true
-  // },
+  version: {
+    type: Schema.Types.ObjectId,
+    ref: "Version"
+  },
   versions: [
     {
       type: Schema.Types.ObjectId,

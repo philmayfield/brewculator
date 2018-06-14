@@ -44,6 +44,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // validate request
+    const { version_id } = req.params;
     const { body } = req;
     const { errors, isValid } = validateBrewInput(body);
 
@@ -54,10 +55,10 @@ router.post(
 
     // get fields
     const brewFields = {};
-    brewFields.version = req.params.version_id ? req.params.version_id : "";
+    brewFields.version = version_id ? version_id : "";
     brewFields.notes = body.notes ? body.notes : "";
 
-    Version.findOne({ _id: req.params.version_id })
+    Version.findOne({ _id: version_id })
       .then(version => {
         if (version) {
           // found the version, add the brew

@@ -27,9 +27,9 @@ main {
 }
 
 .app-loading {
-  animation-duration: 0.15s;
+  /* animation-duration: 0.15s;
   animation-fill-mode: both;
-  animation-name: fadeIn;
+  animation-name: fadeIn; */
   background-color: rgba(255, 255, 255, 0.75);
   position: absolute;
   top: 0;

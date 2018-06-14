@@ -2,35 +2,37 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { DELETE_BREW } from "../../actions/actionTypes";
 import { actionConfirm } from "../../actions/appActions";
-import { deleteVersion } from "../../actions/versionActions";
+import Moment from "react-moment";
 
-class VersionListItem extends Component {
+class BrewListItem extends Component {
   handleRemoval(e) {
     e.preventDefault();
-    const { _id, version } = this.props.version;
 
     this.props.actionConfirm({
-      confirmAction: deleteVersion,
-      confirmId: _id,
-      confirmText: `Are you sure you want to delete Version ${version}?`
+      confirm: DELETE_BREW,
+      confirmId: e.target.value,
+      confirmText: `Are you sure you want to delete this brew?`
     });
   }
 
   render() {
-    const { version } = this.props;
+    const { brew } = this.props;
     return (
       <div className="list-group-item list-group-item-action d-flex align-items-center">
-        <Link className="w-100" to={`/version/${version._id}`}>
-          <h5 className="m-0">{version.version}</h5>
-          <p className="m-0">{version.notes}</p>
+        <Link className="w-100" to={`/version/${brew._id}`}>
+          <h5 className="m-0">
+            {<Moment date={brew.date} format="MMM D, YYYY" />}
+          </h5>
+          <p className="m-0">{brew.notes}</p>
         </Link>
-        <Link className="mr-3" to={`/editVersion/${version._id}`}>
+        <Link className="mr-3" to={`/editBrew/${brew._id}`}>
           Edit
         </Link>
         <button
           className="btn btn-empty text-danger"
-          value={version._id}
+          value={brew._id}
           onClick={this.handleRemoval.bind(this)}
         >
           Delete
@@ -40,12 +42,12 @@ class VersionListItem extends Component {
   }
 }
 
-VersionListItem.propTypes = {
+BrewListItem.propTypes = {
   actionConfirm: PropTypes.func.isRequired,
-  version: PropTypes.object.isRequired
+  brew: PropTypes.object.isRequired
 };
 
 export default connect(
   null,
   { actionConfirm }
-)(VersionListItem);
+)(BrewListItem);

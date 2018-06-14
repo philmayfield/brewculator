@@ -20,6 +20,8 @@ import Login from "./components/login/Login";
 import Recipes from "./components/recipes/Recipes";
 import Recipe from "./components/recipe/Recipe";
 import AddEditRecipe from "./components/recipe/AddEditRecipe";
+import Version from "./components/version/Version";
+import AddVersion from "./components/version/AddVersion";
 
 import "./App.css";
 
@@ -63,6 +65,9 @@ class App extends Component {
               <Route path="/recipe/:id" component={Recipe} exact />
               <Route path="/recipes" component={Recipes} exact />
               <Route path="/recipe/edit/:id?" component={AddEditRecipe} exact />
+              <Route path="/version/:id" component={Version} exact />
+              <Route path="/version/add/:id?" component={AddVersion} exact />
+              <Route path="/version/edit/:id?" component={AddVersion} exact />
             </main>
           </div>
         </BrowserRouter>

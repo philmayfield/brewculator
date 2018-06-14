@@ -6,8 +6,7 @@ import { connect } from "react-redux";
 class Landing extends Component {
   componentDidMount() {
     if (this.props.auth.isAuth) {
-      // TODO: figure out where to push to on authenticated login
-      this.props.history.push("/somewhere");
+      this.props.history.push("/recipes");
     }
   }
 

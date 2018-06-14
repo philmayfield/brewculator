@@ -2,21 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import {
-  setRecipe,
-  getRecipe,
-  deleteRecipe
-} from "../../actions/recipeActions";
 import { actionConfirm } from "../../actions/appActions";
-import { getUser } from "../../actions/authActions";
-import { getAllVersions } from "../../actions/versionActions";
 import { notEmpty } from "../../common/empty";
+import {
+  getVersion,
+  setVersion,
+  deleteVersion
+} from "../../actions/versionActions";
+import { getAllBrews } from "../../actions/brewActions";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
-import Versions from "../versions/Versions";
+import Brews from "../brews/Brews";
 import AreYouSure from "../common/AreYouSure";
 
-class Recipe extends Component {
+class Version extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,26 +24,29 @@ class Recipe extends Component {
         name: "",
         style: "",
         date: "",
+        version: {},
         versions: []
-      }
+      },
+      errors: {}
     };
 
     const { id } = this.props.match.params;
-    const { recipes } = this.props;
-    const storeRecipe =
-      notEmpty(recipes) && recipes.find(recipe => recipe._id === id);
-    const hasStoreRecipe = storeRecipe && notEmpty(storeRecipe);
+    const { recipe } = this.props;
+    const { versions } = recipe && recipe;
+    const storeVersion =
+      notEmpty(versions) && versions.find(version => version._id === id);
+    const hasStoreVersion = storeVersion && notEmpty(storeVersion);
 
-    if (hasStoreRecipe) {
-      // fetch recipe from the store
-      this.props.setRecipe(storeRecipe);
-      this.props.getAllVersions(id);
+    if (hasStoreVersion) {
+      // fetch version from the store
+      this.props.setVersion(storeVersion);
+      this.props.getAllBrews(id);
     } else {
-      // fetch recipe over the wire, will also fetch author and versions
-      this.props.getRecipe(id);
+      // fetch version over the wire, will also fetch recipe & brews
+      this.props.getVersion(id);
     }
 
-    this.state.usingStoreRecipe = hasStoreRecipe;
+    this.state.usingStoreVersion = hasStoreVersion;
     this.handleDelete = this.handleDelete.bind(this);
   }
 
@@ -54,63 +56,47 @@ class Recipe extends Component {
 
     if (
       pRecipe._id !== sRecipe._id ||
-      pRecipe.versions.length !== sRecipe.versions.length
+      pRecipe.versions.length !== sRecipe.versions.length ||
+      pRecipe.version !== sRecipe.version
     ) {
       return { recipe: pRecipe };
     }
     return null;
   }
 
-  componentDidUpdate(prevProps) {
-    const usingStoreRecipe = this.state.usingStoreRecipe;
-
-    if (usingStoreRecipe) {
-      const { author } = this.props.recipe;
-      const pAuthor = prevProps.recipe.author;
-
-      if (author !== pAuthor) {
-        console.log(":D");
-        this.props.getUser(author);
-      }
-    }
-  }
-
   handleDelete(e) {
     e.preventDefault();
 
-    const { _id, name } = this.props.recipe;
+    const { _id, version, recipe } = this.state.recipe.version;
 
     this.props.actionConfirm({
-      confirmAction: deleteRecipe,
+      confirmAction: deleteVersion,
       confirmId: _id,
-      confirmText: `Are you sure you want to delete "${name}"?`,
-      redirect: "/recipes"
+      confirmText: `Are you sure you want to delete Version ${version}?`,
+      redirect: `/recipe/${recipe}`
     });
   }
 
   render() {
     const { recipe } = this.state;
-    const hasRecipe = notEmpty(recipe._id);
+    const { version } = recipe;
+    const hasVersion = version && notEmpty(version._id);
     const { errors, auth, appJunk } = this.props;
     const { isAuth } = auth;
     const { loading, confirmObject } = appJunk;
     const author = auth.users.find(user => user._id === recipe.author);
-    let errorContent, controlContent;
+    let errorContent, controlContent, versionContent;
 
-    const recipeContent = (
-      <div>
-        <RecipeDeets recipe={recipe} author={author} />
-        <h5>Versions</h5>
-        <Versions versions={recipe.versions} />
-      </div>
-    );
+    if (hasVersion) {
+      versionContent = <Brews brews={version.brews} />;
+    }
 
     if (notEmpty(errors)) {
-      if (notEmpty(errors.recipeError)) {
+      if (errors.noVersion) {
         errorContent = (
           <div className="alert alert-danger" role="alert">
-            <h4 className="alert-heading">Recipe not found</h4>
-            <p className="mb-0">{errors.recipeError}</p>
+            <h4 className="alert-heading">Version not found</h4>
+            <p className="mb-0">{errors.noVersion}</p>
           </div>
         );
       } else {
@@ -118,7 +104,7 @@ class Recipe extends Component {
           <div className="alert alert-danger" role="alert">
             <h4 className="alert-heading">Error</h4>
             <p>{errors}</p>
-            <p className="mb-0">Probably just need to refresh.</p>
+            <p className="mb-0">Probably just need to refresh the page.</p>
           </div>
         );
       }
@@ -143,26 +129,33 @@ class Recipe extends Component {
             Back
           </button>
           <button
-            className={`btn btn-danger mr-3 ${hasRecipe ? "" : "d-none"}`}
+            className={`btn btn-danger mr-3 ${hasVersion ? "" : "d-none"}`}
             onClick={this.handleDelete}
           >
-            Delete This Recipe
+            Delete This Version
           </button>
           <Link
-            className={`btn btn-secondary mr-3 ${hasRecipe ? "" : "d-none"}`}
-            to={`edit/${recipe._id}`}
+            className={`btn btn-secondary mr-3 ${hasVersion ? "" : "d-none"}`}
+            to={`edit/${hasVersion && version._id}`}
           >
-            Edit This Recipe
+            Edit This Version
           </Link>
           <Link
-            className={`btn btn-primary ${hasRecipe ? "" : "d-none"}`}
-            to={`/version/edit/${recipe._id}`}
+            className={`btn btn-primary ${hasVersion ? "" : "d-none"}`}
+            to={`/brew/v/${hasVersion && version._id}`}
           >
-            Add a Version
+            Add a Brew
           </Link>
         </AppControl>
       );
     }
+
+    const recipeContent = (
+      <div>
+        <RecipeDeets recipe={recipe} author={author} version={version} />
+        {versionContent}
+      </div>
+    );
 
     return (
       <div>
@@ -175,19 +168,14 @@ class Recipe extends Component {
   }
 }
 
-Recipe.propTypes = {
-  getRecipe: PropTypes.func.isRequired,
-  setRecipe: PropTypes.func.isRequired,
-  deleteRecipe: PropTypes.func.isRequired,
+Version.propTypes = {
+  getVersion: PropTypes.func.isRequired,
+  setVersion: PropTypes.func.isRequired,
+  getAllBrews: PropTypes.func.isRequired,
   actionConfirm: PropTypes.func.isRequired,
-  getUser: PropTypes.func.isRequired,
-  getAllVersions: PropTypes.func.isRequired,
+  recipe: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  recipe: PropTypes.oneOfType([
-    PropTypes.object.isRequired,
-    PropTypes.bool.isRequired
-  ]),
-  recipes: PropTypes.array.isRequired,
+  // brews: PropTypes.array.isRequired,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   appJunk: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -202,18 +190,15 @@ const mapStateToProps = state => ({
   auth: state.auth,
   appJunk: state.appJunk,
   errors: state.errors,
-  recipe: state.recipe,
-  recipes: state.recipes
+  recipe: state.recipe
 });
 
 export default connect(
   mapStateToProps,
   {
-    getRecipe,
-    setRecipe,
-    deleteRecipe,
-    actionConfirm,
-    getUser,
-    getAllVersions
+    getVersion,
+    setVersion,
+    getAllBrews,
+    actionConfirm
   }
-)(Recipe);
+)(Version);

@@ -22,10 +22,12 @@ const VersionSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  brews: {
-    type: Schema.Types.ObjectId,
-    ref: "Brew"
-  }
+  brews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Brew"
+    }
+  ]
 });
 
 let Version = mongoose.model("version", VersionSchema);

@@ -31,6 +31,9 @@ export const registerUser = (userData, history) => dispatch => {
 
 // GET - user by id
 export const getUser = id => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
+
   axios
     .get(`/api/user/${id}`)
     .then(res => {
@@ -38,6 +41,7 @@ export const getUser = id => dispatch => {
         type: GET_USERS,
         payload: res.data
       });
+      dispatch(notLoading());
     })
     .catch(err => {
       dispatch({

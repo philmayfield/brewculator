@@ -7,6 +7,7 @@ import { getAllVersions } from "./versionActions";
 import {
   GET_ERRORS,
   GET_RECIPE,
+  SET_RECIPE,
   GET_RECIPES,
   DELETE_RECIPE
 } from "./actionTypes";
@@ -33,7 +34,7 @@ export const getAllRecipes = () => dispatch => {
     .finally(() => dispatch(notLoading()));
 };
 
-// READ - one recipes by id
+// READ - one recipe by id
 export const getRecipe = id => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
@@ -45,6 +46,7 @@ export const getRecipe = id => dispatch => {
         type: GET_RECIPE,
         payload: res.data
       });
+      dispatch(notLoading());
       return res.data;
     })
     .then(recipe => {
@@ -58,11 +60,7 @@ export const getRecipe = id => dispatch => {
         type: GET_ERRORS,
         payload: err.response.data
       });
-    })
-    .finally(() => {
-      setTimeout(() => {
-        dispatch(notLoading());
-      }, 1000);
+      dispatch(notLoading());
     });
 };
 
@@ -118,21 +116,22 @@ export const deleteRecipe = id => dispatch => {
         type: DELETE_RECIPE,
         payload: id
       });
+      dispatch(notLoading());
     })
     .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err
       });
-    })
-    .finally(() => dispatch(notLoading()));
+      dispatch(notLoading());
+    });
 };
 
 // helpers
 
 export const setRecipe = recipe => {
   return {
-    type: GET_RECIPE,
+    type: SET_RECIPE,
     payload: recipe
   };
 };
