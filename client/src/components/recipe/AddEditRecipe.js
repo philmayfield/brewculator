@@ -9,6 +9,7 @@ import {
   saveRecipe,
   makeRecipe
 } from "../../actions/recipeActions";
+import RecipeDeets from "../layout/RecipeDeets";
 import Input from "../common/Input";
 import AppControl from "../layout/AppControl";
 import Alert from "../common/Alert";
@@ -20,6 +21,7 @@ class AddEditRecipe extends Component {
       _id: this.props.match.params.id,
       name: "",
       style: "",
+      date: Date.now(),
       errors: {}
     };
 
@@ -28,10 +30,11 @@ class AddEditRecipe extends Component {
       const storeRecipe = this.props.recipes.find(recipe => recipe._id === id);
 
       // check if recipe already in the store
-      if (storeRecipe && notEmpty(storeRecipe)) {
+      if (storeRecipe && notEmpty(storeRecipe._id)) {
         this.props.setRecipe(storeRecipe);
         this.state.name = storeRecipe.name;
         this.state.style = storeRecipe.style;
+        this.state.date = storeRecipe.date;
       } else {
         this.props.getRecipe(id);
       }
@@ -86,7 +89,12 @@ class AddEditRecipe extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { recipe, auth } = this.props;
+    const hasRecipe = notEmpty(recipe._id);
+    const author =
+      hasRecipe && auth.users.find(user => user._id === recipe.author);
+    const { name, style, errors } = this.state;
+    const sRecipe = { name, style };
     let errorContent, formContent;
 
     if (notEmpty(errors) && errors.recipeError) {
@@ -105,7 +113,7 @@ class AddEditRecipe extends Component {
           type="text"
           name="name"
           autoFocus={true}
-          value={this.state.name}
+          value={name}
           error={errors.name}
           onChange={this.handleInput}
           required={true}
@@ -115,7 +123,7 @@ class AddEditRecipe extends Component {
           label="Style"
           type="text"
           name="style"
-          value={this.state.style}
+          value={style}
           error={errors.style}
           onChange={this.handleInput}
           required={true}
@@ -125,10 +133,7 @@ class AddEditRecipe extends Component {
 
     return (
       <div>
-        <div className="d-flex flex-wrap align-items-baseline mb-3">
-          <h1 className="m-0 flex-shrink-0 mr-3">{this.state.name}</h1>
-          <h4 className="m-0 flex-shrink-0">{this.state.style}</h4>
-        </div>
+        <RecipeDeets recipe={sRecipe} author={author} />
         {errorContent ? errorContent : formContent}
         <AppControl>
           <button
@@ -154,9 +159,10 @@ AddEditRecipe.propTypes = {
   setRecipe: PropTypes.func.isRequired,
   saveRecipe: PropTypes.func.isRequired,
   makeRecipe: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   recipes: PropTypes.array.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -166,6 +172,7 @@ AddEditRecipe.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   recipes: state.recipes,
   recipe: state.recipe,
   errors: state.errors

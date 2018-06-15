@@ -105,7 +105,6 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // validate request
-    const author = req.user.id;
     const recipeId = req.params.recipe_id;
     const { body } = req;
     const { errors, isValid } = validateRecipeInput(body);
@@ -117,7 +116,6 @@ router.post(
 
     // get fields
     const recipeFields = {};
-    recipeFields.author = author ? author : "";
     recipeFields.name = body.name ? body.name : "";
     recipeFields.style = body.style ? body.style : "";
 

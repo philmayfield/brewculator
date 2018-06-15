@@ -6,7 +6,7 @@ import { notEmpty } from "../../common/empty";
 
 const RecipeDeets = props => {
   const displayRecipe = (recipe, author) => {
-    if (recipe && notEmpty(recipe._id)) {
+    if (recipe /*&& notEmpty(recipe._id)*/) {
       return (
         <div>
           <div className="d-flex flex-wrap align-items-baseline mb-3">
