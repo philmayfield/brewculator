@@ -1,20 +1,55 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import RecipeListItem from "./RecipeListItem";
-import { notEmpty } from "../../common/empty";
+import { actionConfirm } from "../../actions/appActions";
+import { deleteRecipe } from "../../actions/recipeActions";
+import ItemListItem from "../common/ItemListItem";
 
-const RecipeList = props => {
-  const { recipes } = props;
-  const recipeItems =
-    notEmpty(recipes) &&
-    recipes.map(recipe => {
-      return <RecipeListItem key={recipe._id} recipe={recipe} />;
+class RecipeListItem extends Component {
+  handleRemoval(e) {
+    e.preventDefault();
+
+    const { confirmItem = "this" } = e.target.dataset.confirmItem;
+
+    this.props.actionConfirm({
+      confirmAction: deleteRecipe,
+      confirmId: e.target.value,
+      confirmText: `Are you sure you want to delete ${confirmItem}?`
     });
+  }
 
-  return <div className="list-group">{recipeItems}</div>;
+  render() {
+    const { recipes, auth } = this.props;
+
+    const recipeItems =
+      Array.isArray(recipes) &&
+      recipes.map(recipe => (
+        <ItemListItem
+          key={recipe._id}
+          item={recipe}
+          itemType="recipe"
+          header={recipe.name}
+          sub={recipe.style}
+          isAuth={auth.isAuth}
+          handleRemoval={this.handleRemoval.bind(this)}
+        />
+      ));
+
+    return <div className="list-group">{recipeItems}</div>;
+  }
+}
+
+RecipeListItem.propTypes = {
+  recipes: PropTypes.array.isRequired,
+  actionConfirm: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-RecipeList.propTypes = {
-  recipes: PropTypes.array.isRequired
-};
-export default RecipeList;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { actionConfirm }
+)(RecipeListItem);

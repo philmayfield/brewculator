@@ -1,20 +1,55 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import VersionListItem from "./VersionListItem";
-import { notEmpty } from "../../common/empty";
+import { actionConfirm } from "../../actions/appActions";
+import { deleteVersion } from "../../actions/versionActions";
+import ItemListItem from "../common/ItemListItem";
 
-const VersionList = props => {
-  const { versions } = props;
-  const versionItems =
-    notEmpty(versions) &&
-    versions.map(version => {
-      return <VersionListItem key={version._id} version={version} />;
+class VersionList extends Component {
+  handleRemoval(e) {
+    e.preventDefault();
+
+    const { confirmItem = "this" } = e.target.dataset.confirmItem;
+
+    this.props.actionConfirm({
+      confirmAction: deleteVersion,
+      confirmId: e.target.value,
+      confirmText: `Are you sure you want to delete ${confirmItem}?`
     });
+  }
 
-  return <div className="list-group">{versionItems}</div>;
-};
+  render() {
+    const { versions, auth } = this.props;
+
+    const versionItems =
+      Array.isArray(versions) &&
+      versions.map(version => (
+        <ItemListItem
+          key={version._id}
+          item={version}
+          itemType="version"
+          header={version.name}
+          sub={version.style}
+          isAuth={auth.isAuth}
+          handleRemoval={this.handleRemoval.bind(this)}
+        />
+      ));
+
+    return <div className="list-group">{versionItems}</div>;
+  }
+}
 
 VersionList.propTypes = {
-  versions: PropTypes.array.isRequired
+  versions: PropTypes.array.isRequired,
+  actionConfirm: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
-export default VersionList;
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { actionConfirm }
+)(VersionList);
