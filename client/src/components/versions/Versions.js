@@ -13,10 +13,13 @@ class Versions extends Component {
 
     if (hasVersions) {
       versionsContent = <VersionList versions={versions} />;
-    } else if (noVersions) {
+    } else if (noVersions || !hasVersions) {
       versionsContent = (
         <Alert bsStyle="alert-success" heading="No versions yet">
-          <p className="mb-0">{noVersions}</p>
+          <p className="mb-0">
+            Hey, there arent any versions of that brew yet. How about you add
+            one!
+          </p>
         </Alert>
       );
     }

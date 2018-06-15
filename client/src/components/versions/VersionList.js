@@ -28,8 +28,8 @@ class VersionList extends Component {
           key={version._id}
           item={version}
           itemType="version"
-          header={version.name}
-          sub={version.style}
+          header={version.version}
+          sub={version.notes}
           isAuth={auth.isAuth}
           handleRemoval={this.handleRemoval.bind(this)}
         />

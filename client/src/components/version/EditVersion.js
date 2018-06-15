@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RecipeDeets from "../layout/RecipeDeets";
-import AppControl from "../layout/AppControl";
 import { notEmpty } from "../../common/empty";
 import { getRecipe } from "../../actions/recipeActions";
 import {
@@ -11,8 +10,7 @@ import {
   setVersion
 } from "../../actions/versionActions";
 
-import Input from "../common/Input";
-import TextArea from "../common/TextArea";
+import VersionForm from "./VersionForm";
 
 class EditVersion extends Component {
   constructor(props) {
@@ -46,6 +44,7 @@ class EditVersion extends Component {
 
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGoBack = this.handleGoBack.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, nextState) {
@@ -53,6 +52,7 @@ class EditVersion extends Component {
     const { version } = nextProps.recipe;
 
     if (version && version._id !== nextState._id) {
+      // populate form once call to get recipe comes back
       return {
         _id: version._id,
         version: version.version,
@@ -82,57 +82,30 @@ class EditVersion extends Component {
     this.props.saveVersion(newVersion, this.props.history);
   }
 
+  handleGoBack() {
+    this.props.history.goBack();
+  }
+
   render() {
     const { recipe, auth, errors } = this.props;
-    const { version, notes } = this.state;
+    const version = {
+      version: this.state.version,
+      notes: this.state.notes
+    };
     const author = auth.users.find(user => user._id === recipe.author);
-    let formContent;
-
-    formContent = (
-      <form id="addUpdateVersionForm" onSubmit={this.handleSubmit}>
-        <h4>Editing version {version}</h4>
-        <Input
-          placeholder="Enter a version"
-          label={`Version for ${recipe.name}`}
-          type="text"
-          name="version"
-          info="Example: 1, A, First, etc"
-          autoFocus={true}
-          value={version}
-          error={errors.version}
-          onChange={this.handleInput}
-          required={true}
-        />
-        <TextArea
-          placeholder="Optionally add some notes"
-          label={`Version ${version} Notes`}
-          name="notes"
-          autoFocus={false}
-          value={notes}
-          error={errors.notes}
-          onChange={this.handleInput}
-        />
-      </form>
-    );
 
     return (
       <div className="editVersion">
         <RecipeDeets recipe={recipe} author={author} version={null} />
-        {formContent}
-        <AppControl>
-          <button
-            className="btn btn-secondary mr-3"
-            onClick={this.props.history.goBack}
-          >
-            Cancel
-          </button>
-          <input
-            className="btn btn-success"
-            type="submit"
-            value="Save Changes"
-            form="addUpdateVersionForm"
-          />
-        </AppControl>
+        <VersionForm
+          new={false}
+          recipe={recipe}
+          version={version}
+          errors={errors}
+          handleInput={this.handleInput}
+          handleSubmit={this.handleSubmit}
+          handleGoBack={this.handleGoBack}
+        />
       </div>
     );
   }
@@ -141,10 +114,7 @@ class EditVersion extends Component {
 EditVersion.propTypes = {
   auth: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
-  errors: PropTypes.oneOfType([
-    PropTypes.object.isRequired,
-    PropTypes.string.isRequired
-  ]),
+  errors: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   getRecipe: PropTypes.func.isRequired,
   saveVersion: PropTypes.func.isRequired,
