@@ -19,34 +19,45 @@ class RecipeListItem extends Component {
   }
 
   render() {
-    const { recipe } = this.props;
+    const { recipe, auth } = this.props;
+    const editBtn = auth.isAuth && (
+      <Link className="mr-3" to={`/recipe/edit/${recipe._id}`}>
+        Edit
+      </Link>
+    );
+    const deleteBtn = auth.isAuth && (
+      <button
+        className="btn btn-empty text-danger"
+        value={recipe._id}
+        onClick={this.handleRemoval.bind(this)}
+      >
+        Delete
+      </button>
+    );
     return (
       <div className="list-group-item list-group-item-action d-flex align-items-center">
         <Link className="w-100" to={`/recipe/${recipe._id}`}>
           <h5 className="m-0">{recipe.name}</h5>
           <p className="m-0">{recipe.style}</p>
         </Link>
-        <Link className="mr-3" to={`/recipe/edit/${recipe._id}`}>
-          Edit
-        </Link>
-        <button
-          className="btn btn-empty text-danger"
-          value={recipe._id}
-          onClick={this.handleRemoval.bind(this)}
-        >
-          Delete
-        </button>
+        {editBtn}
+        {deleteBtn}
       </div>
     );
   }
 }
 
 RecipeListItem.propTypes = {
+  auth: PropTypes.object.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   recipe: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { actionConfirm }
 )(RecipeListItem);

@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { notEmpty } from "../../common/empty";
-import Input from "../common/Input";
-import AppControl from "../layout/AppControl";
 import {
   getRecipe,
   setRecipe,
   saveRecipe,
   makeRecipe
 } from "../../actions/recipeActions";
+import Input from "../common/Input";
+import AppControl from "../layout/AppControl";
+import Alert from "../common/Alert";
 
 class AddEditRecipe extends Component {
   constructor(props) {
@@ -90,10 +91,9 @@ class AddEditRecipe extends Component {
 
     if (notEmpty(errors) && errors.recipeError) {
       errorContent = (
-        <div className="alert alert-danger" role="alert">
-          <h4 className="alert-heading">Recipe not found</h4>
+        <Alert bsStyle="alert-danger" heading="Recipe not found">
           <p className="mb-0">{errors.recipeError}</p>
-        </div>
+        </Alert>
       );
     }
 

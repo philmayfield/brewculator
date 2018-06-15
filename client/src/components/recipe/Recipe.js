@@ -8,7 +8,7 @@ import {
   deleteRecipe
 } from "../../actions/recipeActions";
 import { actionConfirm } from "../../actions/appActions";
-import { getUser } from "../../actions/authActions";
+import { getUsername } from "../../actions/authActions";
 import { getAllVersions } from "../../actions/versionActions";
 import { notEmpty } from "../../common/empty";
 import RecipeDeets from "../layout/RecipeDeets";
@@ -49,7 +49,7 @@ class Recipe extends Component {
       const pAuthor = prevProps.recipe.author;
 
       if (author !== pAuthor) {
-        this.props.getUser(author);
+        this.props.getUsername(author);
       }
     }
   }
@@ -88,13 +88,6 @@ class Recipe extends Component {
         errorContent = (
           <Alert bsStyle="alert-danger" heading="Recipe not found">
             <p className="mb-0">{errors.recipeError}</p>
-          </Alert>
-        );
-      } else {
-        errorContent = (
-          <Alert bsStyle="alert-danger" heading="Error">
-            <p>{errors}</p>
-            <p className="mb-0">Probably just need to refresh.</p>
           </Alert>
         );
       }
@@ -159,7 +152,7 @@ Recipe.propTypes = {
   setRecipe: PropTypes.func.isRequired,
   deleteRecipe: PropTypes.func.isRequired,
   actionConfirm: PropTypes.func.isRequired,
-  getUser: PropTypes.func.isRequired,
+  getUsername: PropTypes.func.isRequired,
   getAllVersions: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   recipe: PropTypes.oneOfType([
@@ -192,7 +185,7 @@ export default connect(
     setRecipe,
     deleteRecipe,
     actionConfirm,
-    getUser,
+    getUsername,
     getAllVersions
   }
 )(Recipe);

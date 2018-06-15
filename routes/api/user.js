@@ -158,4 +158,30 @@ router.get(
   }
 );
 
+// @route   GET api/user/username/:user_id
+// @desc    Find a username by id, limited info for public use
+// @access  Public
+router.get("/username/:user_id", (req, res) => {
+  const errors = {};
+
+  User.findOne({ _id: req.params.user_id })
+    .then(user => {
+      if (notEmpty(user)) {
+        // user was found, return it with 200 status
+        return res.json({
+          _id: user._id,
+          username: user.username
+        });
+      }
+
+      // user was not found
+      errors.nouser = "Sorry, we couldnt find that user :(";
+      return res.status(404).json(errors);
+    })
+    .catch(err => {
+      errors.nouser = "Sorry, we couldnt find that user :(";
+      return res.status(404).json({ err, errors });
+    });
+});
+
 module.exports = router;

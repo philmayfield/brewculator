@@ -18,7 +18,21 @@ class BrewListItem extends Component {
   }
 
   render() {
-    const { brew } = this.props;
+    const { brew, auth } = this.props;
+    const editBtn = auth.isAuth && (
+      <Link className="mr-3" to={`/editBrew/${brew._id}`}>
+        Edit
+      </Link>
+    );
+    const deleteBtn = auth.isAuth && (
+      <button
+        className="btn btn-empty text-danger"
+        value={brew._id}
+        onClick={this.handleRemoval.bind(this)}
+      >
+        Delete
+      </button>
+    );
     return (
       <div className="list-group-item list-group-item-action d-flex align-items-center">
         <Link className="w-100" to={`/version/${brew._id}`}>
@@ -27,27 +41,24 @@ class BrewListItem extends Component {
           </h5>
           <p className="m-0">{brew.notes}</p>
         </Link>
-        <Link className="mr-3" to={`/editBrew/${brew._id}`}>
-          Edit
-        </Link>
-        <button
-          className="btn btn-empty text-danger"
-          value={brew._id}
-          onClick={this.handleRemoval.bind(this)}
-        >
-          Delete
-        </button>
+        {editBtn}
+        {deleteBtn}
       </div>
     );
   }
 }
 
 BrewListItem.propTypes = {
+  auth: PropTypes.object.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   brew: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { actionConfirm }
 )(BrewListItem);

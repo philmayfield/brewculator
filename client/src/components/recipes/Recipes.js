@@ -27,7 +27,7 @@ class Recipes extends Component {
       recipeContent = <RecipeList recipes={recipes} />;
     } else if (!loading) {
       recipeContent = (
-        <Alert bsStyle="alert-success" heading="No Recipes">
+        <Alert bsStyle="alert-success" heading="No recipes yet">
           <p>
             Hey, there aren&rsquo;t any recipes here yet. Why don&rsquo;t you
             add some!

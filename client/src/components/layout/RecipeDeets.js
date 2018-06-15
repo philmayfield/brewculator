@@ -43,7 +43,7 @@ const RecipeDeets = props => {
 
 RecipeDeets.propTypes = {
   recipe: PropTypes.object,
-  author: PropTypes.object,
+  author: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   version: PropTypes.object
 };
 

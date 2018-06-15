@@ -53,6 +53,7 @@ export const getVersion = id => dispatch => {
         dispatch(getRecipe(version.recipe)),
         dispatch(getAllBrews(version._id))
       ]);
+      return version;
     })
     .catch(err => {
       dispatch({

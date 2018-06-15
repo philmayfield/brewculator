@@ -4,7 +4,7 @@ export const NOT_LOADING = "NOT_LOADING";
 export const ACTION_CONFIRM = "ACTION_CONFIRM";
 
 // auth
-export const GET_USERS = "GET_USERS";
+export const GET_USERNAME = "GET_USERNAME";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 // errors

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { loginUser } from "../../actions/authActions";
 import { notEmpty } from "../../common/empty";
 import Input from "../common/Input";
+import Alert from "../common/Alert";
 
 class Login extends Component {
   constructor(props) {
@@ -56,14 +57,13 @@ class Login extends Component {
     const { errors } = this.props;
 
     const newUserMsg = (
-      <div className="alert alert-success" role="alert">
-        <h5>Welcome {this.state.username}!</h5>
+      <Alert bsStyle="alert-success" heading={`Welcome ${this.state.username}`}>
         <hr className="my-1" />
         <p className="mb-0">
           You&rsquo;re all registered up! Go ahead and login with the password
           you entered previously and get to brewing!
         </p>
-      </div>
+      </Alert>
     );
 
     return (

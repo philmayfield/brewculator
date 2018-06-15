@@ -6,7 +6,7 @@ import setAuthToken from "../common/setAuthToken";
 import {
   GET_ERRORS,
   CLEAR_ERRORS,
-  GET_USERS,
+  GET_USERNAME,
   SET_CURRENT_USER,
   IS_LOADING,
   NOT_LOADING
@@ -38,7 +38,29 @@ export const getUser = id => dispatch => {
     .get(`/api/user/${id}`)
     .then(res => {
       dispatch({
-        type: GET_USERS,
+        type: GET_USERNAME,
+        payload: res.data
+      });
+      dispatch(notLoading());
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// GET - username by id
+export const getUsername = id => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
+
+  axios
+    .get(`/api/user/username/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_USERNAME,
         payload: res.data
       });
       dispatch(notLoading());

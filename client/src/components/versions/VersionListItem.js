@@ -18,34 +18,45 @@ class VersionListItem extends Component {
   }
 
   render() {
-    const { version } = this.props;
+    const { version, auth } = this.props;
+    const editBtn = auth.isAuth && (
+      <Link className="mr-3" to={`/version/edit/${version._id}`}>
+        Edit
+      </Link>
+    );
+    const deleteBtn = auth.isAuth && (
+      <button
+        className="btn btn-empty text-danger"
+        value={version._id}
+        onClick={this.handleRemoval.bind(this)}
+      >
+        Delete
+      </button>
+    );
     return (
       <div className="list-group-item list-group-item-action d-flex align-items-center">
         <Link className="w-100" to={`/version/${version._id}`}>
           <h5 className="m-0">{version.version}</h5>
           <p className="m-0">{version.notes}</p>
         </Link>
-        <Link className="mr-3" to={`/version/edit/${version._id}`}>
-          Edit
-        </Link>
-        <button
-          className="btn btn-empty text-danger"
-          value={version._id}
-          onClick={this.handleRemoval.bind(this)}
-        >
-          Delete
-        </button>
+        {editBtn}
+        {deleteBtn}
       </div>
     );
   }
 }
 
 VersionListItem.propTypes = {
+  auth: PropTypes.object.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   version: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { actionConfirm }
 )(VersionListItem);

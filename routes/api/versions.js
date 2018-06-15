@@ -20,7 +20,7 @@ router.get("/:recipe_id", (req, res) => {
         // no versions found
         errors.noVersions =
           "Hey, there arent any versions of that brew yet.  How about you add one!";
-        return res.json(errors);
+        return res.status(404).json(errors);
       }
 
       // found some versions, return with 200 status

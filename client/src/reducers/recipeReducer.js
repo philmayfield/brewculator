@@ -18,7 +18,7 @@ const defaultState = {
 };
 
 export default (state = defaultState, action) => {
-  // if (action.type === SET_VERSION) {
+  // if (action.type === GET_VERSION || action.type === SET_VERSION) {
   //   console.log(">>>", state, action.payload);
   // }
   switch (action.type) {

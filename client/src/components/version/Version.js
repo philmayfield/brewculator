@@ -25,7 +25,7 @@ class Version extends Component {
     const { recipe } = this.props;
     const { versions } = recipe && recipe;
     const storeVersion =
-      notEmpty(versions) && versions.find(version => version._id === id);
+      Array.isArray(versions) && versions.find(version => version._id === id);
     const hasStoreVersion = storeVersion && notEmpty(storeVersion);
 
     if (hasStoreVersion) {
@@ -43,7 +43,7 @@ class Version extends Component {
   handleDelete(e) {
     e.preventDefault();
 
-    const { _id, version, recipe } = this.state.recipe.version;
+    const { _id, version, recipe } = this.props.recipe.version;
 
     this.props.actionConfirm({
       confirmAction: deleteVersion,

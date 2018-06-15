@@ -1,7 +1,7 @@
 // actions related to recipes - get recipe(s) / create / update / delete
 
 import axios from "axios";
-import { getUser } from "./authActions";
+import { getUsername } from "./authActions";
 import { clearErrors, isLoading, notLoading } from "./appActions";
 import { getAllVersions } from "./versionActions";
 import {
@@ -51,7 +51,7 @@ export const getRecipe = id => dispatch => {
     })
     .then(recipe => {
       Promise.all([
-        dispatch(getUser(recipe.author)),
+        dispatch(getUsername(recipe.author)),
         dispatch(getAllVersions(recipe._id))
       ]);
     })
