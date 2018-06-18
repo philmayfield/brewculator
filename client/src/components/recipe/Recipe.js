@@ -128,7 +128,7 @@ class Recipe extends Component {
           </Link>
           <Link
             className={`btn btn-primary ${hasRecipe ? "" : "d-none"}`}
-            to={`/version/add/${recipe._id}`}
+            to={`/version/edit/new`}
           >
             Add a Version
           </Link>

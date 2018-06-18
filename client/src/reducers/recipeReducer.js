@@ -54,6 +54,7 @@ export default (state = defaultState, action) => {
     case DELETE_VERSION:
       return {
         ...state,
+        version: null,
         versions: [
           ...state.versions.filter(version => version._id !== action.payload)
         ]

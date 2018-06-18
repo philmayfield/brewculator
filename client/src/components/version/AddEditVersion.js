@@ -7,39 +7,55 @@ import { getRecipe } from "../../actions/recipeActions";
 import {
   saveVersion,
   getVersion,
-  setVersion
+  setVersion,
+  makeVersion
 } from "../../actions/versionActions";
-
 import VersionForm from "./VersionForm";
 
-class EditVersion extends Component {
+class AddEditVersion extends Component {
   constructor(props) {
     super(props);
     this.state = {
       _id: "",
       version: "",
       notes: "",
+      isNew: false,
       errors: {}
     };
 
+    const sessionRecipeId = sessionStorage.getItem("recipeId");
     const { recipe, match } = this.props;
-    const { id } = match.params; // version id
+    const { id } = match.params; // version id, should be id or 'new'
     const hasStoreRecipe = recipe && notEmpty(recipe._id);
     let hasStoreVersion;
 
-    if (hasStoreRecipe) {
-      hasStoreVersion = recipe.version && recipe.version._id === id;
-
-      if (hasStoreVersion) {
-        this.props.setVersion(recipe.version);
-        this.state._id = recipe.version._id;
-        this.state.version = recipe.version.version;
-        this.state.notes = recipe.version.notes;
+    if (id === "new") {
+      // new version
+      this.state.isNew = true;
+      if (!hasStoreRecipe && sessionRecipeId) {
+        this.props.getRecipe(sessionRecipeId);
+      } else {
+        // user is on add/edit version route with no recipe
+        // redirect?
       }
-    }
+    } else {
+      // edit version
+      if (hasStoreRecipe) {
+        hasStoreVersion = recipe.version && recipe.version._id === id;
 
-    if (!hasStoreRecipe || !hasStoreVersion) {
-      this.props.getVersion(id);
+        // has recipe and version
+        if (hasStoreVersion) {
+          this.props.setVersion(recipe.version);
+          this.state._id = recipe.version._id;
+          this.state.version = recipe.version.version;
+          this.state.notes = recipe.version.notes;
+        }
+      }
+
+      if (!hasStoreRecipe || !hasStoreVersion) {
+        // getVesion fetches recipe and brews
+        this.props.getVersion(id);
+      }
     }
 
     this.handleInput = this.handleInput.bind(this);
@@ -70,16 +86,25 @@ class EditVersion extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    let newVersion;
 
-    const newVersion = {
-      ...this.props.recipe.version,
-      version: this.state.version,
-      notes: this.state.notes
-    };
-
-    console.log(">>> Edit version submit:", newVersion);
-
-    this.props.saveVersion(newVersion, this.props.history);
+    if (this.state.isNew) {
+      newVersion = {
+        recipe: this.props.recipe._id,
+        version: this.state.version,
+        notes: this.state.notes
+      };
+      console.log(">>> New version submit:", newVersion);
+      this.props.makeVersion(newVersion, this.props.history);
+    } else {
+      newVersion = {
+        ...this.props.recipe.version,
+        version: this.state.version,
+        notes: this.state.notes
+      };
+      console.log(">>> Edit version submit:", newVersion);
+      this.props.saveVersion(newVersion, this.props.history);
+    }
   }
 
   handleGoBack() {
@@ -95,10 +120,10 @@ class EditVersion extends Component {
     const author = auth.users.find(user => user._id === recipe.author);
 
     return (
-      <div className="editVersion">
+      <div className="add-edit-version">
         <RecipeDeets recipe={recipe} author={author} version={null} />
         <VersionForm
-          new={false}
+          new={this.state.isNew}
           recipe={recipe}
           version={version}
           errors={errors}
@@ -111,7 +136,7 @@ class EditVersion extends Component {
   }
 }
 
-EditVersion.propTypes = {
+AddEditVersion.propTypes = {
   auth: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
@@ -120,6 +145,7 @@ EditVersion.propTypes = {
   saveVersion: PropTypes.func.isRequired,
   getVersion: PropTypes.func.isRequired,
   setVersion: PropTypes.func.isRequired,
+  makeVersion: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string
@@ -135,5 +161,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getRecipe, saveVersion, getVersion, setVersion }
-)(EditVersion);
+  { getRecipe, saveVersion, getVersion, setVersion, makeVersion }
+)(AddEditVersion);

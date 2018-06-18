@@ -41,6 +41,7 @@ export const getVersion = id => dispatch => {
   axios
     .get(`/api/version/${id}`)
     .then(res => {
+      sessionStorage.setItem("versionId", id);
       dispatch({
         type: GET_VERSION,
         payload: res.data
@@ -117,6 +118,7 @@ export const deleteVersion = id => dispatch => {
   axios
     .delete(`/api/version/${id}`)
     .then(() => {
+      sessionStorage.setItem("versionId", null);
       dispatch({
         type: DELETE_VERSION,
         payload: id
@@ -135,6 +137,7 @@ export const deleteVersion = id => dispatch => {
 // helpers
 
 export const setVersion = recipe => {
+  sessionStorage.setItem("versionId", recipe._id);
   return {
     type: SET_VERSION,
     payload: recipe

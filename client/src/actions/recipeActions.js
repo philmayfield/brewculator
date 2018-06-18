@@ -46,6 +46,7 @@ export const getRecipe = id => dispatch => {
         type: GET_RECIPE,
         payload: res.data
       });
+      sessionStorage.setItem("recipeId", id);
       dispatch(notLoading());
       return res.data;
     })
@@ -116,6 +117,7 @@ export const deleteRecipe = id => dispatch => {
   axios
     .delete(`/api/recipe/${id}`)
     .then(() => {
+      sessionStorage.setItem("recipeId", null);
       dispatch({
         type: DELETE_RECIPE,
         payload: id
@@ -134,6 +136,7 @@ export const deleteRecipe = id => dispatch => {
 // helpers
 
 export const setRecipe = recipe => {
+  sessionStorage.setItem("recipeId", recipe._id);
   return {
     type: SET_RECIPE,
     payload: recipe
