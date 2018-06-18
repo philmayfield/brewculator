@@ -26,4 +26,5 @@ export const DELETE_VERSION = "DELETE_VERSION";
 // brews
 export const GET_BREWS = "GET_BREWS";
 export const GET_BREW = "GET_BREW";
+export const SET_BREW = "SET_BREW";
 export const DELETE_BREW = "DELETE_BREW";

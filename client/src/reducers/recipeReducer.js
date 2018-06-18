@@ -6,6 +6,9 @@ import {
   GET_VERSION,
   DELETE_VERSION,
   GET_BREWS,
+  GET_BREW,
+  SET_BREW,
+  DELETE_BREW,
   SET_VERSION
 } from "../actions/actionTypes";
 
@@ -14,11 +17,20 @@ const defaultState = {
   style: "",
   author: "",
   date: "",
-  versions: []
+  versions: [],
+  version: {
+    brews: [],
+    brew: {
+      gravities: []
+    }
+  }
 };
 
 export default (state = defaultState, action) => {
   // if (action.type === GET_VERSION || action.type === SET_VERSION) {
+  //   console.log(">>>", state, action.payload);
+  // }
+  // if (action.type === DELETE_BREW) {
   //   console.log(">>>", state, action.payload);
   // }
   switch (action.type) {
@@ -42,7 +54,10 @@ export default (state = defaultState, action) => {
     case SET_VERSION:
       return {
         ...state,
-        version: action.payload,
+        version: {
+          ...state.version,
+          ...action.payload
+        },
         versions: [
           ...state.versions.filter(
             version => version._id !== action.payload._id
@@ -66,6 +81,34 @@ export default (state = defaultState, action) => {
         version: {
           ...state.version,
           brews: action.payload
+        }
+      };
+
+    case GET_BREW:
+    case SET_BREW:
+      return {
+        ...state,
+        version: {
+          ...state.version,
+          brew: action.payload,
+          brews: [
+            ...state.version.brews.filter(
+              brew => brew._id !== action.payload._id
+            ),
+            ...action.payload
+          ]
+        }
+      };
+
+    case DELETE_BREW:
+      return {
+        ...state,
+        version: {
+          ...state.version,
+          brew: null,
+          brews: [
+            ...state.version.brews.filter(brew => brew._id !== action.payload)
+          ]
         }
       };
 

@@ -31,11 +31,24 @@ const RecipeDeets = props => {
       );
     }
   };
+  const displayBrew = brew => {
+    if (brew && notEmpty(brew._id)) {
+      return (
+        <div>
+          <h4 className="m-0 flex-shrink-0">
+            Brewed on {<Moment date={brew.date} format="MMM D, YYYY" />}
+          </h4>
+          <p className={`${brew.notes ? "" : "d-none"}`}>{brew.notes}</p>
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="recipe-deets">
       {displayRecipe(props.recipe, props.author)}
       {displayVersion(props.version)}
+      {displayBrew(props.brew)}
       <hr />
     </div>
   );
@@ -44,7 +57,8 @@ const RecipeDeets = props => {
 RecipeDeets.propTypes = {
   recipe: PropTypes.object,
   author: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  version: PropTypes.object
+  version: PropTypes.object,
+  brew: PropTypes.object
 };
 
 export default RecipeDeets;

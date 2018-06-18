@@ -22,6 +22,7 @@ import Recipe from "./components/recipe/Recipe";
 import AddEditRecipe from "./components/recipe/AddEditRecipe";
 import Version from "./components/version/Version";
 import AddEditVersion from "./components/version/AddEditVersion";
+import Brew from "./components/brew/Brew";
 
 import "./App.css";
 
@@ -71,6 +72,7 @@ class App extends Component {
                 component={AddEditVersion}
                 exact
               />
+              <Route path="/brew/:id" component={Brew} exact />
             </main>
           </div>
         </BrowserRouter>
