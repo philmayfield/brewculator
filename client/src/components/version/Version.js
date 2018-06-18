@@ -12,7 +12,8 @@ import {
 import { getAllBrews } from "../../actions/brewActions";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
-import Brews from "../brews/Brews";
+import ItemWrap from "../common/ItemWrap";
+import BrewList from "../brews/BrewList";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
 
@@ -63,7 +64,11 @@ class Version extends Component {
     let errorContent, controlContent, versionContent;
 
     if (hasVersion) {
-      versionContent = <Brews brews={version.brews} />;
+      versionContent = (
+        <ItemWrap label="Brews" items={version.brews} errors={errors}>
+          <BrewList brews={version.brews} />
+        </ItemWrap>
+      );
     }
 
     if (notEmpty(errors)) {
@@ -95,12 +100,6 @@ class Version extends Component {
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          {/* <button
-            className="btn btn-secondary mr-3"
-            onClick={this.props.history.goBack}
-          >
-            Back
-          </button> */}
           <Link className="btn btn-secondary mr-3" to={`/recipe/${recipe._id}`}>
             Back
           </Link>

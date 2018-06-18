@@ -36,7 +36,7 @@ const ItemListItem = props => {
 ItemListItem.propTypes = {
   item: PropTypes.object.isRequired,
   itemType: PropTypes.string.isRequired,
-  header: PropTypes.string.isRequired,
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   sub: PropTypes.string,
   isAuth: PropTypes.bool.isRequired,
   handleRemoval: PropTypes.func.isRequired

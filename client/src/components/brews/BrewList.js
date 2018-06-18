@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { actionConfirm } from "../../actions/appActions";
 // import { deleteBrew } from "../../actions/brewActions";
 import ItemListItem from "../common/ItemListItem";
+import Moment from "react-moment";
 
 class BrewList extends Component {
   handleRemoval(e) {
@@ -28,8 +29,8 @@ class BrewList extends Component {
           key={brew._id}
           item={brew}
           itemType="brew"
-          header={brew.name}
-          sub={brew.style}
+          header={<Moment date={brew.date} format="MMM D, YYYY" />}
+          sub={brew.notes}
           isAuth={auth.isAuth}
           handleRemoval={this.handleRemoval.bind(this)}
         />

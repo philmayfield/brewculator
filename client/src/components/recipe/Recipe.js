@@ -13,7 +13,8 @@ import { getAllVersions } from "../../actions/versionActions";
 import { notEmpty } from "../../common/empty";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
-import Versions from "../versions/Versions";
+import VersionList from "../versions/VersionList";
+import ItemWrap from "../common/ItemWrap";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
 
@@ -78,8 +79,9 @@ class Recipe extends Component {
     const recipeContent = (
       <div>
         <RecipeDeets recipe={recipe} author={author} />
-        <h5>Versions</h5>
-        <Versions versions={recipe.versions} />
+        <ItemWrap label="Versions" items={recipe.versions} errors={errors}>
+          <VersionList versions={recipe.versions} />
+        </ItemWrap>
       </div>
     );
 
