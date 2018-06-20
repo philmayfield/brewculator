@@ -28,3 +28,9 @@ export const GET_BREWS = "GET_BREWS";
 export const GET_BREW = "GET_BREW";
 export const SET_BREW = "SET_BREW";
 export const DELETE_BREW = "DELETE_BREW";
+
+// gravities
+export const GET_GRAVITIES = "GET_GRAVITIES";
+export const GET_GRAVITY = "GET_GRAVITY";
+export const SET_GRAVITY = "SET_GRAVITY";
+export const DELETE_GRAVITY = "DELETE_GRAVITY";

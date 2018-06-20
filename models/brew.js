@@ -3,14 +3,6 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const BrewSchema = new Schema({
-  // version: {
-  //   type: String,
-  //   required: true
-  // },
-  recipe: {
-    type: Schema.Types.ObjectId,
-    ref: "Recipe"
-  },
   version: {
     type: Schema.Types.ObjectId,
     ref: "Version"

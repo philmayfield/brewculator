@@ -4,12 +4,13 @@ import {
   DELETE_RECIPE,
   GET_VERSIONS,
   GET_VERSION,
+  SET_VERSION,
   DELETE_VERSION,
   GET_BREWS,
   GET_BREW,
   SET_BREW,
   DELETE_BREW,
-  SET_VERSION
+  GET_GRAVITIES
 } from "../actions/actionTypes";
 
 const defaultState = {
@@ -109,6 +110,18 @@ export default (state = defaultState, action) => {
           brews: [
             ...state.version.brews.filter(brew => brew._id !== action.payload)
           ]
+        }
+      };
+
+    case GET_GRAVITIES:
+      return {
+        ...state,
+        version: {
+          ...state.version,
+          brew: {
+            ...state.version.brew,
+            gravities: action.payload
+          }
         }
       };
 

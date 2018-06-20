@@ -2,29 +2,29 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { actionConfirm } from "../../actions/appActions";
-import { deleteBrew } from "../../actions/brewActions";
+// import { deleteBrew } from "../../actions/brewActions";
 import ItemListItem from "../common/ItemListItem";
 import Moment from "react-moment";
 
-class BrewList extends Component {
+class GravityList extends Component {
   handleRemoval(e) {
     e.preventDefault();
 
     const { confirmItem = "this" } = e.target.dataset.confirmItem;
 
     this.props.actionConfirm({
-      confirmAction: deleteBrew,
+      // confirmAction: deleteBrew,
       confirmId: e.target.value,
       confirmText: `Are you sure you want to delete ${confirmItem}?`
     });
   }
 
   render() {
-    const { brews, auth } = this.props;
+    const { gravities, auth } = this.props;
 
-    const brewItems =
-      Array.isArray(brews) &&
-      brews.map(brew => (
+    const gravityItems =
+      Array.isArray(gravities) &&
+      gravities.map(brew => (
         <ItemListItem
           key={brew._id}
           item={brew}
@@ -36,12 +36,12 @@ class BrewList extends Component {
         />
       ));
 
-    return <div className="list-group">{brewItems}</div>;
+    return <div className="list-group">{gravityItems}</div>;
   }
 }
 
-BrewList.propTypes = {
-  brews: PropTypes.array.isRequired,
+GravityList.propTypes = {
+  gravities: PropTypes.array.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -53,4 +53,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { actionConfirm }
-)(BrewList);
+)(GravityList);

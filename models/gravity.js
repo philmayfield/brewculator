@@ -3,28 +3,16 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const GravitySchema = new Schema({
-  // brew: {
-  //   type: String,
-  //   required: true
-  // },
-  recipe: {
-    type: Schema.Types.ObjectId,
-    ref: "Recipe"
-  },
-  version: {
-    type: Schema.Types.ObjectId,
-    ref: "Version"
-  },
   brew: {
     type: Schema.Types.ObjectId,
     ref: "Brew"
   },
   gravity: {
-    type: Schema.Types.Decimal128,
+    type: Schema.Types.Number,
     required: true
   },
   temp: {
-    type: Schema.Types.Decimal128
+    type: Schema.Types.Number
   },
   notes: {
     type: Schema.Types.String

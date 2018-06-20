@@ -1,18 +1,17 @@
 // actions related to versions - get versions(s) / create / update / delete
 
 import axios from "axios";
-import { clearErrors, isLoading, notLoading } from "./appActions";
+import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
 import { getRecipe } from "./recipeActions";
 import { getAllBrews } from "./brewActions";
 import {
-  GET_ERRORS,
   GET_VERSION,
   SET_VERSION,
   GET_VERSIONS,
   DELETE_VERSION
 } from "./actionTypes";
 
-// READ - all versions
+// READ - all versions for a recipe id
 export const getAllVersions = id => dispatch => {
   dispatch(isLoading());
   axios
@@ -25,11 +24,8 @@ export const getAllVersions = id => dispatch => {
       dispatch(notLoading());
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
       dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
@@ -57,11 +53,8 @@ export const getVersion = id => dispatch => {
       return version;
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
       dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
@@ -75,19 +68,14 @@ export const saveVersion = (version, history) => dispatch => {
   axios
     .post(`/api/version/${_id}`, version)
     .then(() => {
-      dispatch({
-        type: SET_VERSION,
-        payload: version
-      });
+      dispatch(setVersion(version));
+      dispatch(notLoading());
       return history.push(`/version/${_id}`);
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
-    })
-    .finally(() => dispatch(notLoading()));
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
 };
 
 // CREATE - one new version
@@ -103,10 +91,7 @@ export const makeVersion = (version, history) => dispatch => {
     })
     .catch(err => {
       dispatch(notLoading());
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
+      dispatch(getErrors(err.response.data));
     });
 };
 
@@ -126,11 +111,8 @@ export const deleteVersion = id => dispatch => {
       dispatch(notLoading());
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
-      });
       dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 

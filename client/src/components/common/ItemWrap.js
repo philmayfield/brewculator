@@ -6,7 +6,7 @@ const ItemWrap = props => {
   const { items, errors, label } = props;
 
   const makeContent = items => {
-    const hasItems = items.length > 0;
+    const hasItems = items && items.length > 0;
     const { [`no${label}`]: noItems } = errors && errors;
     let itemsContent;
 

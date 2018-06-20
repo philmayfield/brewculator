@@ -85,14 +85,12 @@ class Recipe extends Component {
       </div>
     );
 
-    if (notEmpty(errors)) {
-      if (notEmpty(errors.recipeError)) {
-        errorContent = (
-          <Alert bsStyle="alert-danger" heading="Recipe not found">
-            <p className="mb-0">{errors.recipeError}</p>
-          </Alert>
-        );
-      }
+    if (errors && errors.recipeError) {
+      errorContent = (
+        <Alert bsStyle="alert-danger" heading="Recipe not found">
+          <p className="mb-0">{errors.recipeError}</p>
+        </Alert>
+      );
     }
 
     if (notEmpty(confirmObject) && !loading) {

@@ -71,21 +71,12 @@ class Version extends Component {
       );
     }
 
-    if (notEmpty(errors)) {
-      if (errors.noVersion) {
-        errorContent = (
-          <Alert bsStyle="alert-danger" heading="Version not found">
-            <p className="mb-0">{errors.noVersion}</p>
-          </Alert>
-        );
-      } else {
-        errorContent = (
-          <Alert bsStyle="alert-danger" heading="Error">
-            <p>{errors}</p>
-            <p className="mb-0">Probably just need to refresh the page.</p>
-          </Alert>
-        );
-      }
+    if (errors && errors.noVersion) {
+      errorContent = (
+        <Alert bsStyle="alert-danger" heading="Version not found">
+          <p className="mb-0">{errors.noVersion}</p>
+        </Alert>
+      );
     }
 
     if (notEmpty(confirmObject) && !loading) {
@@ -117,7 +108,7 @@ class Version extends Component {
           </Link>
           <Link
             className={`btn btn-primary ${hasVersion ? "" : "d-none"}`}
-            to={`/brew/v/${hasVersion && version._id}`}
+            to={`/brew/edit/new`}
           >
             Add a Brew
           </Link>

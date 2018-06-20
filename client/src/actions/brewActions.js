@@ -1,15 +1,10 @@
 // actions related to brews - get brews(s) / create / update / delete
 
 import axios from "axios";
-import { clearErrors, isLoading, notLoading } from "./appActions";
+import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
 import { getVersion } from "./versionActions";
-import {
-  GET_ERRORS,
-  GET_BREW,
-  SET_BREW,
-  GET_BREWS,
-  DELETE_BREW
-} from "./actionTypes";
+import { getAllGravities } from "./gravityActions";
+import { GET_BREW, SET_BREW, GET_BREWS, DELETE_BREW } from "./actionTypes";
 
 // READ - all brews for a version id
 export const getAllBrews = id => dispatch => {
@@ -24,11 +19,8 @@ export const getAllBrews = id => dispatch => {
       dispatch(notLoading());
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
       dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
@@ -49,40 +41,55 @@ export const getBrew = id => dispatch => {
       return res.data;
     })
     .then(brew => {
-      // fetch the version associated with brew
-      dispatch(getVersion(brew.version));
+      // fetch the version and gravities associated with brew
+      Promise.all([
+        dispatch(getVersion(brew.version)),
+        dispatch(getAllGravities(brew._id))
+      ]);
       return brew;
     })
     .catch(err => {
-      console.log("catching", err);
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
       dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
-// UPDATE - one recipes by id
-// export const saveRecipe = (recipe, history) => dispatch => {
-//   dispatch(clearErrors());
-//   dispatch(isLoading());
+// UPDATE - one brew by id
+export const saveBrew = (brew, history) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
 
-//   const { _id } = recipe;
+  const { _id } = brew;
 
-//   axios
-//     .get(`/api/recipe/${_id}`, recipe)
-//     .then(() => {
-//       return history.push(`/recipe/${_id}`);
-//     })
-//     .catch(err => {
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: err.response.data
-//       });
-//     })
-//     .finally(() => dispatch(notLoading()));
-// };
+  axios
+    .post(`/api/brew/${_id}`, brew)
+    .then(() => {
+      dispatch(setBrew(brew));
+      dispatch(notLoading());
+      return history.push(`/brew/${_id}`);
+    })
+    .catch(err => {
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
+};
+
+// CREATE - one new brew
+export const makeBrew = (brew, history) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
+
+  axios
+    .post(`/api/brew/`, brew)
+    .then(({ data }) => {
+      dispatch(notLoading());
+      return history.push(`/brew/${data._id}`);
+    })
+    .catch(err => {
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
+};
 
 // DELETE - one brew by id
 export const deleteBrew = id => dispatch => {
@@ -100,11 +107,8 @@ export const deleteBrew = id => dispatch => {
       dispatch(notLoading());
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
-      });
       dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 

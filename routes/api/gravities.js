@@ -14,7 +14,7 @@ router.get("/:brew_id", (req, res) => {
   const errors = {};
 
   Gravity.find({ brew: req.params.brew_id })
-    .sort({ date: -1 }) // sort by date, 1 asc, -1 desc
+    .sort({ date: 1 }) // sort by date, 1 asc, -1 desc
     .then(gravities => {
       if (isEmpty(gravities)) {
         // no gravities found

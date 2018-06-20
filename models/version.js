@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const VersionSchema = new Schema({
-  // recipe: {
-  //   type: Number,
-  //   required: true
-  // },
   recipe: {
     type: Schema.Types.ObjectId,
     ref: "Recipe"

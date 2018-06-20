@@ -36,16 +36,16 @@ router.get("/:brew_id", (req, res) => {
     });
 });
 
-// @route   POST api/brew/v/:version_id
-// @desc    Create a version brew
+// @route   POST api/brew/
+// @desc    Create a brew
 // @access  Private
 router.post(
-  "/v/:version_id",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // validate request
-    const { version_id } = req.params;
     const { body } = req;
+    const version_id = body.version;
     const { errors, isValid } = validateBrewInput(body);
 
     // check validation

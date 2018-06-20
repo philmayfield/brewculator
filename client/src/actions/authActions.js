@@ -3,17 +3,14 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../common/setAuthToken";
-import {
-  GET_ERRORS,
-  CLEAR_ERRORS,
-  GET_USERNAME,
-  SET_CURRENT_USER,
-  IS_LOADING,
-  NOT_LOADING
-} from "./actionTypes";
+import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
+import { CLEAR_ERRORS, GET_USERNAME, SET_CURRENT_USER } from "./actionTypes";
 
 // CREATE - new user
 export const registerUser = (userData, history) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
+
   axios
     .post("/api/user/register", userData)
     .then(() => {
@@ -22,10 +19,8 @@ export const registerUser = (userData, history) => dispatch => {
       return history.push(`/login/${userData.username}`);
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
@@ -44,10 +39,8 @@ export const getUser = id => dispatch => {
       dispatch(notLoading());
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
@@ -66,15 +59,16 @@ export const getUsername = id => dispatch => {
       dispatch(notLoading());
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
 // login a registered user -
 export const loginUser = userData => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
+
   axios
     .post("/api/user/login", userData)
     .then(res => {
@@ -95,12 +89,10 @@ export const loginUser = userData => dispatch => {
       // set current user
       dispatch(setCurrentUser(decoded));
     })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+    .catch(err => {
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
 };
 
 // set currently logged in user
@@ -123,23 +115,4 @@ export const logoutUser = () => dispatch => {
 
   // set current user to empty object which will also set isAuth to false
   dispatch(setCurrentUser({}));
-};
-
-// Helpers
-
-// clear errors
-export const clearErrors = () => {
-  return {
-    type: CLEAR_ERRORS
-  };
-};
-
-// app is loading state
-export const isLoading = () => {
-  return { type: IS_LOADING };
-};
-
-// app is not loading state
-export const notLoading = () => {
-  return { type: NOT_LOADING };
 };

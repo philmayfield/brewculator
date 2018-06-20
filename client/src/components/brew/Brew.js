@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Line } from "react-chartjs";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { actionConfirm } from "../../actions/appActions";
 import { notEmpty } from "../../common/empty";
 import { getBrew, setBrew, deleteBrew } from "../../actions/brewActions";
-// import { getAllGravities } from "../../actions/gravityActions";
+import { getAllGravities } from "../../actions/gravityActions";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
-// import ItemWrap from "../common/ItemWrap";
-// import BrewList from "../brews/BrewList";
+import ItemWrap from "../common/ItemWrap";
+import GravityList from "../gravities/GravityList";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
 
@@ -28,9 +29,9 @@ class Brew extends Component {
     const hasStoreBrew = storeBrew && notEmpty(storeBrew);
 
     if (hasStoreBrew) {
-      // fetch version from the store
+      // fetch brew from the store
       this.props.setBrew(storeBrew);
-      // this.props.getAllGravities(id);
+      this.props.getAllGravities(id);
     } else {
       // fetch brew over the wire, will also fetch recipe, version & gravities
       this.props.getBrew(id);
@@ -53,6 +54,36 @@ class Brew extends Component {
     });
   }
 
+  getData(gravities) {
+    if (Array.isArray(gravities)) {
+      const gravColor = "151,187,205";
+      const tempColor = "220,53,69";
+      const labels = gravities.map(g => moment(g.date).format("MMM D, YYYY"));
+      const gravs = {
+        label: "Gravity",
+        fillColor: `rgba(${gravColor},0.2)`,
+        strokeColor: `rgba(${gravColor},1)`,
+        pointColor: `rgba(${gravColor},1)`,
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: `rgba(${gravColor},1)`,
+        data: gravities.map(g => g.gravity)
+      };
+      const temps = {
+        label: "Temperature",
+        fillColor: `rgba(${tempColor},0.2)`,
+        strokeColor: `rgba(${tempColor},1)`,
+        pointColor: `rgba(${tempColor},1)`,
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: `rgba(${tempColor},1)`,
+        data: gravities.map(g => g.temp)
+      };
+      const datasets = [gravs, temps];
+      return { labels, datasets };
+    }
+  }
+
   render() {
     const { recipe, errors, auth, appJunk } = this.props;
     const { version } = recipe && recipe;
@@ -61,28 +92,32 @@ class Brew extends Component {
     const { loading, confirmObject } = appJunk;
     const hasVersion = version && notEmpty(version._id);
     const hasBrew = brew && notEmpty(brew._id);
+    const hasGravities = hasBrew && notEmpty(brew.gravities);
     const author = auth.users.find(user => user._id === recipe.author);
-    let errorContent, controlContent, versionContent;
+    let errorContent, gravitiesContent, controlContent, brewContent;
 
-    // if (hasBrew) {
-    //   show chart here
-    // }
+    if (hasBrew) {
+      brewContent = (
+        <ItemWrap label="Gravities" items={brew.gravities} errors={errors}>
+          <GravityList gravities={brew.gravities} />
+        </ItemWrap>
+      );
+    }
 
-    if (notEmpty(errors)) {
-      if (errors.noBrew) {
-        errorContent = (
-          <Alert bsStyle="alert-danger" heading="Brew not found">
-            <p className="mb-0">{errors.noBrew}</p>
-          </Alert>
-        );
-      } else {
-        errorContent = (
-          <Alert bsStyle="alert-danger" heading="Error">
-            <p>{errors}</p>
-            <p className="mb-0">Probably just need to refresh the page.</p>
-          </Alert>
-        );
-      }
+    if (hasGravities) {
+      const data = this.getData(brew.gravities);
+      const options = { responsive: true, maintainAspectRatio: true };
+      gravitiesContent = (
+        <Line data={data} options={options} width="600" height="300" />
+      );
+    }
+
+    if (errors && errors.noBrew) {
+      errorContent = (
+        <Alert bsStyle="alert-danger" heading="Brew not found">
+          <p className="mb-0">{errors.noBrew}</p>
+        </Alert>
+      );
     }
 
     if (notEmpty(confirmObject) && !loading) {
@@ -133,7 +168,8 @@ class Brew extends Component {
           version={version}
           brew={brew}
         />
-        {versionContent}
+        {gravitiesContent}
+        {brewContent}
       </div>
     );
 
@@ -151,7 +187,7 @@ class Brew extends Component {
 Brew.propTypes = {
   getBrew: PropTypes.func.isRequired,
   setBrew: PropTypes.func.isRequired,
-  // getAllGravities: PropTypes.func.isRequired,
+  getAllGravities: PropTypes.func.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   recipe: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
@@ -177,7 +213,7 @@ export default connect(
   {
     getBrew,
     setBrew,
-    // getAllGravities,
+    getAllGravities,
     actionConfirm
   }
 )(Brew);

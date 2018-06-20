@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RecipeDeets from "../layout/RecipeDeets";
 import { notEmpty } from "../../common/empty";
+import { clearErrors } from "../../actions/appActions";
 import { getRecipe } from "../../actions/recipeActions";
 import {
   saveVersion,
@@ -63,19 +64,18 @@ class AddEditVersion extends Component {
     this.handleGoBack = this.handleGoBack.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, nextState) {
-    // console.log("gdsfp", nextProps.recipe, nextState);
-    const { version } = nextProps.recipe;
+  componentDidUpdate(prevProps) {
+    const { version } = this.props.recipe;
+    const ppversion = prevProps.recipe.version;
 
-    if (version && version._id !== nextState._id) {
-      // populate form once call to get recipe comes back
-      return {
+    // update state once version prop comes back
+    if (version._id !== ppversion._id) {
+      this.setState({
         _id: version._id,
         version: version.version,
         notes: version.notes
-      };
+      });
     }
-    return null;
   }
 
   handleInput(e) {
@@ -108,6 +108,7 @@ class AddEditVersion extends Component {
   }
 
   handleGoBack() {
+    this.props.clearErrors();
     this.props.history.goBack();
   }
 
@@ -146,6 +147,7 @@ AddEditVersion.propTypes = {
   getVersion: PropTypes.func.isRequired,
   setVersion: PropTypes.func.isRequired,
   makeVersion: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string
@@ -161,5 +163,12 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getRecipe, saveVersion, getVersion, setVersion, makeVersion }
+  {
+    getRecipe,
+    saveVersion,
+    getVersion,
+    setVersion,
+    makeVersion,
+    clearErrors
+  }
 )(AddEditVersion);

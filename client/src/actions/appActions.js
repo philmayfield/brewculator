@@ -2,6 +2,7 @@
 
 import {
   ACTION_CONFIRM,
+  GET_ERRORS,
   CLEAR_ERRORS,
   IS_LOADING,
   NOT_LOADING
@@ -17,6 +18,14 @@ import {
 // or reset with an empty object
 export const actionConfirm = whatItIs => {
   return { type: ACTION_CONFIRM, payload: whatItIs };
+};
+
+// get errors
+export const getErrors = err => {
+  return {
+    type: GET_ERRORS,
+    payload: err
+  };
 };
 
 // clear errors

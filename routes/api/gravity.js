@@ -39,12 +39,12 @@ router.get("/:gravity_id", (req, res) => {
 // @desc    Create a brew gravity
 // @access  Private
 router.post(
-  "/b/:brew_id",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // validate request
-    const brewId = req.params.brew_id;
     const { body } = req;
+    const brew_id = body.brew;
     const { errors, isValid } = validateGravityInput(body);
 
     // check validation
@@ -54,12 +54,12 @@ router.post(
 
     // get fields
     const gravityFields = {};
-    gravityFields.brew = brewId ? brewId : "";
+    gravityFields.brew = brew_id ? brew_id : "";
     gravityFields.gravity = body.gravity ? body.gravity : "";
     gravityFields.temp = body.temp ? body.temp : "";
     gravityFields.notes = body.notes ? body.notes : "";
 
-    Brew.findOne({ _id: brewId })
+    Brew.findOne({ _id: brew_id })
       .then(brew => {
         if (brew) {
           // found the brew, add the gravity
