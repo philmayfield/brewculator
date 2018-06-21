@@ -35,8 +35,8 @@ router.get("/:gravity_id", (req, res) => {
     });
 });
 
-// @route   POST api/gravity/b/:brew_id
-// @desc    Create a brew gravity
+// @route   POST api/gravity/
+// @desc    Create a gravity
 // @access  Private
 router.post(
   "/",
@@ -55,7 +55,8 @@ router.post(
     // get fields
     const gravityFields = {};
     gravityFields.brew = brew_id ? brew_id : "";
-    gravityFields.gravity = body.gravity ? body.gravity : "";
+    gravityFields.date = body.date ? body.date : new Date();
+    gravityFields.brix = body.brix ? body.brix : "";
     gravityFields.temp = body.temp ? body.temp : "";
     gravityFields.notes = body.notes ? body.notes : "";
 
@@ -65,18 +66,18 @@ router.post(
           // found the brew, add the gravity
 
           // set the recipe and version id
-          gravityFields.recipe = brew.recipe;
-          gravityFields.version = brew.version;
+          // gravityFields.recipe = brew.recipe;
+          // gravityFields.version = brew.version;
 
           new Gravity(gravityFields)
             .save()
             .then(gravity => res.json(gravity))
-            .catch(err =>
-              res.status(400).json({
-                err,
-                createVersion: "We ran into a problem creating the gravity."
-              })
-            );
+            .catch(err => {
+              errors.err = err;
+              errors.createGravity =
+                "We ran into a problem creating the gravity.";
+              res.status(400).json({ errors });
+            });
         } else {
           errors.noBrew = "Could not find the brew to add a gravity :(";
           res.status(404).json({ errors });
@@ -108,7 +109,8 @@ router.post(
 
     // get fields
     const gravityFields = {};
-    gravityFields.gravity = body.gravity ? body.gravity : "";
+    gravityFields.date = body.date ? body.date : "";
+    gravityFields.brix = body.brix ? body.brix : "";
     gravityFields.temp = body.temp ? body.temp : "";
     gravityFields.notes = body.notes ? body.notes : "";
 

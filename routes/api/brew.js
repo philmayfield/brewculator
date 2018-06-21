@@ -69,12 +69,11 @@ router.post(
           new Brew(brewFields)
             .save()
             .then(brew => res.json(brew))
-            .catch(err =>
-              res.status(400).json({
-                err,
-                createVersion: "We ran into a problem creating the brew."
-              })
-            );
+            .catch(err => {
+              errors.err = err;
+              errors.createBrew = "We ran into a problem creating the brew.";
+              res.status(400).json({ errors });
+            });
         } else {
           errors.noVersion = "Could not find the version to add a brew :(";
           res.status(404).json({ errors });

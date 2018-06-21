@@ -1,18 +1,13 @@
-// actions related to gravity - get gravity(s) / create / update / delete
+// actions related to gravities - get gravity(ies) / create / update / delete
 
 import axios from "axios";
+import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
+import { getBrew } from "./brewActions";
 import {
-  // clearErrors,
-  isLoading,
-  notLoading
-} from "./appActions";
-// import { getBrew } from "./brewActions";
-import {
-  GET_ERRORS,
-  // GET_GRAVITY,
-  // SET_GRAVITY,
-  GET_GRAVITIES
-  // DELETE_GRAVITY
+  GET_GRAVITY,
+  SET_GRAVITY,
+  GET_GRAVITIES,
+  DELETE_GRAVITY
 } from "./actionTypes";
 
 // READ - all gravities for a brew id
@@ -28,94 +23,101 @@ export const getAllGravities = id => dispatch => {
       dispatch(notLoading());
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
       dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
     });
 };
 
-// READ - one brew by id
-// export const getBrew = id => dispatch => {
-//   dispatch(clearErrors());
-//   dispatch(isLoading());
+// READ - one gravity by id
+export const getGravity = id => dispatch => {
+  // dispatch(clearErrors());
+  dispatch(isLoading());
 
-//   axios
-//     .get(`/api/brew/${id}`)
-//     .then(res => {
-//       sessionStorage.setItem("brewId", id);
-//       dispatch({
-//         type: GET_BREW,
-//         payload: res.data
-//       });
-//       dispatch(notLoading());
-//       return res.data;
-//     })
-//     .then(brew => {
-//       // fetch the version associated with brew
-//       dispatch(getVersion(brew.version));
-//       return brew;
-//     })
-//     .catch(err => {
-//       console.log("catching", err);
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: err.response.data
-//       });
-//       dispatch(notLoading());
-//     });
-// };
+  axios
+    .get(`/api/gravity/${id}`)
+    .then(res => {
+      sessionStorage.setItem("gravityId", id);
+      dispatch({
+        type: GET_GRAVITY,
+        payload: res.data
+      });
+      dispatch(notLoading());
+      return res.data;
+    })
+    .then(gravity => {
+      // fetch the brew associated with gravity
+      dispatch(getBrew(gravity.brew));
+      return gravity;
+    })
+    .catch(err => {
+      console.log("err", err);
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
+};
 
-// UPDATE - one recipes by id
-// export const saveRecipe = (recipe, history) => dispatch => {
-//   dispatch(clearErrors());
-//   dispatch(isLoading());
+// UPDATE - one gravity by id
+export const saveGravity = (gravity, history) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
 
-//   const { _id } = recipe;
+  const { _id } = gravity;
 
-//   axios
-//     .get(`/api/recipe/${_id}`, recipe)
-//     .then(() => {
-//       return history.push(`/recipe/${_id}`);
-//     })
-//     .catch(err => {
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: err.response.data
-//       });
-//     })
-//     .finally(() => dispatch(notLoading()));
-// };
+  axios
+    .post(`/api/gravity/${_id}`, gravity)
+    .then(({ data }) => {
+      dispatch(setGravity(gravity));
+      dispatch(notLoading());
+      return history.push(`/brew/${data.brew}`);
+    })
+    .catch(err => {
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
+};
 
-// DELETE - one brew by id
-// export const deleteBrew = id => dispatch => {
-//   dispatch(clearErrors());
-//   dispatch(isLoading());
+// CREATE - one new gravity
+export const makeGravity = (gravity, history) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
 
-//   axios
-//     .delete(`/api/brew/${id}`)
-//     .then(() => {
-//       sessionStorage.setItem("brewId", null);
-//       dispatch({
-//         type: DELETE_BREW,
-//         payload: id
-//       });
-//       dispatch(notLoading());
-//     })
-//     .catch(err => {
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: err
-//       });
-//       dispatch(notLoading());
-//     });
-// };
+  axios
+    .post(`/api/gravity/`, gravity)
+    .then(({ data }) => {
+      dispatch(notLoading());
+      return history.push(`/brew/${data.brew}`);
+    })
+    .catch(err => {
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
+};
 
-// export const setBrew = brew => {
-//   sessionStorage.setItem("brewId", brew._id);
-//   return {
-//     type: SET_BREW,
-//     payload: brew
-//   };
-// };
+// DELETE - one gravity by id
+export const deleteGravity = id => dispatch => {
+  dispatch(clearErrors());
+  dispatch(isLoading());
+
+  axios
+    .delete(`/api/gravity/${id}`)
+    .then(() => {
+      sessionStorage.setItem("gravityId", null);
+      dispatch({
+        type: DELETE_GRAVITY,
+        payload: id
+      });
+      dispatch(notLoading());
+    })
+    .catch(err => {
+      dispatch(notLoading());
+      dispatch(getErrors(err.response.data));
+    });
+};
+
+export const setGravity = gravity => {
+  sessionStorage.setItem("gravityId", gravity._id);
+  return {
+    type: SET_GRAVITY,
+    payload: gravity
+  };
+};

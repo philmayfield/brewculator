@@ -26,7 +26,7 @@ export const getAllBrews = id => dispatch => {
 
 // READ - one brew by id
 export const getBrew = id => dispatch => {
-  dispatch(clearErrors());
+  // dispatch(clearErrors());
   dispatch(isLoading());
 
   axios

@@ -24,6 +24,7 @@ import Version from "./components/version/Version";
 import AddEditVersion from "./components/version/AddEditVersion";
 import Brew from "./components/brew/Brew";
 import AddEditBrew from "./components/brew/AddEditBrew";
+import AddEditGravity from "./components/gravity/AddEditGravity";
 
 import "./App.css";
 
@@ -75,6 +76,11 @@ class App extends Component {
               />
               <Route path="/brew/:id" component={Brew} exact />
               <Route path="/brew/edit/:id?" component={AddEditBrew} exact />
+              <Route
+                path="/gravity/edit/:id?"
+                component={AddEditGravity}
+                exact
+              />
             </main>
           </div>
         </BrowserRouter>

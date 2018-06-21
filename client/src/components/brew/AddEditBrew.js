@@ -75,7 +75,7 @@ class AddEditBrew extends Component {
     const ppbrew = prevProps.recipe.version.brew;
 
     // update state once brew comes back
-    if (brew._id !== ppbrew._id) {
+    if (brew && brew._id !== ppbrew._id) {
       this.setState({
         _id: brew._id,
         notes: brew.notes,

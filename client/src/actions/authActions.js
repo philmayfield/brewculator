@@ -26,7 +26,7 @@ export const registerUser = (userData, history) => dispatch => {
 
 // GET - user by id
 export const getUser = id => dispatch => {
-  dispatch(clearErrors());
+  // dispatch(clearErrors());
   dispatch(isLoading());
 
   axios
@@ -46,7 +46,7 @@ export const getUser = id => dispatch => {
 
 // GET - username by id
 export const getUsername = id => dispatch => {
-  dispatch(clearErrors());
+  // dispatch(clearErrors());
   dispatch(isLoading());
 
   axios
@@ -106,6 +106,8 @@ export const setCurrentUser = payload => {
 // log user out
 export const logoutUser = () => dispatch => {
   console.log("> logging out...");
+
+  dispatch(clearErrors());
 
   // remove token from local storage
   localStorage.removeItem("jwtToken");

@@ -7,7 +7,7 @@ const GravitySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Brew"
   },
-  gravity: {
+  brix: {
     type: Schema.Types.Number,
     required: true
   },

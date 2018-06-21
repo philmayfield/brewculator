@@ -5,15 +5,19 @@ const notEmpty = require("./empty").notEmpty;
 module.exports = function validateGravityInput(data = {}) {
   let errors = {};
 
-  data.gravity = notEmpty(data.gravity) ? data.gravity + "" : "";
+  data.date = notEmpty(data.date) ? data.date + "" : "";
+  data.brix = notEmpty(data.brix) ? data.brix + "" : "";
   data.temp = notEmpty(data.temp) ? data.temp + "" : "";
 
   // gravity validations
-  if (Validator.isNumeric(data.gravity)) {
-    errors.gravity = "Gravity should be a number";
+  if (Validator.isISO8601(data.date)) {
+    errors.date = "A valid date is required";
   }
-  if (Validator.isEmpty(data.gravity)) {
-    errors.gravity = "Gravity is required";
+  if (Validator.isNumeric(data.brix)) {
+    errors.brix = "Brix reading should be a number";
+  }
+  if (Validator.isEmpty(data.brix)) {
+    errors.brix = "Brix reading is required";
   }
 
   // temp validations

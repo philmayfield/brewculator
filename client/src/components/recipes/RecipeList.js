@@ -9,7 +9,7 @@ class RecipeListItem extends Component {
   handleRemoval(e) {
     e.preventDefault();
 
-    const { confirmItem = "this" } = e.target.dataset.confirmItem;
+    const { confirmItem = "this" } = e.target.dataset;
 
     this.props.actionConfirm({
       confirmAction: deleteRecipe,

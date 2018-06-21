@@ -10,7 +10,10 @@ import {
   GET_BREW,
   SET_BREW,
   DELETE_BREW,
-  GET_GRAVITIES
+  GET_GRAVITIES,
+  GET_GRAVITY,
+  SET_GRAVITY,
+  DELETE_GRAVITY
 } from "../actions/actionTypes";
 
 const defaultState = {
@@ -22,15 +25,16 @@ const defaultState = {
   version: {
     brews: [],
     brew: {
-      gravities: []
+      gravities: [],
+      gravity: {}
     }
   }
 };
 
 export default (state = defaultState, action) => {
-  // if (action.type === GET_VERSION || action.type === SET_VERSION) {
-  //   console.log(">>>", state, action.payload);
-  // }
+  if (action.type === GET_GRAVITY || action.type === SET_GRAVITY) {
+    console.log(">>>", state, action.payload);
+  }
   // if (action.type === DELETE_BREW) {
   //   console.log(">>>", state, action.payload);
   // }
@@ -91,7 +95,10 @@ export default (state = defaultState, action) => {
         ...state,
         version: {
           ...state.version,
-          brew: action.payload,
+          brew: {
+            ...state.version.brew,
+            ...action.payload
+          },
           brews: [
             ...state.version.brews.filter(
               brew => brew._id !== action.payload._id
@@ -122,6 +129,46 @@ export default (state = defaultState, action) => {
             ...state.version.brew,
             gravities: action.payload
           }
+        }
+      };
+
+    case GET_GRAVITY:
+    case SET_GRAVITY:
+      return {
+        ...state,
+        version: {
+          ...state.version,
+          brew: {
+            ...state.version.brew,
+            gravity: {
+              ...state.version.brew.gravity,
+              ...action.payload
+            },
+            gravities: [
+              ...state.version.brew.gravities.filter(
+                gravity => gravity._id !== action.payload._id
+              ),
+              ...action.payload
+            ]
+          }
+        }
+      };
+
+    case DELETE_GRAVITY:
+      return {
+        ...state,
+        version: {
+          ...state.version,
+          brew: {
+            ...state.version.brew,
+            gravity: null,
+            gravities: [
+              ...state.version.brew.gravities.filter(
+                gravity => gravity._id !== action.payload
+              )
+            ]
+          },
+          brews: [...state.version.brews]
         }
       };
 

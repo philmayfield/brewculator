@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import { actionConfirm } from "../../actions/appActions";
 import { notEmpty } from "../../common/empty";
+import { clearErrors } from "../../actions/appActions";
 import { getBrew, setBrew, deleteBrew } from "../../actions/brewActions";
 import { getAllGravities } from "../../actions/gravityActions";
 import RecipeDeets from "../layout/RecipeDeets";
@@ -14,11 +15,14 @@ import ItemWrap from "../common/ItemWrap";
 import GravityList from "../gravities/GravityList";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
+import calculateGravity from "../../common/calculateGravity";
 
 class Brew extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.props.clearErrors();
 
     const { id } = this.props.match.params; // brew id
     const { recipe } = this.props;
@@ -54,10 +58,18 @@ class Brew extends Component {
     });
   }
 
+  calculateAbv(og, fg) {
+    if (!og || !fg || og === fg) {
+      return 0;
+    }
+    const num = ((76.08 * (og - fg)) / (1.775 - og)) * (fg / 0.794);
+    return num.toFixed(2);
+  }
+
   getData(gravities) {
     if (Array.isArray(gravities)) {
       const gravColor = "151,187,205";
-      const tempColor = "220,53,69";
+      // const tempColor = "220,53,69";
       const labels = gravities.map(g => moment(g.date).format("MMM D, YYYY"));
       const gravs = {
         label: "Gravity",
@@ -67,21 +79,43 @@ class Brew extends Component {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: `rgba(${gravColor},1)`,
-        data: gravities.map(g => g.gravity)
+        data: gravities.map(g => calculateGravity(g.brix))
       };
-      const temps = {
-        label: "Temperature",
-        fillColor: `rgba(${tempColor},0.2)`,
-        strokeColor: `rgba(${tempColor},1)`,
-        pointColor: `rgba(${tempColor},1)`,
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: `rgba(${tempColor},1)`,
-        data: gravities.map(g => g.temp)
-      };
-      const datasets = [gravs, temps];
+      // const temps = {
+      //   label: "Temperature",
+      //   fillColor: `rgba(${tempColor},0.2)`,
+      //   strokeColor: `rgba(${tempColor},1)`,
+      //   pointColor: `rgba(${tempColor},1)`,
+      //   pointStrokeColor: "#fff",
+      //   pointHighlightFill: "#fff",
+      //   pointHighlightStroke: `rgba(${tempColor},1)`,
+      //   data: gravities.map(g => g.temp)
+      // };
+      // const datasets = [gravs, temps];
+      const datasets = [gravs];
       return { labels, datasets };
     }
+  }
+
+  makeChartData(gravities) {
+    const startBrix = gravities[0].brix;
+    const endBrix = gravities[gravities.length - 1].brix;
+    const og = calculateGravity(startBrix);
+    const fg = calculateGravity(endBrix);
+    const data = this.getData(gravities);
+    return {
+      og,
+      fg,
+      data,
+      options: {
+        responsive: true,
+        // maintainAspectRatio: true,
+        scaleOverride: true,
+        scaleSteps: Math.floor(og * 10) - 1,
+        scaleStepWidth: 0.01,
+        scaleStartValue: 1
+      }
+    };
   }
 
   render() {
@@ -96,19 +130,30 @@ class Brew extends Component {
     const author = auth.users.find(user => user._id === recipe.author);
     let errorContent, gravitiesContent, controlContent, brewContent;
 
+    if (hasGravities) {
+      const chartData = this.makeChartData(brew.gravities);
+      const { og, fg, data, options } = chartData;
+      const numDataPoints = data.datasets[0].data.length;
+      gravitiesContent = (
+        <div>
+          <h4>
+            Current ABV:{" "}
+            {numDataPoints > 1
+              ? `${this.calculateAbv(og, fg)}% (${og}og, ${fg}fg currently)`
+              : "-- need more gravity readings"}
+          </h4>
+          {numDataPoints > 1 && (
+            <Line data={data} options={options} width="600" height="300" />
+          )}
+        </div>
+      );
+    }
+
     if (hasBrew) {
       brewContent = (
         <ItemWrap label="Gravities" items={brew.gravities} errors={errors}>
           <GravityList gravities={brew.gravities} />
         </ItemWrap>
-      );
-    }
-
-    if (hasGravities) {
-      const data = this.getData(brew.gravities);
-      const options = { responsive: true, maintainAspectRatio: true };
-      gravitiesContent = (
-        <Line data={data} options={options} width="600" height="300" />
       );
     }
 
@@ -152,7 +197,7 @@ class Brew extends Component {
           </Link>
           <Link
             className={`btn btn-primary ${hasBrew ? "" : "d-none"}`}
-            to={`/gravity/b/${hasBrew && brew._id}`}
+            to={`/gravity/edit/new`}
           >
             Add a Gravity Reading
           </Link>
@@ -185,6 +230,7 @@ class Brew extends Component {
 }
 
 Brew.propTypes = {
+  clearErrors: PropTypes.func.isRequired,
   getBrew: PropTypes.func.isRequired,
   setBrew: PropTypes.func.isRequired,
   getAllGravities: PropTypes.func.isRequired,
@@ -211,6 +257,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
+    clearErrors,
     getBrew,
     setBrew,
     getAllGravities,

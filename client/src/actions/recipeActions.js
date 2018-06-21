@@ -13,7 +13,7 @@ import {
 
 // READ - all recipes
 export const getAllRecipes = () => dispatch => {
-  dispatch(clearErrors());
+  // dispatch(clearErrors());
   dispatch(isLoading());
 
   axios
@@ -33,7 +33,7 @@ export const getAllRecipes = () => dispatch => {
 
 // READ - one recipe by id
 export const getRecipe = id => dispatch => {
-  dispatch(clearErrors());
+  // dispatch(clearErrors());
   dispatch(isLoading());
 
   axios

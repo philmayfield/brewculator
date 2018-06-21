@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Moment from "react-moment";
+import moment from "moment";
 
 import { notEmpty } from "../../common/empty";
 
@@ -15,7 +15,7 @@ const RecipeDeets = props => {
           </div>
           <p>
             Added {author && `by ${author.username}`} on{" "}
-            {<Moment date={recipe.date} format="MMM D, YYYY" />}
+            {moment(recipe.date).format("MMM D, YYYY")}
           </p>
         </div>
       );
@@ -36,7 +36,7 @@ const RecipeDeets = props => {
       return (
         <div>
           <h4 className="m-0 flex-shrink-0">
-            Brewed on {<Moment date={brew.date} format="MMM D, YYYY" />}
+            Brewed on {moment(brew.date).format("MMM D, YYYY")}
           </h4>
           <p className={`${brew.notes ? "" : "d-none"}`}>{brew.notes}</p>
         </div>

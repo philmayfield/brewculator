@@ -31,7 +31,7 @@ export const getAllVersions = id => dispatch => {
 
 // READ - one version by id
 export const getVersion = id => dispatch => {
-  dispatch(clearErrors());
+  // dispatch(clearErrors());
   dispatch(isLoading());
 
   axios

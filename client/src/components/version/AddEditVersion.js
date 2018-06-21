@@ -69,7 +69,7 @@ class AddEditVersion extends Component {
     const ppversion = prevProps.recipe.version;
 
     // update state once version prop comes back
-    if (version._id !== ppversion._id) {
+    if (version && version._id !== ppversion._id) {
       this.setState({
         _id: version._id,
         version: version.version,
