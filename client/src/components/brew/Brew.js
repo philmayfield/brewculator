@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Line } from "react-chartjs";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { Line } from "react-chartjs-2";
 import { actionConfirm } from "../../actions/appActions";
 import { notEmpty } from "../../common/empty";
 import { clearErrors } from "../../actions/appActions";
@@ -69,30 +69,25 @@ class Brew extends Component {
   getData(gravities) {
     if (Array.isArray(gravities)) {
       const gravColor = "151,187,205";
-      // const tempColor = "220,53,69";
-      const labels = gravities.map(g => moment(g.date).format("MMM D, YYYY"));
+      const tempColor = "220,53,69";
+      const labels = gravities.map(g =>
+        moment.utc(g.date).format("MMM D, YYYY")
+      );
       const gravs = {
+        data: gravities.map(g => calculateGravity(g.brix)),
         label: "Gravity",
-        fillColor: `rgba(${gravColor},0.2)`,
-        strokeColor: `rgba(${gravColor},1)`,
-        pointColor: `rgba(${gravColor},1)`,
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: `rgba(${gravColor},1)`,
-        data: gravities.map(g => calculateGravity(g.brix))
+        yAxisID: "gravs",
+        borderColor: `rgba(${gravColor}, 1)`,
+        backgroundColor: `rgba(${gravColor}, .25)`
       };
-      // const temps = {
-      //   label: "Temperature",
-      //   fillColor: `rgba(${tempColor},0.2)`,
-      //   strokeColor: `rgba(${tempColor},1)`,
-      //   pointColor: `rgba(${tempColor},1)`,
-      //   pointStrokeColor: "#fff",
-      //   pointHighlightFill: "#fff",
-      //   pointHighlightStroke: `rgba(${tempColor},1)`,
-      //   data: gravities.map(g => g.temp)
-      // };
-      // const datasets = [gravs, temps];
-      const datasets = [gravs];
+      const temps = {
+        data: gravities.map(g => g.temp),
+        label: "Temperature",
+        yAxisID: "temps",
+        borderColor: `rgba(${tempColor}, 1)`,
+        backgroundColor: `rgba(${tempColor}, .075)`
+      };
+      const datasets = [gravs, temps];
       return { labels, datasets };
     }
   }
@@ -108,12 +103,27 @@ class Brew extends Component {
       fg,
       data,
       options: {
-        responsive: true,
-        // maintainAspectRatio: true,
-        scaleOverride: true,
-        scaleSteps: Math.floor(og * 10) - 1,
-        scaleStepWidth: 0.01,
-        scaleStartValue: 1
+        scales: {
+          yAxes: [
+            {
+              id: "gravs",
+              type: "linear",
+              position: "left",
+              ticks: {
+                min: 1
+              }
+            },
+            {
+              id: "temps",
+              type: "linear",
+              position: "right",
+              ticks: {
+                min: 50,
+                max: 100
+              }
+            }
+          ]
+        }
       }
     };
   }
@@ -143,7 +153,7 @@ class Brew extends Component {
               : "-- need more gravity readings"}
           </h4>
           {numDataPoints > 1 && (
-            <Line data={data} options={options} width="600" height="300" />
+            <Line data={data} options={options} width={600} height={300} />
           )}
         </div>
       );

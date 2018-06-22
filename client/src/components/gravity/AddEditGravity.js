@@ -82,7 +82,6 @@ class AddEditGravity extends Component {
 
     // update state once gravity comes back
     if (gravity && gravity._id !== ppgravity._id) {
-      console.log(">>>", gravity);
       this.setState({
         _id: gravity._id,
         brix: gravity.brix,
