@@ -40,7 +40,7 @@ class Header extends Component {
     );
 
     return (
-      <header>
+      <header className="z-depth-3">
         <div className="d-flex">
           <h3 className="logo">Brewculator</h3>
           <nav className="d-flex w-100">

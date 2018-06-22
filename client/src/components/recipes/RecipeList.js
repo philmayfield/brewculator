@@ -35,7 +35,7 @@ class RecipeListItem extends Component {
         />
       ));
 
-    return <div className="list-group">{recipeItems}</div>;
+    return <div className="list-group z-depth-3">{recipeItems}</div>;
   }
 }
 

@@ -7,13 +7,23 @@ class Loading extends Component {
     const { loading } = this.props.appJunk;
     let loadingGuts = null;
 
-    if (loading) {
-      loadingGuts = (
-        <div className="app-loading d-flex align-items-center justify-content-center">
-          <div>LOADING&hellip;</div>
-        </div>
-      );
-    }
+    // if (loading) {
+    //   loadingGuts = (
+    //     <div className="app-loading d-flex align-items-center justify-content-center">
+    //       <div>LOADING&hellip;</div>
+    //     </div>
+    //   );
+    // }
+
+    loadingGuts = (
+      <div
+        className={`app-loading align-items-center justify-content-center ${
+          loading ? "d-flex" : "d-none"
+        }`}
+      >
+        <div>LOADING&hellip;</div>
+      </div>
+    );
 
     return loadingGuts;
   }
