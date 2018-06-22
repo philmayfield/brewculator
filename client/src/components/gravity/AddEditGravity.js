@@ -84,10 +84,10 @@ class AddEditGravity extends Component {
     if (gravity && gravity._id !== ppgravity._id) {
       this.setState({
         _id: gravity._id,
-        brix: gravity.brix,
-        temp: gravity.temp,
-        notes: gravity.notes,
-        date: gravity.date
+        brix: gravity.brix ? gravity.brix : "",
+        temp: gravity.temp ? gravity.temp : "",
+        notes: gravity.notes ? gravity.notes : "",
+        date: gravity.date ? gravity.date : ""
       });
     }
   }
