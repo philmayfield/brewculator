@@ -2,7 +2,12 @@
   border-radius: $border-radius;
 }
 .list-group-item {
+  background: $light-gradient-bg;
+
   & + & {
-    border-top: 1px rgba($bg-gradient-top, 0.5) solid;
+    border-top: 1px rgba($primary, 0.05) solid;
+  }
+  &:hover {
+    background: rgba($white, 0.95);
   }
 }

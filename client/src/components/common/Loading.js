@@ -21,7 +21,7 @@ class Loading extends Component {
           loading ? "d-flex" : "d-none"
         }`}
       >
-        <div>LOADING&hellip;</div>
+        <div className="loader">LOADING&hellip;</div>
       </div>
     );
 

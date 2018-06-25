@@ -33,10 +33,11 @@ class GravityList extends Component {
           sub={gravity.notes}
           isAuth={auth.isAuth}
           handleRemoval={this.handleRemoval.bind(this)}
+          isLink={false}
         />
       ));
 
-    return <div className="list-group">{gravityItems.reverse()}</div>;
+    return <div className="list-group z-depth-3">{gravityItems.reverse()}</div>;
   }
 }
 

@@ -3,7 +3,15 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const ItemListItem = props => {
-  const { item, itemType, header, sub = "", isAuth, handleRemoval } = props;
+  const {
+    item,
+    itemType,
+    header,
+    sub = "",
+    isAuth,
+    handleRemoval,
+    isLink = true
+  } = props;
 
   const editBtn = isAuth && (
     <Link className="mr-3" to={`/${itemType}/edit/${item._id}`}>
@@ -20,13 +28,21 @@ const ItemListItem = props => {
       Delete
     </button>
   );
+  const makeHeaderFooter = () => (
+    <div className="w-100">
+      <h6 className="m-0">{header}</h6>
+      {sub && <p className="m-0">{sub}</p>}
+    </div>
+  );
+  const makeLink = () => (
+    <Link className="w-100" to={`/${itemType}/${item._id}`}>
+      {makeHeaderFooter()}
+    </Link>
+  );
 
   return (
     <div className="list-group-item list-group-item-action d-flex align-items-center">
-      <Link className="w-100" to={`/${itemType}/${item._id}`}>
-        <h5 className="m-0">{header}</h5>
-        {sub && <p className="m-0">{sub}</p>}
-      </Link>
+      {isLink ? makeLink() : makeHeaderFooter()}
       {editBtn}
       {deleteBtn}
     </div>
@@ -39,6 +55,7 @@ ItemListItem.propTypes = {
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   sub: PropTypes.string,
   isAuth: PropTypes.bool.isRequired,
-  handleRemoval: PropTypes.func.isRequired
+  handleRemoval: PropTypes.func.isRequired,
+  isLink: PropTypes.bool
 };
 export default ItemListItem;

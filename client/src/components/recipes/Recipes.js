@@ -45,7 +45,7 @@ class Recipes extends Component {
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          <Link className="btn btn-primary" to="/recipe/edit/new">
+          <Link className="btn btn-primary flex-fill" to="/recipe/edit/new">
             Add a new recipe
           </Link>
         </AppControl>

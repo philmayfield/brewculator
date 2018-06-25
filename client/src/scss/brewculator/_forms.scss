@@ -1,0 +1,13 @@
+.form-wrapper {
+  background: $light-gradient-bg;
+  border-radius: $border-radius;
+  padding: $spacer;
+}
+
+.form-group {
+  margin-bottom: 0;
+
+  & + & {
+    margin-top: $spacer;
+  }
+}

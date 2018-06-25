@@ -36,7 +36,7 @@ class BrewList extends Component {
         />
       ));
 
-    return <div className="list-group">{brewItems}</div>;
+    return <div className="list-group z-depth-3">{brewItems}</div>;
   }
 }
 

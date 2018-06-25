@@ -67,11 +67,14 @@ const GravityForm = props => {
         />
       </form>
       <AppControl>
-        <button className="btn btn-secondary mr-3" onClick={props.handleGoBack}>
+        <button
+          className="btn btn-secondary flex-fill"
+          onClick={props.handleGoBack}
+        >
           Back
         </button>
         <input
-          className="btn btn-primary"
+          className="btn btn-primary flex-fill"
           type="submit"
           value={props.new ? "Save New Reading" : "Save Changes"}
           form="addUpdateGravityForm"

@@ -35,7 +35,7 @@ class VersionList extends Component {
         />
       ));
 
-    return <div className="list-group">{versionItems}</div>;
+    return <div className="list-group z-depth-3">{versionItems}</div>;
   }
 }
 

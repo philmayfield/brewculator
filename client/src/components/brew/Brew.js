@@ -188,25 +188,25 @@ class Brew extends Component {
       controlContent = (
         <AppControl>
           <Link
-            className="btn btn-secondary mr-3"
+            className="btn btn-secondary flex-fill"
             to={hasVersion ? `/version/${version._id}` : "/"}
           >
             Back
           </Link>
           <button
-            className={`btn btn-danger mr-3 ${hasBrew ? "" : "d-none"}`}
+            className={`btn btn-danger flex-fill ${hasBrew ? "" : "d-none"}`}
             onClick={this.handleDelete}
           >
             Delete This Brew
           </button>
           <Link
-            className={`btn btn-secondary mr-3 ${hasBrew ? "" : "d-none"}`}
+            className={`btn btn-secondary flex-fill ${hasBrew ? "" : "d-none"}`}
             to={`edit/${hasBrew && brew._id}`}
           >
             Edit This Brew
           </Link>
           <Link
-            className={`btn btn-primary ${hasBrew ? "" : "d-none"}`}
+            className={`btn btn-primary flex-fill ${hasBrew ? "" : "d-none"}`}
             to={`/gravity/edit/new`}
           >
             Add a Gravity Reading

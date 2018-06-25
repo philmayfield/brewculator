@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../../actions/authActions";
+import getImg from "../../common/getImg";
+import ReactSVG from "react-svg";
 
 class Header extends Component {
   constructor(props) {
@@ -20,37 +22,39 @@ class Header extends Component {
 
   render() {
     const { isAuth } = this.props.auth;
+    const logoImg = getImg("logo");
 
     const loginBtn = (
-      <Link className="nav-item nav-link" to="/login">
+      <Link className="btn btn-link btn-empty ml-2" to="/login">
         Login
       </Link>
     );
 
     const logoutBtn = (
-      <div className="loggedIn d-flex align-items-center">
-        <span>{this.props.auth.user.username}</span>
-        <button
-          className="btn btn-link nav-item nav-link"
-          onClick={this.handleLogout}
-        >
-          Logout
-        </button>
-      </div>
+      <button
+        className="btn btn-link btn-empty ml-2"
+        onClick={this.handleLogout}
+      >
+        Logout
+      </button>
     );
 
     return (
-      <header className="z-depth-3">
-        <div className="d-flex">
-          <h3 className="logo">Brewculator</h3>
-          <nav className="d-flex w-100">
-            <Link className="nav-item nav-link mr-auto" to="/recipes">
-              Recipes
-            </Link>
+      <header className="z-depth-3 mb-3">
+        <div className="d-flex container">
+          <Link className="logo" to="/recipes">
+            <ReactSVG path={logoImg} svgClassName="" />
+          </Link>
+          <nav
+            className={`d-flex flex-wrap align-items-center justify-content-end w-100 ${isAuth &&
+              "loggedIn"}`}
+          >
+            <span className="username">
+              {isAuth && this.props.auth.user.username}
+            </span>
             {isAuth ? logoutBtn : loginBtn}
           </nav>
         </div>
-        <hr className="mt-0" />
       </header>
     );
   }

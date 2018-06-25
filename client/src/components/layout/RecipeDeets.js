@@ -6,14 +6,16 @@ import { notEmpty } from "../../common/empty";
 
 const RecipeDeets = props => {
   const displayRecipe = (recipe, author) => {
-    if (recipe /*&& notEmpty(recipe._id)*/) {
+    if (recipe) {
       return (
         <div>
-          <div className="d-flex flex-wrap align-items-baseline mb-3">
-            <h1 className="m-0 flex-shrink-0 mr-3">{recipe.name}</h1>
-            <h4 className="m-0 flex-shrink-0">{recipe.style}</h4>
-          </div>
-          <p>
+          {recipe.name && (
+            <div className="d-flex flex-wrap align-items-baseline mb-3">
+              <h1 className="m-0 mr-3">{recipe.name}</h1>
+              <h4 className="m-0">{recipe.style}</h4>
+            </div>
+          )}
+          <p className="m-0">
             Added {author && `by ${author.username}`} on{" "}
             {moment(recipe.date).format("MMM D, YYYY")}
           </p>
@@ -25,7 +27,7 @@ const RecipeDeets = props => {
     if (version && notEmpty(version._id)) {
       return (
         <div>
-          <h4 className="m-0 flex-shrink-0">Version {version.version}</h4>
+          <h4 className="m-0">Version {version.version}</h4>
           <p className={`${version.notes ? "" : "d-none"}`}>{version.notes}</p>
         </div>
       );
@@ -35,7 +37,7 @@ const RecipeDeets = props => {
     if (brew && notEmpty(brew._id)) {
       return (
         <div>
-          <h4 className="m-0 flex-shrink-0">
+          <h4 className="m-0">
             Brewed on {moment(brew.date).format("MMM D, YYYY")}
           </h4>
           <p className={`${brew.notes ? "" : "d-none"}`}>{brew.notes}</p>
@@ -45,11 +47,10 @@ const RecipeDeets = props => {
   };
 
   return (
-    <div className="recipe-deets">
+    <div className="recipe-deets p-3 mb-3 z-depth-3">
       {displayRecipe(props.recipe, props.author)}
       {displayVersion(props.version)}
       {displayBrew(props.brew)}
-      <hr />
     </div>
   );
 };

@@ -27,7 +27,13 @@ class AddEditRecipe extends Component {
 
     const { id } = this.props.match.params;
     if (id !== "new") {
-      const storeRecipe = this.props.recipes.find(recipe => recipe._id === id);
+      const { recipe } = this.props;
+      // check store recipe
+      let storeRecipe = recipe && recipe._id === id ? recipe : false;
+      if (!storeRecipe) {
+        // then check if recipe is in list of recipes
+        storeRecipe = this.props.recipes.find(recipe => recipe._id === id);
+      }
 
       // check if recipe already in the store
       if (storeRecipe && notEmpty(storeRecipe._id)) {
@@ -44,22 +50,19 @@ class AddEditRecipe extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, nextState) {
-    const { recipe, errors } = nextProps;
-    const { id } = nextProps.match.params;
+  componentDidUpdate(prevProps) {
+    const { recipe } = this.props;
+    const pprecipe = prevProps.recipe;
 
-    if (nextState.name || nextState.style) {
-      return null;
+    // update state once brew comes back
+    if (recipe && recipe._id !== pprecipe._id) {
+      this.setState({
+        _id: recipe._id,
+        name: recipe.name,
+        style: recipe.style,
+        date: recipe.date
+      });
     }
-    if (notEmpty(errors)) {
-      return { errors };
-    }
-    if (notEmpty(recipe) && id !== "new") {
-      recipe.name = notEmpty(recipe.name) ? recipe.name : "";
-      recipe.style = notEmpty(recipe.style) ? recipe.style : "";
-      return { name: recipe.name, style: recipe.style };
-    }
-    return null;
   }
 
   handleInput(e) {
@@ -93,8 +96,8 @@ class AddEditRecipe extends Component {
     const hasRecipe = notEmpty(recipe._id);
     const author =
       hasRecipe && auth.users.find(user => user._id === recipe.author);
-    const { name, style, errors } = this.state;
-    const sRecipe = { name, style };
+    const { name, style, date, errors } = this.state;
+    const sRecipe = { name, style, date };
     let errorContent, formContent;
 
     if (notEmpty(errors) && errors.recipeError) {
@@ -106,7 +109,11 @@ class AddEditRecipe extends Component {
     }
 
     formContent = (
-      <form id="addEditRecipeForm" onSubmit={this.handleSubmit}>
+      <form
+        className="form-wrapper z-depth-3"
+        id="addEditRecipeForm"
+        onSubmit={this.handleSubmit}
+      >
         <Input
           placeholder="Enter a name for this recipe"
           label="Name"
@@ -128,6 +135,7 @@ class AddEditRecipe extends Component {
           onChange={this.handleInput}
           required={true}
         />
+        <div className="mt-3">* required field</div>
       </form>
     );
 
@@ -137,13 +145,13 @@ class AddEditRecipe extends Component {
         {errorContent ? errorContent : formContent}
         <AppControl>
           <button
-            className="btn btn-secondary mr-3"
+            className="btn btn-secondary flex-fill"
             onClick={this.props.history.goBack}
           >
             Back
           </button>
           <input
-            className="btn btn-primary"
+            className="btn btn-primary flex-fill"
             type="submit"
             value={this.state._id === "new" ? "Make New Recipe" : "Save Recipe"}
             form="addEditRecipeForm"

@@ -91,23 +91,30 @@ class Version extends Component {
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          <Link className="btn btn-secondary mr-3" to={`/recipe/${recipe._id}`}>
+          <Link
+            className="btn btn-secondary flex-fill"
+            to={`/recipe/${recipe._id}`}
+          >
             Back
           </Link>
           <button
-            className={`btn btn-danger mr-3 ${hasVersion ? "" : "d-none"}`}
+            className={`btn btn-danger flex-fill ${hasVersion ? "" : "d-none"}`}
             onClick={this.handleDelete}
           >
             Delete This Version
           </button>
           <Link
-            className={`btn btn-secondary mr-3 ${hasVersion ? "" : "d-none"}`}
+            className={`btn btn-secondary flex-fill ${
+              hasVersion ? "" : "d-none"
+            }`}
             to={`edit/${hasVersion && version._id}`}
           >
             Edit This Version
           </Link>
           <Link
-            className={`btn btn-primary ${hasVersion ? "" : "d-none"}`}
+            className={`btn btn-primary flex-fill ${
+              hasVersion ? "" : "d-none"
+            }`}
             to={`/brew/edit/new`}
           >
             Add a Brew

@@ -105,29 +105,25 @@ class Recipe extends Component {
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          {/* <button
-            className="btn btn-secondary mr-3"
-            onClick={this.props.history.goBack}
-          >
-            Back
-          </button> */}
-          <Link className="btn btn-secondary mr-3" to="/recipes">
+          <Link className="btn btn-secondary flex-fill" to="/recipes">
             Back
           </Link>
           <button
-            className={`btn btn-danger mr-3 ${hasRecipe ? "" : "d-none"}`}
+            className={`btn btn-danger flex-fill ${hasRecipe ? "" : "d-none"}`}
             onClick={this.handleDelete}
           >
             Delete This Recipe
           </button>
           <Link
-            className={`btn btn-secondary mr-3 ${hasRecipe ? "" : "d-none"}`}
+            className={`btn btn-secondary flex-fill ${
+              hasRecipe ? "" : "d-none"
+            }`}
             to={`edit/${recipe._id}`}
           >
             Edit This Recipe
           </Link>
           <Link
-            className={`btn btn-primary ${hasRecipe ? "" : "d-none"}`}
+            className={`btn btn-primary flex-fill ${hasRecipe ? "" : "d-none"}`}
             to={`/version/edit/new`}
           >
             Add a Version

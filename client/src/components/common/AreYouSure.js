@@ -10,18 +10,24 @@ class AreYouSure extends Component {
     const { confirmText = "Are you sure?" } = this.props.confirmObject;
 
     return (
-      <div className="are-you-sure">
-        <p>{confirmText}</p>
-        <button
-          className="btn btn-success mr-3"
-          value={true}
-          onClick={handleConfirm}
-        >
-          Yep, do it!
-        </button>
-        <button className="btn btn-danger" value={false} onClick={handleCancel}>
-          Cancel
-        </button>
+      <div className="are-you-sure w-100">
+        <p className="text-center m-2">{confirmText}</p>
+        <div className="d-flex">
+          <button
+            className="btn btn-success flex-fill"
+            value={true}
+            onClick={handleConfirm}
+          >
+            Yep, do it!
+          </button>
+          <button
+            className="btn btn-danger flex-fill"
+            value={false}
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     );
   }

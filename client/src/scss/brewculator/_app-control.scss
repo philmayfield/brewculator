@@ -5,4 +5,12 @@
   right: 0;
   position: fixed;
   z-index: 2;
+
+  .btn {
+    border-radius: 0;
+    padding-top: $spacer;
+    padding-bottom: $spacer;
+    white-space: pre-wrap;
+    line-height: 1;
+  }
 }
