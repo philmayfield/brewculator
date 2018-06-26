@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import getImg from "../../common/getImg";
+import ReactSVG from "react-svg";
 
 const ItemListItem = props => {
   const {
@@ -15,7 +17,7 @@ const ItemListItem = props => {
 
   const editBtn = isAuth && (
     <Link className="mr-3" to={`/${itemType}/edit/${item._id}`}>
-      Edit
+      <ReactSVG path={getImg("baselineEdit24px")} svgClassName="primary" />
     </Link>
   );
   const deleteBtn = isAuth && (
@@ -25,7 +27,10 @@ const ItemListItem = props => {
       value={item._id}
       onClick={handleRemoval}
     >
-      Delete
+      <ReactSVG
+        path={getImg("baselineDeleteForever24px")}
+        svgClassName="danger"
+      />
     </button>
   );
   const makeHeaderFooter = () => (

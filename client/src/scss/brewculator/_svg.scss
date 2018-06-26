@@ -1,0 +1,9 @@
+.injected-svg {
+  display: block;
+
+  @each $color, $value in $theme-colors {
+    &.#{$color} {
+      fill: #{$value};
+    }
+  }
+}

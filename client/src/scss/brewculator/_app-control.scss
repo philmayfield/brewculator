@@ -7,10 +7,13 @@
   z-index: 2;
 
   .btn {
+    align-items: center;
     border-radius: 0;
+    display: flex;
+    justify-content: center;
+    line-height: 1;
     padding-top: $spacer;
     padding-bottom: $spacer;
     white-space: pre-wrap;
-    line-height: 1;
   }
 }

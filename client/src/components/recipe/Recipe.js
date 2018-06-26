@@ -17,6 +17,8 @@ import VersionList from "../versions/VersionList";
 import ItemWrap from "../common/ItemWrap";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
+import getImg from "../../common/getImg";
+import ReactSVG from "react-svg";
 
 class Recipe extends Component {
   constructor(props) {
@@ -71,8 +73,7 @@ class Recipe extends Component {
 
   handleChangeContext(e) {
     e.preventDefault();
-    const { altControlContext } = e.target.dataset;
-    console.log(">", altControlContext);
+    const { altControlContext } = this.props.appJunk;
     this.props.changeControlContext(altControlContext);
   }
 
@@ -82,6 +83,9 @@ class Recipe extends Component {
     const { loading, confirmObject, altControlContext } = appJunk;
     const hasRecipe = notEmpty(recipe._id);
     const author = auth.users.find(user => user._id === recipe.author);
+    const contextIcon = getImg(
+      altControlContext ? "baselineClose24px" : "baselineEdit24px"
+    );
     let errorContent, controlContent;
 
     const recipeContent = (
@@ -98,9 +102,8 @@ class Recipe extends Component {
         type="button"
         className="btn btn-info"
         onClick={this.handleChangeContext}
-        data-alt-control-context={altControlContext}
       >
-        Tweak
+        <ReactSVG path={contextIcon} svgClassName="light" />
       </button>
     );
 

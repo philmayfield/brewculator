@@ -48,9 +48,8 @@ export const notLoading = () => {
 
 // app control context modifier
 export const changeControlContext = context => {
-  const payload = context === "false";
   return {
     type: CHANGE_CONTEXT,
-    payload
+    payload: !context
   };
 };

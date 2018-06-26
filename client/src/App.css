@@ -5067,6 +5067,25 @@ a.text-dark:hover, a.text-dark:focus {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 
+.injected-svg {
+  display: block; }
+  .injected-svg.primary {
+    fill: #6f1f00; }
+  .injected-svg.secondary {
+    fill: #6c757d; }
+  .injected-svg.success {
+    fill: #28a745; }
+  .injected-svg.info {
+    fill: #17a2b8; }
+  .injected-svg.warning {
+    fill: #ffc107; }
+  .injected-svg.danger {
+    fill: #dc3545; }
+  .injected-svg.light {
+    fill: #f8f9fa; }
+  .injected-svg.dark {
+    fill: #343a40; }
+
 .z-depth-0 {
   box-shadow: none !important; }
 
@@ -5123,11 +5142,14 @@ header {
   position: fixed;
   z-index: 2; }
   .app-control .btn {
+    align-items: center;
     border-radius: 0;
+    display: flex;
+    justify-content: center;
+    line-height: 1;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    white-space: pre-wrap;
-    line-height: 1; }
+    white-space: pre-wrap; }
 
 .list-group {
   border-radius: 0.25rem; }
