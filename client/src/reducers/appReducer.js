@@ -1,11 +1,13 @@
 import {
   IS_LOADING,
   NOT_LOADING,
-  ACTION_CONFIRM
+  ACTION_CONFIRM,
+  CHANGE_CONTEXT
 } from "../actions/actionTypes";
 
 const defaultState = {
   loading: false,
+  altControlContext: false,
   confirmObject: {}
 };
 
@@ -27,6 +29,12 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         confirmObject: action.payload
+      };
+
+    case CHANGE_CONTEXT:
+      return {
+        ...state,
+        altControlContext: action.payload
       };
 
     default:

@@ -12,7 +12,11 @@ const BrewForm = props => {
 
   return (
     <div className="brewForm">
-      <form id="addUpdateBrewForm" onSubmit={props.handleSubmit}>
+      <form
+        id="addUpdateBrewForm"
+        className="form-wrapper z-depth-3"
+        onSubmit={props.handleSubmit}
+      >
         <h4>{title}</h4>
         <TextArea
           placeholder="Optionally add some notes"

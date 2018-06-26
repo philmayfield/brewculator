@@ -20,7 +20,11 @@ const GravityForm = props => {
 
   return (
     <div className="gravityForm">
-      <form id="addUpdateGravityForm" onSubmit={props.handleSubmit}>
+      <form
+        id="addUpdateGravityForm"
+        className="form-wrapper z-depth-3"
+        onSubmit={props.handleSubmit}
+      >
         <h4>{title}</h4>
         <Input
           placeholder="Enter the date for reading"

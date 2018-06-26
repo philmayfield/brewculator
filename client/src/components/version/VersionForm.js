@@ -11,7 +11,11 @@ const VersionForm = props => {
 
   return (
     <div className="versionForm">
-      <form id="addUpdateVersionForm" onSubmit={props.handleSubmit}>
+      <form
+        id="addUpdateVersionForm"
+        className="form-wrapper z-depth-3"
+        onSubmit={props.handleSubmit}
+      >
         <h4>{title}</h4>
         <Input
           placeholder="Enter a version"

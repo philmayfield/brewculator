@@ -5,7 +5,8 @@ import {
   GET_ERRORS,
   CLEAR_ERRORS,
   IS_LOADING,
-  NOT_LOADING
+  NOT_LOADING,
+  CHANGE_CONTEXT
 } from "./actionTypes";
 
 // app show confirm state -
@@ -43,4 +44,13 @@ export const isLoading = () => {
 // app is not loading state
 export const notLoading = () => {
   return { type: NOT_LOADING };
+};
+
+// app control context modifier
+export const changeControlContext = context => {
+  const payload = context === "false";
+  return {
+    type: CHANGE_CONTEXT,
+    payload
+  };
 };

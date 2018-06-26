@@ -119,7 +119,7 @@ class Brew extends Component {
               position: "right",
               ticks: {
                 min: 50,
-                max: 100
+                max: 90
               }
             }
           ]
@@ -146,12 +146,12 @@ class Brew extends Component {
       const numDataPoints = data.datasets[0].data.length;
       gravitiesContent = (
         <div>
-          <h4>
+          <h6>
             Current ABV:{" "}
             {numDataPoints > 1
               ? `${this.calculateAbv(og, fg)}% (${og}og, ${fg}fg currently)`
               : "-- need more gravity readings"}
-          </h4>
+          </h6>
           {numDataPoints > 1 && (
             <Line data={data} options={options} width={600} height={300} />
           )}
@@ -222,8 +222,8 @@ class Brew extends Component {
           author={author}
           version={version}
           brew={brew}
+          gravitiesContent={gravitiesContent}
         />
-        {gravitiesContent}
         {brewContent}
       </div>
     );

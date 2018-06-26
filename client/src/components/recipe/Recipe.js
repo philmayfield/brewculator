@@ -7,7 +7,7 @@ import {
   getRecipe,
   deleteRecipe
 } from "../../actions/recipeActions";
-import { actionConfirm } from "../../actions/appActions";
+import { actionConfirm, changeControlContext } from "../../actions/appActions";
 import { getUsername } from "../../actions/authActions";
 import { getAllVersions } from "../../actions/versionActions";
 import { notEmpty } from "../../common/empty";
@@ -40,6 +40,7 @@ class Recipe extends Component {
 
     this.state.usingStoreRecipe = hasStoreRecipe;
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleChangeContext = this.handleChangeContext.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -68,10 +69,17 @@ class Recipe extends Component {
     });
   }
 
+  handleChangeContext(e) {
+    e.preventDefault();
+    const { altControlContext } = e.target.dataset;
+    console.log(">", altControlContext);
+    this.props.changeControlContext(altControlContext);
+  }
+
   render() {
     const { recipe, errors, auth, appJunk } = this.props;
     const { isAuth } = auth;
-    const { loading, confirmObject } = appJunk;
+    const { loading, confirmObject, altControlContext } = appJunk;
     const hasRecipe = notEmpty(recipe._id);
     const author = auth.users.find(user => user._id === recipe.author);
     let errorContent, controlContent;
@@ -83,6 +91,17 @@ class Recipe extends Component {
           <VersionList versions={recipe.versions} />
         </ItemWrap>
       </div>
+    );
+
+    const tweakBtn = (
+      <button
+        type="button"
+        className="btn btn-info"
+        onClick={this.handleChangeContext}
+        data-alt-control-context={altControlContext}
+      >
+        Tweak
+      </button>
     );
 
     if (errors && errors.recipeError) {
@@ -102,12 +121,10 @@ class Recipe extends Component {
           />
         </AppControl>
       );
-    } else if (isAuth && !loading) {
+    } else if (isAuth && !loading && altControlContext) {
       controlContent = (
         <AppControl>
-          <Link className="btn btn-secondary flex-fill" to="/recipes">
-            Back
-          </Link>
+          {tweakBtn}
           <button
             className={`btn btn-danger flex-fill ${hasRecipe ? "" : "d-none"}`}
             onClick={this.handleDelete}
@@ -121,6 +138,15 @@ class Recipe extends Component {
             to={`edit/${recipe._id}`}
           >
             Edit This Recipe
+          </Link>
+        </AppControl>
+      );
+    } else if (isAuth && !loading) {
+      controlContent = (
+        <AppControl>
+          {tweakBtn}
+          <Link className="btn btn-secondary flex-fill" to="/recipes">
+            Back
           </Link>
           <Link
             className={`btn btn-primary flex-fill ${hasRecipe ? "" : "d-none"}`}
@@ -150,6 +176,7 @@ Recipe.propTypes = {
   actionConfirm: PropTypes.func.isRequired,
   getUsername: PropTypes.func.isRequired,
   getAllVersions: PropTypes.func.isRequired,
+  changeControlContext: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   recipe: PropTypes.oneOfType([
     PropTypes.object.isRequired,
@@ -182,6 +209,7 @@ export default connect(
     deleteRecipe,
     actionConfirm,
     getUsername,
-    getAllVersions
+    getAllVersions,
+    changeControlContext
   }
 )(Recipe);

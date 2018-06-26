@@ -2,6 +2,7 @@
 export const IS_LOADING = "IS_LOADING";
 export const NOT_LOADING = "NOT_LOADING";
 export const ACTION_CONFIRM = "ACTION_CONFIRM";
+export const CHANGE_CONTEXT = "CHANGE_CONTEXT";
 
 // auth
 export const GET_USERNAME = "GET_USERNAME";

@@ -29,8 +29,8 @@ const ItemListItem = props => {
     </button>
   );
   const makeHeaderFooter = () => (
-    <div className="w-100">
-      <h6 className="m-0">{header}</h6>
+    <div className="w-100 d-flex flex-wrap align-items-baseline pr-3">
+      <h6 className="m-0 mr-3">{header}</h6>
       {sub && <p className="m-0">{sub}</p>}
     </div>
   );

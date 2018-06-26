@@ -10,12 +10,14 @@ const RecipeDeets = props => {
       return (
         <div>
           {recipe.name && (
-            <div className="d-flex flex-wrap align-items-baseline mb-3">
-              <h1 className="m-0 mr-3">{recipe.name}</h1>
-              <h4 className="m-0">{recipe.style}</h4>
-            </div>
+            <h1 className="d-flex flex-wrap align-items-baseline mb-1">
+              <span className="mr-3">{recipe.name}</span>
+              <small>{recipe.style}</small>
+            </h1>
           )}
-          <p className="m-0">
+          <p
+            className={`text-muted ${!props.version && !props.brew && "mb-0"}`}
+          >
             Added {author && `by ${author.username}`} on{" "}
             {moment(recipe.date).format("MMM D, YYYY")}
           </p>
@@ -26,9 +28,11 @@ const RecipeDeets = props => {
   const displayVersion = version => {
     if (version && notEmpty(version._id)) {
       return (
-        <div>
-          <h4 className="m-0">Version {version.version}</h4>
-          <p className={`${version.notes ? "" : "d-none"}`}>{version.notes}</p>
+        <div className="col">
+          <h5 className="m-0">Version {version.version}</h5>
+          <p className={`m-0 ${version.notes ? "" : "d-none"}`}>
+            {version.notes}
+          </p>
         </div>
       );
     }
@@ -36,21 +40,30 @@ const RecipeDeets = props => {
   const displayBrew = brew => {
     if (brew && notEmpty(brew._id)) {
       return (
-        <div>
-          <h4 className="m-0">
-            Brewed on {moment(brew.date).format("MMM D, YYYY")}
-          </h4>
-          <p className={`${brew.notes ? "" : "d-none"}`}>{brew.notes}</p>
+        <div className="col">
+          <h5 className="m-0">
+            Brewed {moment(brew.date).format("MMM D, YYYY")}
+          </h5>
+          <p className={`m-0 ${brew.notes ? "" : "d-none"}`}>{brew.notes}</p>
         </div>
       );
     }
   };
+  const hasGravitiesContent = notEmpty(props.gravitiesContent);
 
   return (
     <div className="recipe-deets p-3 mb-3 z-depth-3">
       {displayRecipe(props.recipe, props.author)}
-      {displayVersion(props.version)}
-      {displayBrew(props.brew)}
+      <div className="row">
+        {displayVersion(props.version)}
+        {displayBrew(props.brew)}
+      </div>
+      {hasGravitiesContent && (
+        <div>
+          <hr />
+          {props.gravitiesContent}
+        </div>
+      )}
     </div>
   );
 };
@@ -59,7 +72,8 @@ RecipeDeets.propTypes = {
   recipe: PropTypes.object,
   author: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   version: PropTypes.object,
-  brew: PropTypes.object
+  brew: PropTypes.object,
+  gravitiesContent: PropTypes.object
 };
 
 export default RecipeDeets;
