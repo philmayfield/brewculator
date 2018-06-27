@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import TextArea from "../common/TextArea";
 import AppControl from "../layout/AppControl";
 import moment from "moment";
+import Button from "../common/Button";
 
 const BrewForm = props => {
   const date = moment(props.brew.date).format("MMM D, YYYY");
@@ -12,11 +13,7 @@ const BrewForm = props => {
 
   return (
     <div className="brewForm">
-      <form
-        id="addUpdateBrewForm"
-        className="form-wrapper z-depth-3"
-        onSubmit={props.handleSubmit}
-      >
+      <form className="form-wrapper z-depth-3" onSubmit={props.handleSubmit}>
         <h4>{title}</h4>
         <TextArea
           placeholder="Optionally add some notes"
@@ -29,18 +26,20 @@ const BrewForm = props => {
         />
       </form>
       <AppControl>
-        <button
-          className="btn btn-secondary flex-fill"
-          onClick={props.handleGoBack}
+        <Button
+          classes={["btn-secondary", "flex-fill"]}
+          clickOrTo={props.handleGoBack}
+          icon="baselineArrowBack24px"
         >
           Back
-        </button>
-        <input
-          className="btn btn-primary flex-fill"
-          type="submit"
-          value={props.new ? "Make New Brew" : "Save Changes"}
-          form="addUpdateBrewForm"
-        />
+        </Button>
+        <Button
+          classes={["btn-primary", "flex-fill"]}
+          clickOrTo={props.handleSubmit}
+          icon="baselineSave24px"
+        >
+          {props.new ? "Save New Brew" : "Save Changes"}
+        </Button>
       </AppControl>
     </div>
   );

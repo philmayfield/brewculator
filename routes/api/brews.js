@@ -20,7 +20,7 @@ router.get("/:version_id", (req, res) => {
         // no brews found
         errors.noBrews =
           "Hey, there arent any brews of that version yet.  How about you add one!";
-        return res.json(errors);
+        return res.status(404).json(errors);
       }
 
       // found some brews, return with 200 status

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { actionConfirm } from "../../actions/appActions";
 import { notEmpty } from "../../common/empty";
@@ -10,12 +9,14 @@ import {
   deleteVersion
 } from "../../actions/versionActions";
 import { getAllBrews } from "../../actions/brewActions";
+import ContextChangeBtn from "../common/ContextChangeBtn";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
 import ItemWrap from "../common/ItemWrap";
 import BrewList from "../brews/BrewList";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
+import Button from "../common/Button";
 
 class Version extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ class Version extends Component {
     const { recipe, errors, auth, appJunk } = this.props;
     const { version } = recipe;
     const { isAuth } = auth;
-    const { loading, confirmObject } = appJunk;
+    const { loading, confirmObject, altControlContext } = appJunk;
     const hasVersion = version && notEmpty(version._id);
     const author = auth.users.find(user => user._id === recipe.author);
     let errorContent, controlContent, versionContent;
@@ -88,37 +89,47 @@ class Version extends Component {
           />
         </AppControl>
       );
+    } else if (isAuth && !loading && altControlContext) {
+      controlContent = (
+        <AppControl>
+          <ContextChangeBtn />
+          <Button
+            classes={["btn-danger", "flex-fill", hasVersion ? "" : "d-none"]}
+            clickOrTo={this.handleDelete}
+            icon="baselineDeleteForever24px"
+          >
+            Delete This Version
+          </Button>
+          <Button
+            type="link"
+            classes={["btn-primary", "flex-fill", hasVersion ? "" : "d-none"]}
+            clickOrTo={`edit/${hasVersion && version._id}`}
+            icon="baselineEdit24px"
+          >
+            Edit This Version
+          </Button>
+        </AppControl>
+      );
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          <Link
-            className="btn btn-secondary flex-fill"
-            to={`/recipe/${recipe._id}`}
+          <ContextChangeBtn />
+          <Button
+            type="link"
+            classes={["btn-secondary", "flex-fill"]}
+            clickOrTo={`/recipe/${recipe._id}`}
+            icon="baselineArrowBack24px"
           >
             Back
-          </Link>
-          <button
-            className={`btn btn-danger flex-fill ${hasVersion ? "" : "d-none"}`}
-            onClick={this.handleDelete}
-          >
-            Delete This Version
-          </button>
-          <Link
-            className={`btn btn-secondary flex-fill ${
-              hasVersion ? "" : "d-none"
-            }`}
-            to={`edit/${hasVersion && version._id}`}
-          >
-            Edit This Version
-          </Link>
-          <Link
-            className={`btn btn-primary flex-fill ${
-              hasVersion ? "" : "d-none"
-            }`}
-            to={`/brew/edit/new`}
+          </Button>
+          <Button
+            type="link"
+            classes={["btn-primary", "flex-fill", hasVersion ? "" : "d-none"]}
+            clickOrTo="/brew/edit/new"
+            icon="baselineAddCircle24px"
           >
             Add a Brew
-          </Link>
+          </Button>
         </AppControl>
       );
     }
@@ -148,7 +159,6 @@ Version.propTypes = {
   actionConfirm: PropTypes.func.isRequired,
   recipe: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  // brews: PropTypes.array.isRequired,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   appJunk: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,

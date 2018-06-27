@@ -15,11 +15,11 @@ const TextArea = ({
 }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={`textarea-${name}`}>{label}</label>
       <textarea
         className={`form-control ${error ? "is-invalid" : ""}`}
         placeholder={placeholder}
-        id={name}
+        id={`textarea-${name}`}
         name={name}
         value={value}
         onChange={onChange}

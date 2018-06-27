@@ -3,7 +3,7 @@
 import axios from "axios";
 import { getUsername } from "./authActions";
 import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
-import { getAllVersions } from "./versionActions";
+import { getAllVersions, setVersion } from "./versionActions";
 import {
   GET_RECIPE,
   SET_RECIPE,
@@ -50,7 +50,8 @@ export const getRecipe = id => dispatch => {
     .then(recipe => {
       Promise.all([
         dispatch(getUsername(recipe.author)),
-        dispatch(getAllVersions(recipe._id))
+        dispatch(getAllVersions(recipe._id)),
+        dispatch(setVersion({}))
       ]);
     })
     .catch(err => {

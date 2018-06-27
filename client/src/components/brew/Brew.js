@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
@@ -9,6 +8,7 @@ import { notEmpty } from "../../common/empty";
 import { clearErrors } from "../../actions/appActions";
 import { getBrew, setBrew, deleteBrew } from "../../actions/brewActions";
 import { getAllGravities } from "../../actions/gravityActions";
+import ContextChangeBtn from "../common/ContextChangeBtn";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
 import ItemWrap from "../common/ItemWrap";
@@ -16,6 +16,9 @@ import GravityList from "../gravities/GravityList";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
 import calculateGravity from "../../common/calculateGravity";
+import Button from "../common/Button";
+import ReactSVG from "react-svg";
+import getImg from "../../common/getImg";
 
 class Brew extends Component {
   constructor(props) {
@@ -133,7 +136,7 @@ class Brew extends Component {
     const { version } = recipe && recipe;
     const brew = version && version.brew;
     const { isAuth } = auth;
-    const { loading, confirmObject } = appJunk;
+    const { loading, confirmObject, altControlContext } = appJunk;
     const hasVersion = version && notEmpty(version._id);
     const hasBrew = brew && notEmpty(brew._id);
     const hasGravities = hasBrew && notEmpty(brew.gravities);
@@ -146,11 +149,15 @@ class Brew extends Component {
       const numDataPoints = data.datasets[0].data.length;
       gravitiesContent = (
         <div>
-          <h6>
-            Current ABV:{" "}
+          <h6 className="d-flex align-items-center">
+            <ReactSVG
+              path={getImg("baselineLocalDrink24px")}
+              svgClassName="primary mr-2"
+            />
+            Current ABV:
             {numDataPoints > 1
-              ? `${this.calculateAbv(og, fg)}% (${og}og, ${fg}fg currently)`
-              : "-- need more gravity readings"}
+              ? ` ${this.calculateAbv(og, fg)}% (${og} og, ${fg} fg currently)`
+              : " -- need more gravity readings to calculate the abv"}
           </h6>
           {numDataPoints > 1 && (
             <Line data={data} options={options} width={600} height={300} />
@@ -184,33 +191,47 @@ class Brew extends Component {
           />
         </AppControl>
       );
+    } else if (isAuth && !loading && altControlContext) {
+      controlContent = (
+        <AppControl>
+          <ContextChangeBtn />
+          <Button
+            classes={["btn-danger", "flex-fill", hasBrew ? "" : "d-none"]}
+            clickOrTo={this.handleDelete}
+            icon="baselineDeleteForever24px"
+          >
+            Delete This Brew
+          </Button>
+          <Button
+            type="link"
+            classes={["btn-primary", "flex-fill", hasBrew ? "" : "d-none"]}
+            clickOrTo={`edit/${hasBrew && brew._id}`}
+            icon="baselineEdit24px"
+          >
+            Edit This Brew
+          </Button>
+        </AppControl>
+      );
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          <Link
-            className="btn btn-secondary flex-fill"
-            to={hasVersion ? `/version/${version._id}` : "/"}
+          <ContextChangeBtn />
+          <Button
+            type="link"
+            classes={["btn-secondary", "flex-fill"]}
+            clickOrTo={`/version/${version._id}`}
+            icon="baselineArrowBack24px"
           >
             Back
-          </Link>
-          <button
-            className={`btn btn-danger flex-fill ${hasBrew ? "" : "d-none"}`}
-            onClick={this.handleDelete}
-          >
-            Delete This Brew
-          </button>
-          <Link
-            className={`btn btn-secondary flex-fill ${hasBrew ? "" : "d-none"}`}
-            to={`edit/${hasBrew && brew._id}`}
-          >
-            Edit This Brew
-          </Link>
-          <Link
-            className={`btn btn-primary flex-fill ${hasBrew ? "" : "d-none"}`}
-            to={`/gravity/edit/new`}
+          </Button>
+          <Button
+            type="link"
+            classes={["btn-primary", "flex-fill", hasVersion ? "" : "d-none"]}
+            clickOrTo="/gravity/edit/new"
+            icon="baselineAddCircle24px"
           >
             Add a Gravity Reading
-          </Link>
+          </Button>
         </AppControl>
       );
     }

@@ -167,7 +167,6 @@ class AddEditGravity extends Component {
 AddEditGravity.propTypes = {
   auth: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   getBrew: PropTypes.func.isRequired,
   saveGravity: PropTypes.func.isRequired,
@@ -175,6 +174,7 @@ AddEditGravity.propTypes = {
   setGravity: PropTypes.func.isRequired,
   makeGravity: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string

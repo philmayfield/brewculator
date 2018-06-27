@@ -9,11 +9,13 @@ class VersionList extends Component {
   handleRemoval(e) {
     e.preventDefault();
 
-    const { confirmItem = "this" } = e.target.dataset;
+    const button = e.target.closest("button");
+    const { confirmItem = "this" } = button.dataset;
+    const { value } = button;
 
     this.props.actionConfirm({
       confirmAction: deleteVersion,
-      confirmId: e.target.value,
+      confirmId: value,
       confirmText: `Are you sure you want to delete ${confirmItem}?`
     });
   }

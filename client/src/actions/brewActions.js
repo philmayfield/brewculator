@@ -3,7 +3,7 @@
 import axios from "axios";
 import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
 import { getVersion } from "./versionActions";
-import { getAllGravities } from "./gravityActions";
+import { getAllGravities, setGravity } from "./gravityActions";
 import { GET_BREW, SET_BREW, GET_BREWS, DELETE_BREW } from "./actionTypes";
 
 // READ - all brews for a version id
@@ -44,7 +44,8 @@ export const getBrew = id => dispatch => {
       // fetch the version and gravities associated with brew
       Promise.all([
         dispatch(getVersion(brew.version)),
-        dispatch(getAllGravities(brew._id))
+        dispatch(getAllGravities(brew._id)),
+        dispatch(setGravity({}))
       ]);
       return brew;
     })

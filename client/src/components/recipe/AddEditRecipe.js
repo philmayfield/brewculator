@@ -13,6 +13,7 @@ import RecipeDeets from "../layout/RecipeDeets";
 import Input from "../common/Input";
 import AppControl from "../layout/AppControl";
 import Alert from "../common/Alert";
+import Button from "../common/Button";
 
 class AddEditRecipe extends Component {
   constructor(props) {
@@ -21,13 +22,17 @@ class AddEditRecipe extends Component {
       _id: this.props.match.params.id,
       name: "",
       style: "",
+      isNew: true,
       date: Date.now(),
       errors: {}
     };
 
     const { id } = this.props.match.params;
     if (id !== "new") {
+      this.state.isNew = false;
+
       const { recipe } = this.props;
+
       // check store recipe
       let storeRecipe = recipe && recipe._id === id ? recipe : false;
       if (!storeRecipe) {
@@ -72,10 +77,10 @@ class AddEditRecipe extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const id = this.state._id;
+    const { isNew } = this.state;
     let newRecipe;
 
-    if (id === "new") {
+    if (isNew) {
       newRecipe = {
         name: this.state.name,
         style: this.state.style
@@ -96,7 +101,7 @@ class AddEditRecipe extends Component {
     const hasRecipe = notEmpty(recipe._id);
     const author =
       hasRecipe && auth.users.find(user => user._id === recipe.author);
-    const { name, style, date, errors } = this.state;
+    const { isNew, name, style, date, errors } = this.state;
     const sRecipe = { name, style, date };
     let errorContent, formContent;
 
@@ -109,11 +114,7 @@ class AddEditRecipe extends Component {
     }
 
     formContent = (
-      <form
-        className="form-wrapper z-depth-3"
-        id="addEditRecipeForm"
-        onSubmit={this.handleSubmit}
-      >
+      <form className="form-wrapper z-depth-3" onSubmit={this.handleSubmit}>
         <Input
           placeholder="Enter a name for this recipe"
           label="Name"
@@ -144,18 +145,20 @@ class AddEditRecipe extends Component {
         <RecipeDeets recipe={sRecipe} author={author} />
         {errorContent ? errorContent : formContent}
         <AppControl>
-          <button
-            className="btn btn-secondary flex-fill"
-            onClick={this.props.history.goBack}
+          <Button
+            classes={["btn-secondary", "flex-fill"]}
+            clickOrTo={this.props.history.goBack}
+            icon="baselineArrowBack24px"
           >
             Back
-          </button>
-          <input
-            className="btn btn-primary flex-fill"
-            type="submit"
-            value={this.state._id === "new" ? "Make New Recipe" : "Save Recipe"}
-            form="addEditRecipeForm"
-          />
+          </Button>
+          <Button
+            classes={["btn-primary", "flex-fill"]}
+            clickOrTo={this.handleSubmit}
+            icon="baselineSave24px"
+          >
+            {isNew ? "Save New Recipe" : "Save Recipe"}
+          </Button>
         </AppControl>
       </div>
     );

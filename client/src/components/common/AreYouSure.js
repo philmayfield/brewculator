@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { ACTION_CONFIRM } from "../../actions/actionTypes";
 import { notEmpty } from "../../common/empty";
+import Button from "./Button";
 
 class AreYouSure extends Component {
   render() {
@@ -13,20 +14,24 @@ class AreYouSure extends Component {
       <div className="are-you-sure w-100">
         <p className="text-center m-2">{confirmText}</p>
         <div className="d-flex">
-          <button
-            className="btn btn-success flex-fill"
+          <Button
+            type="button"
+            classes={["btn-success", "flex-fill"]}
             value={true}
-            onClick={handleConfirm}
+            clickOrTo={handleConfirm}
+            icon="baselineDone24px"
           >
             Yep, do it!
-          </button>
-          <button
-            className="btn btn-danger flex-fill"
-            value={false}
-            onClick={handleCancel}
+          </Button>
+          <Button
+            type="button"
+            classes={["btn-danger", "flex-fill"]}
+            value={true}
+            clickOrTo={handleCancel}
+            icon="baselineClose24px"
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </div>
     );

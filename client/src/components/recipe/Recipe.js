@@ -1,24 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
   setRecipe,
   getRecipe,
   deleteRecipe
 } from "../../actions/recipeActions";
-import { actionConfirm, changeControlContext } from "../../actions/appActions";
+import { actionConfirm } from "../../actions/appActions";
 import { getUsername } from "../../actions/authActions";
 import { getAllVersions } from "../../actions/versionActions";
 import { notEmpty } from "../../common/empty";
+import ContextChangeBtn from "../common/ContextChangeBtn";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
 import VersionList from "../versions/VersionList";
 import ItemWrap from "../common/ItemWrap";
 import AreYouSure from "../common/AreYouSure";
 import Alert from "../common/Alert";
-import getImg from "../../common/getImg";
-import ReactSVG from "react-svg";
+import Button from "../common/Button";
 
 class Recipe extends Component {
   constructor(props) {
@@ -42,7 +41,6 @@ class Recipe extends Component {
 
     this.state.usingStoreRecipe = hasStoreRecipe;
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleChangeContext = this.handleChangeContext.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -71,21 +69,13 @@ class Recipe extends Component {
     });
   }
 
-  handleChangeContext(e) {
-    e.preventDefault();
-    const { altControlContext } = this.props.appJunk;
-    this.props.changeControlContext(altControlContext);
-  }
-
   render() {
     const { recipe, errors, auth, appJunk } = this.props;
     const { isAuth } = auth;
     const { loading, confirmObject, altControlContext } = appJunk;
     const hasRecipe = notEmpty(recipe._id);
     const author = auth.users.find(user => user._id === recipe.author);
-    const contextIcon = getImg(
-      altControlContext ? "baselineClose24px" : "baselineEdit24px"
-    );
+
     let errorContent, controlContent;
 
     const recipeContent = (
@@ -95,16 +85,6 @@ class Recipe extends Component {
           <VersionList versions={recipe.versions} />
         </ItemWrap>
       </div>
-    );
-
-    const tweakBtn = (
-      <button
-        type="button"
-        className="btn btn-info"
-        onClick={this.handleChangeContext}
-      >
-        <ReactSVG path={contextIcon} svgClassName="light" />
-      </button>
     );
 
     if (errors && errors.recipeError) {
@@ -127,36 +107,44 @@ class Recipe extends Component {
     } else if (isAuth && !loading && altControlContext) {
       controlContent = (
         <AppControl>
-          {tweakBtn}
-          <button
-            className={`btn btn-danger flex-fill ${hasRecipe ? "" : "d-none"}`}
-            onClick={this.handleDelete}
+          <ContextChangeBtn />
+          <Button
+            classes={["btn-danger", "flex-fill", hasRecipe ? "" : "d-none"]}
+            clickOrTo={this.handleDelete}
+            icon="baselineDeleteForever24px"
           >
             Delete This Recipe
-          </button>
-          <Link
-            className={`btn btn-secondary flex-fill ${
-              hasRecipe ? "" : "d-none"
-            }`}
-            to={`edit/${recipe._id}`}
+          </Button>
+          <Button
+            type="link"
+            classes={["btn-primary", "flex-fill", hasRecipe ? "" : "d-none"]}
+            clickOrTo={`edit/${recipe._id}`}
+            icon="baselineEdit24px"
           >
             Edit This Recipe
-          </Link>
+          </Button>
         </AppControl>
       );
     } else if (isAuth && !loading) {
       controlContent = (
         <AppControl>
-          {tweakBtn}
-          <Link className="btn btn-secondary flex-fill" to="/recipes">
+          <ContextChangeBtn />
+          <Button
+            type="link"
+            classes={["btn-secondary", "flex-fill"]}
+            clickOrTo="/recipes"
+            icon="baselineArrowBack24px"
+          >
             Back
-          </Link>
-          <Link
-            className={`btn btn-primary flex-fill ${hasRecipe ? "" : "d-none"}`}
-            to={`/version/edit/new`}
+          </Button>
+          <Button
+            type="link"
+            classes={["btn-primary", "flex-fill", hasRecipe ? "" : "d-none"]}
+            clickOrTo="/version/edit/new"
+            icon="baselineAddCircle24px"
           >
             Add a Version
-          </Link>
+          </Button>
         </AppControl>
       );
     }
@@ -179,7 +167,6 @@ Recipe.propTypes = {
   actionConfirm: PropTypes.func.isRequired,
   getUsername: PropTypes.func.isRequired,
   getAllVersions: PropTypes.func.isRequired,
-  changeControlContext: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   recipe: PropTypes.oneOfType([
     PropTypes.object.isRequired,
@@ -212,7 +199,6 @@ export default connect(
     deleteRecipe,
     actionConfirm,
     getUsername,
-    getAllVersions,
-    changeControlContext
+    getAllVersions
   }
 )(Recipe);

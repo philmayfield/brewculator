@@ -3,7 +3,7 @@
 import axios from "axios";
 import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
 import { getRecipe } from "./recipeActions";
-import { getAllBrews } from "./brewActions";
+import { getAllBrews, setBrew } from "./brewActions";
 import {
   GET_VERSION,
   SET_VERSION,
@@ -48,7 +48,8 @@ export const getVersion = id => dispatch => {
     .then(version => {
       Promise.all([
         dispatch(getRecipe(version.recipe)),
-        dispatch(getAllBrews(version._id))
+        dispatch(getAllBrews(version._id)),
+        dispatch(setBrew({}))
       ]);
       return version;
     })

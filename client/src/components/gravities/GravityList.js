@@ -10,11 +10,13 @@ class GravityList extends Component {
   handleRemoval(e) {
     e.preventDefault();
 
-    const { confirmItem = "this" } = e.target.dataset;
+    const button = e.target.closest("button");
+    const { confirmItem = "this" } = button.dataset;
+    const { value } = button;
 
     this.props.actionConfirm({
       confirmAction: deleteGravity,
-      confirmId: e.target.value,
+      confirmId: value,
       confirmText: `Are you sure you want to delete the gravity reading from ${confirmItem}?`
     });
   }

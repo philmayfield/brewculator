@@ -16,7 +16,7 @@ const Input = ({
 }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>
+      <label htmlFor={`input-${name}`}>
         {label}
         {required && " *"}
       </label>
@@ -24,7 +24,7 @@ const Input = ({
         type={type}
         className={`form-control ${error ? "is-invalid" : ""}`}
         placeholder={placeholder}
-        id={name}
+        id={`input-${name}`}
         name={name}
         value={value}
         onChange={onChange}

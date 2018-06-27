@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import getImg from "../../common/getImg";
-import ReactSVG from "react-svg";
+import Button from "../common/Button";
 
 const ItemListItem = props => {
   const {
@@ -16,22 +15,24 @@ const ItemListItem = props => {
   } = props;
 
   const editBtn = isAuth && (
-    <Link className="mr-3" to={`/${itemType}/edit/${item._id}`}>
-      <ReactSVG path={getImg("baselineEdit24px")} svgClassName="primary" />
-    </Link>
+    <Button
+      type="link"
+      classes={["btn-empty", "mr-3"]}
+      clickOrTo={`/${itemType}/edit/${item._id}`}
+      icon="baselineEdit24px"
+      svgClasses={["primary"]}
+    />
   );
   const deleteBtn = isAuth && (
-    <button
-      data-confirm-item={header}
-      className="btn btn-empty text-danger"
+    <Button
+      type="button"
+      confirmItem={header}
+      classes={["btn-empty", "text-danger"]}
       value={item._id}
-      onClick={handleRemoval}
-    >
-      <ReactSVG
-        path={getImg("baselineDeleteForever24px")}
-        svgClassName="danger"
-      />
-    </button>
+      clickOrTo={handleRemoval}
+      icon="baselineDeleteForever24px"
+      svgClasses={["danger"]}
+    />
   );
   const makeHeaderFooter = () => (
     <div className="w-100 d-flex flex-wrap align-items-baseline pr-3">

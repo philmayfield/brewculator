@@ -4,6 +4,7 @@ import Input from "../common/Input";
 import TextArea from "../common/TextArea";
 import AppControl from "../layout/AppControl";
 import moment from "moment";
+import Button from "../common/Button";
 
 const GravityForm = props => {
   const title = props.new
@@ -20,46 +21,50 @@ const GravityForm = props => {
 
   return (
     <div className="gravityForm">
-      <form
-        id="addUpdateGravityForm"
-        className="form-wrapper z-depth-3"
-        onSubmit={props.handleSubmit}
-      >
+      <form className="form-wrapper z-depth-3" onSubmit={props.handleSubmit}>
         <h4>{title}</h4>
-        <Input
-          placeholder="Enter the date for reading"
-          label={`Reading Date`}
-          type="date"
-          name="date"
-          info={dateInfo}
-          value={date}
-          error={props.errors.date}
-          onChange={props.handleInput}
-          required={true}
-        />
-        <Input
-          placeholder="Enter your refractometer reading"
-          label={`Refractometer reading`}
-          type="text"
-          name="brix"
-          info="Reading should be in Brix, eg: 21.6, 10 etc."
-          autoFocus={true}
-          value={props.gravity.brix}
-          error={props.errors.brix}
-          onChange={props.handleInput}
-          required={true}
-        />
-        <Input
-          placeholder="Enter temperature reading"
-          label={`Temperature`}
-          type="text"
-          name="temp"
-          info="Temperature should be in Farenheit"
-          autoFocus={false}
-          value={props.gravity.temp}
-          error={props.errors.temp}
-          onChange={props.handleInput}
-        />
+        <div className="row mb-3">
+          <div className="col-md-6 col-lg-4">
+            <Input
+              placeholder="Enter the date for reading"
+              label={`Reading Date`}
+              type="date"
+              name="date"
+              info={dateInfo}
+              value={date}
+              error={props.errors.date}
+              onChange={props.handleInput}
+              required={true}
+            />
+          </div>
+          <div className="col-md-6 col-lg-4">
+            <Input
+              placeholder="Enter your refractometer reading"
+              label={`Refractometer reading`}
+              type="text"
+              name="brix"
+              info="Reading should be in Brix, eg: 21.6, 10 etc."
+              autoFocus={true}
+              value={props.gravity.brix}
+              error={props.errors.brix}
+              onChange={props.handleInput}
+              required={true}
+            />
+          </div>
+          <div className="col-md-12 col-lg-4">
+            <Input
+              placeholder="Enter temperature reading"
+              label={`Temperature`}
+              type="text"
+              name="temp"
+              info="Temperature should be in Farenheit"
+              autoFocus={false}
+              value={props.gravity.temp}
+              error={props.errors.temp}
+              onChange={props.handleInput}
+            />
+          </div>
+        </div>
         <TextArea
           placeholder="Optionally add some notes"
           label={`Gravity Notes`}
@@ -71,18 +76,20 @@ const GravityForm = props => {
         />
       </form>
       <AppControl>
-        <button
-          className="btn btn-secondary flex-fill"
-          onClick={props.handleGoBack}
+        <Button
+          classes={["btn-secondary", "flex-fill"]}
+          clickOrTo={props.handleGoBack}
+          icon="baselineArrowBack24px"
         >
           Back
-        </button>
-        <input
-          className="btn btn-primary flex-fill"
-          type="submit"
-          value={props.new ? "Save New Reading" : "Save Changes"}
-          form="addUpdateGravityForm"
-        />
+        </Button>
+        <Button
+          classes={["btn-primary", "flex-fill"]}
+          clickOrTo={props.handleSubmit}
+          icon="baselineSave24px"
+        >
+          {props.new ? "Save New Reading" : "Save Changes"}
+        </Button>
       </AppControl>
     </div>
   );

@@ -35,7 +35,7 @@ export default (state = defaultState, action) => {
   // if (action.type === GET_GRAVITY || action.type === SET_GRAVITY) {
   //   console.log(">>>", state, action.payload);
   // }
-  // if (action.type === DELETE_BREW) {
+  // if (action.type === GET_BREW) {
   //   console.log(">>>", state, action.payload);
   // }
   switch (action.type) {

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Input from "../common/Input";
 import TextArea from "../common/TextArea";
 import AppControl from "../layout/AppControl";
+import Button from "../common/Button";
 
 const VersionForm = props => {
   const title = props.new
@@ -11,11 +12,7 @@ const VersionForm = props => {
 
   return (
     <div className="versionForm">
-      <form
-        id="addUpdateVersionForm"
-        className="form-wrapper z-depth-3"
-        onSubmit={props.handleSubmit}
-      >
+      <form className="form-wrapper z-depth-3" onSubmit={props.handleSubmit}>
         <h4>{title}</h4>
         <Input
           placeholder="Enter a version"
@@ -40,18 +37,20 @@ const VersionForm = props => {
         />
       </form>
       <AppControl>
-        <button
-          className="btn btn-secondary flex-fill"
-          onClick={props.handleGoBack}
+        <Button
+          classes={["btn-secondary", "flex-fill"]}
+          clickOrTo={props.handleGoBack}
+          icon="baselineArrowBack24px"
         >
           Back
-        </button>
-        <input
-          className="btn btn-primary flex-fill"
-          type="submit"
-          value={props.new ? "Make New Version" : "Save Changes"}
-          form="addUpdateVersionForm"
-        />
+        </Button>
+        <Button
+          classes={["btn-primary", "flex-fill"]}
+          clickOrTo={props.handleSubmit}
+          icon="baselineSave24px"
+        >
+          {props.new ? "Save New Version" : "Save Changes"}
+        </Button>
       </AppControl>
     </div>
   );
