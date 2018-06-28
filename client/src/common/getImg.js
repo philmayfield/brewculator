@@ -1,4 +1,15 @@
 import logo from "../img/logo.svg";
+import phil from "../img/phil.svg";
+import bootstrap from "../img/bootstrap.svg";
+import express from "../img/express.svg";
+import git from "../img/git.svg";
+import heroku from "../img/heroku.svg";
+import js from "../img/js.svg";
+import mongo from "../img/mongo.svg";
+import node from "../img/node.svg";
+import react from "../img/react.svg";
+import redux from "../img/redux.svg";
+import sass from "../img/sass.svg";
 import baselineAccountCircle24px from "../img/baseline-account_circle-24px.svg";
 import baselineAddCircle24px from "../img/baseline-add_circle-24px.svg";
 import baselineArrowBack24px from "../img/baseline-arrow_back-24px.svg";
@@ -12,6 +23,17 @@ import baselineSave24px from "../img/baseline-save-24px.svg";
 
 let imgs = {
   logo,
+  phil,
+  bootstrap,
+  express,
+  git,
+  heroku,
+  js,
+  mongo,
+  node,
+  react,
+  redux,
+  sass,
   baselineAccountCircle24px,
   baselineAddCircle24px,
   baselineArrowBack24px,

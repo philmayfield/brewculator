@@ -1,21 +1,3 @@
 @import "./scss/brewculator/overrides";
 @import "./scss/bootstrap-4.1.1/bootstrap";
 @import "./scss/brewculator/brewculator";
-
-.btn-empty {
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-  border-width: 0;
-}
-
-.App {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-  padding-bottom: 7rem;
-}

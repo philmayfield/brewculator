@@ -1,5 +1,13 @@
 .App {
+  display: flex;
   position: relative;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 7rem;
 }
 
 .info-container {
