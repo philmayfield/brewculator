@@ -2,11 +2,18 @@
 
 import axios from "axios";
 import { getUsername } from "./authActions";
-import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
-import { getAllVersions, setVersion } from "./versionActions";
+import {
+  getErrors,
+  clearErrors,
+  isLoading,
+  notLoading,
+  defaultContext
+} from "./appActions";
+import { getAllVersions } from "./versionActions";
 import {
   GET_RECIPE,
   SET_RECIPE,
+  RESET_RECIPE,
   GET_RECIPES,
   DELETE_RECIPE
 } from "./actionTypes";
@@ -15,6 +22,7 @@ import {
 export const getAllRecipes = () => dispatch => {
   // dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .get("/api/recipe/all")
@@ -35,6 +43,7 @@ export const getAllRecipes = () => dispatch => {
 export const getRecipe = id => dispatch => {
   // dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .get(`/api/recipe/${id}`)
@@ -50,8 +59,7 @@ export const getRecipe = id => dispatch => {
     .then(recipe => {
       Promise.all([
         dispatch(getUsername(recipe.author)),
-        dispatch(getAllVersions(recipe._id)),
-        dispatch(setVersion({}))
+        dispatch(getAllVersions(recipe._id))
       ]);
     })
     .catch(err => {
@@ -64,6 +72,7 @@ export const getRecipe = id => dispatch => {
 export const saveRecipe = (recipe, history) => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   const { _id } = recipe;
 
@@ -104,6 +113,7 @@ export const makeRecipe = (recipe, history) => dispatch => {
 export const deleteRecipe = id => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .delete(`/api/recipe/${id}`)
@@ -128,5 +138,11 @@ export const setRecipe = recipe => {
   return {
     type: SET_RECIPE,
     payload: recipe
+  };
+};
+
+export const resetRecipe = () => {
+  return {
+    type: RESET_RECIPE
   };
 };

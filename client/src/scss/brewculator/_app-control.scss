@@ -5,15 +5,23 @@
   right: 0;
   position: fixed;
   z-index: 2;
+  padding: $spacer/2;
 
   .btn {
     align-items: center;
-    border-radius: 0;
+    box-shadow: $shadow1;
     display: flex;
     justify-content: center;
     line-height: 1;
-    padding-top: $spacer;
-    padding-bottom: $spacer;
+    padding: $spacer;
     white-space: pre-wrap;
+
+    &:hover {
+      box-shadow: $shadow3;
+    }
+  }
+
+  .btn + .btn {
+    margin-left: $spacer/2;
   }
 }

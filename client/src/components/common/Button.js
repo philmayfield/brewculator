@@ -27,7 +27,7 @@ const Button = props => {
     </Link>
   ) : (
     <button
-      type="button"
+      type={type}
       className={className}
       onClick={clickOrTo}
       value={value}

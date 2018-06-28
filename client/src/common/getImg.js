@@ -1,4 +1,5 @@
 import logo from "../img/logo.svg";
+import baselineAccountCircle24px from "../img/baseline-account_circle-24px.svg";
 import baselineAddCircle24px from "../img/baseline-add_circle-24px.svg";
 import baselineArrowBack24px from "../img/baseline-arrow_back-24px.svg";
 import baselineClose24px from "../img/baseline-close-24px.svg";
@@ -11,6 +12,7 @@ import baselineSave24px from "../img/baseline-save-24px.svg";
 
 let imgs = {
   logo,
+  baselineAccountCircle24px,
   baselineAddCircle24px,
   baselineArrowBack24px,
   baselineClose24px,

@@ -1,7 +1,13 @@
 // actions related to gravities - get gravity(ies) / create / update / delete
 
 import axios from "axios";
-import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
+import {
+  getErrors,
+  clearErrors,
+  isLoading,
+  notLoading,
+  defaultContext
+} from "./appActions";
 import { getBrew } from "./brewActions";
 import {
   GET_GRAVITY,
@@ -13,6 +19,8 @@ import {
 // READ - all gravities for a brew id
 export const getAllGravities = id => dispatch => {
   dispatch(isLoading());
+  dispatch(defaultContext());
+
   axios
     .get(`/api/gravities/${id}`)
     .then(res => {
@@ -30,7 +38,6 @@ export const getAllGravities = id => dispatch => {
 
 // READ - one gravity by id
 export const getGravity = id => dispatch => {
-  // dispatch(clearErrors());
   dispatch(isLoading());
 
   axios
@@ -60,6 +67,7 @@ export const getGravity = id => dispatch => {
 export const saveGravity = (gravity, history) => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   const { _id } = gravity;
 
@@ -97,6 +105,7 @@ export const makeGravity = (gravity, history) => dispatch => {
 export const deleteGravity = id => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .delete(`/api/gravity/${id}`)

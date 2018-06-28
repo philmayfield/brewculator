@@ -29,8 +29,8 @@ const ItemWrap = props => {
   };
 
   return (
-    <div>
-      <h5>{label}</h5>
+    <div className="pt-3">
+      <h2 className="funky-shadow-style">{label}</h2>
       {makeContent(items)}
     </div>
   );

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { notEmpty } from "../../common/empty";
+import hasInStore from "../../common/hasInStore";
 import {
   getRecipe,
   setRecipe,
@@ -22,26 +23,25 @@ class AddEditRecipe extends Component {
       _id: this.props.match.params.id,
       name: "",
       style: "",
-      isNew: true,
+      isNew: this.props.match.params.id === "new",
       date: Date.now(),
       errors: {}
     };
 
     const { id } = this.props.match.params;
-    if (id !== "new") {
-      this.state.isNew = false;
 
-      const { recipe } = this.props;
+    if (id !== "new") {
+      const { recipe, recipes } = this.props;
 
       // check store recipe
-      let storeRecipe = recipe && recipe._id === id ? recipe : false;
-      if (!storeRecipe) {
-        // then check if recipe is in list of recipes
-        storeRecipe = this.props.recipes.find(recipe => recipe._id === id);
-      }
+      const { inStore: hasStoreRecipe, storeItem: storeRecipe } = hasInStore(
+        id,
+        recipe,
+        recipes
+      );
 
       // check if recipe already in the store
-      if (storeRecipe && notEmpty(storeRecipe._id)) {
+      if (hasStoreRecipe) {
         this.props.setRecipe(storeRecipe);
         this.state.name = storeRecipe.name;
         this.state.style = storeRecipe.style;
@@ -97,11 +97,12 @@ class AddEditRecipe extends Component {
   }
 
   render() {
-    const { recipe, auth } = this.props;
+    const { recipe, auth, appJunk, errors } = this.props;
+    const { loading } = appJunk;
     const hasRecipe = notEmpty(recipe._id);
     const author =
       hasRecipe && auth.users.find(user => user._id === recipe.author);
-    const { isNew, name, style, date, errors } = this.state;
+    const { isNew, name, style, date } = this.state;
     const sRecipe = { name, style, date };
     let errorContent, formContent;
 
@@ -142,7 +143,7 @@ class AddEditRecipe extends Component {
 
     return (
       <div>
-        <RecipeDeets recipe={sRecipe} author={author} />
+        <RecipeDeets recipe={sRecipe} author={author} loading={loading} />
         {errorContent ? errorContent : formContent}
         <AppControl>
           <Button
@@ -171,6 +172,7 @@ AddEditRecipe.propTypes = {
   saveRecipe: PropTypes.func.isRequired,
   makeRecipe: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  appJunk: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -184,6 +186,7 @@ AddEditRecipe.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  appJunk: state.appJunk,
   recipes: state.recipes,
   recipe: state.recipe,
   errors: state.errors

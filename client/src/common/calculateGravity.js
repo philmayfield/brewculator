@@ -9,4 +9,4 @@ const calculateGravity = brix => {
   return num.toFixed(3);
 };
 
-module.exports = calculateGravity;
+export default calculateGravity;

@@ -6,7 +6,8 @@ import {
   CLEAR_ERRORS,
   IS_LOADING,
   NOT_LOADING,
-  CHANGE_CONTEXT
+  CHANGE_CONTEXT,
+  DEFAULT_CONTEXT
 } from "./actionTypes";
 
 // app show confirm state -
@@ -18,7 +19,10 @@ import {
 // }
 // or reset with an empty object
 export const actionConfirm = whatItIs => {
-  return { type: ACTION_CONFIRM, payload: whatItIs };
+  return {
+    type: ACTION_CONFIRM,
+    payload: whatItIs
+  };
 };
 
 // get errors
@@ -51,5 +55,12 @@ export const changeControlContext = context => {
   return {
     type: CHANGE_CONTEXT,
     payload: !context
+  };
+};
+
+// set app control context modifier to default
+export const defaultContext = () => {
+  return {
+    type: DEFAULT_CONTEXT
   };
 };

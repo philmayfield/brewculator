@@ -1,7 +1,13 @@
 // actions related to versions - get versions(s) / create / update / delete
 
 import axios from "axios";
-import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
+import {
+  getErrors,
+  clearErrors,
+  isLoading,
+  notLoading,
+  defaultContext
+} from "./appActions";
 import { getRecipe } from "./recipeActions";
 import { getAllBrews, setBrew } from "./brewActions";
 import {
@@ -14,6 +20,8 @@ import {
 // READ - all versions for a recipe id
 export const getAllVersions = id => dispatch => {
   dispatch(isLoading());
+  dispatch(defaultContext());
+
   axios
     .get(`/api/versions/${id}`)
     .then(res => {
@@ -31,8 +39,8 @@ export const getAllVersions = id => dispatch => {
 
 // READ - one version by id
 export const getVersion = id => dispatch => {
-  // dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .get(`/api/version/${id}`)
@@ -63,6 +71,7 @@ export const getVersion = id => dispatch => {
 export const saveVersion = (version, history) => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   const { _id } = version;
 
@@ -81,8 +90,8 @@ export const saveVersion = (version, history) => dispatch => {
 
 // CREATE - one new version
 export const makeVersion = (version, history) => dispatch => {
-  dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .post(`/api/version/`, version)
@@ -100,6 +109,7 @@ export const makeVersion = (version, history) => dispatch => {
 export const deleteVersion = id => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .delete(`/api/version/${id}`)

@@ -166,7 +166,7 @@ class Brew extends Component {
       );
     }
 
-    if (hasBrew) {
+    if (hasBrew && !loading) {
       brewContent = (
         <ItemWrap label="Gravities" items={brew.gravities} errors={errors}>
           <GravityList gravities={brew.gravities} />
@@ -244,6 +244,7 @@ class Brew extends Component {
           version={version}
           brew={brew}
           gravitiesContent={gravitiesContent}
+          loading={loading}
         />
         {brewContent}
       </div>

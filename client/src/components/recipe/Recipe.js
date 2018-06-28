@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   setRecipe,
+  resetRecipe,
   getRecipe,
   deleteRecipe
 } from "../../actions/recipeActions";
@@ -10,6 +11,7 @@ import { actionConfirm } from "../../actions/appActions";
 import { getUsername } from "../../actions/authActions";
 import { getAllVersions } from "../../actions/versionActions";
 import { notEmpty } from "../../common/empty";
+import hasInStore from "../../common/hasInStore";
 import ContextChangeBtn from "../common/ContextChangeBtn";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
@@ -25,21 +27,19 @@ class Recipe extends Component {
     this.state = {};
 
     const { id } = this.props.match.params;
-    const { recipes } = this.props;
-    const storeRecipe =
-      notEmpty(recipes) && recipes.find(recipe => recipe._id === id);
-    const hasStoreRecipe = storeRecipe && notEmpty(storeRecipe);
+    const { recipe, recipes } = this.props;
+    const { inStore, storeItem } = hasInStore(id, recipe, recipes);
 
-    if (hasStoreRecipe) {
+    if (inStore) {
       // fetch recipe from the store
-      this.props.setRecipe(storeRecipe);
+      this.props.setRecipe(storeItem);
       this.props.getAllVersions(id);
     } else {
       // fetch recipe over the wire, will also fetch author and versions
       this.props.getRecipe(id);
     }
 
-    this.state.usingStoreRecipe = hasStoreRecipe;
+    this.state.usingStoreRecipe = inStore;
     this.handleDelete = this.handleDelete.bind(this);
   }
 
@@ -80,10 +80,12 @@ class Recipe extends Component {
 
     const recipeContent = (
       <div>
-        <RecipeDeets recipe={recipe} author={author} />
-        <ItemWrap label="Versions" items={recipe.versions} errors={errors}>
-          <VersionList versions={recipe.versions} />
-        </ItemWrap>
+        <RecipeDeets recipe={recipe} author={author} loading={loading} />
+        {!loading && (
+          <ItemWrap label="Versions" items={recipe.versions} errors={errors}>
+            <VersionList versions={recipe.versions} />
+          </ItemWrap>
+        )}
       </div>
     );
 
@@ -109,19 +111,19 @@ class Recipe extends Component {
         <AppControl>
           <ContextChangeBtn />
           <Button
+            type="link"
+            classes={["btn-secondary", "flex-fill", hasRecipe ? "" : "d-none"]}
+            clickOrTo={`edit/${recipe._id}`}
+            icon="baselineEdit24px"
+          >
+            Edit This Recipe
+          </Button>
+          <Button
             classes={["btn-danger", "flex-fill", hasRecipe ? "" : "d-none"]}
             clickOrTo={this.handleDelete}
             icon="baselineDeleteForever24px"
           >
             Delete This Recipe
-          </Button>
-          <Button
-            type="link"
-            classes={["btn-primary", "flex-fill", hasRecipe ? "" : "d-none"]}
-            clickOrTo={`edit/${recipe._id}`}
-            icon="baselineEdit24px"
-          >
-            Edit This Recipe
           </Button>
         </AppControl>
       );
@@ -163,6 +165,7 @@ class Recipe extends Component {
 Recipe.propTypes = {
   getRecipe: PropTypes.func.isRequired,
   setRecipe: PropTypes.func.isRequired,
+  resetRecipe: PropTypes.func.isRequired,
   deleteRecipe: PropTypes.func.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   getUsername: PropTypes.func.isRequired,
@@ -196,6 +199,7 @@ export default connect(
   {
     getRecipe,
     setRecipe,
+    resetRecipe,
     deleteRecipe,
     actionConfirm,
     getUsername,

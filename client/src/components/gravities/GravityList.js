@@ -26,18 +26,26 @@ class GravityList extends Component {
 
     const gravityItems =
       Array.isArray(gravities) &&
-      gravities.map(gravity => (
-        <ItemListItem
-          key={gravity._id}
-          item={gravity}
-          itemType="gravity"
-          header={moment.utc(gravity.date).format("MMM D, YYYY")}
-          sub={gravity.notes}
-          isAuth={auth.isAuth}
-          handleRemoval={this.handleRemoval.bind(this)}
-          isLink={false}
-        />
-      ));
+      gravities.map(gravity => {
+        const { _id, date, brix, temp, notes } = gravity;
+
+        let sub = `${brix}\u00B0Bx`;
+        sub += temp && ` \u00B7 ${temp}\u00B0F`;
+        sub += notes && ` \u00B7 ${notes}`;
+
+        return (
+          <ItemListItem
+            key={_id}
+            item={gravity}
+            itemType="gravity"
+            header={moment.utc(date).format("MMM D, YYYY")}
+            sub={sub}
+            isAuth={auth.isAuth}
+            handleRemoval={this.handleRemoval.bind(this)}
+            isLink={false}
+          />
+        );
+      });
 
     return <div className="list-group z-depth-3">{gravityItems.reverse()}</div>;
   }

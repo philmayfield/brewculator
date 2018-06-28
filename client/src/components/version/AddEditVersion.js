@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RecipeDeets from "../layout/RecipeDeets";
-import { notEmpty } from "../../common/empty";
+import hasInStore from "../../common/hasInStore";
 import { clearErrors } from "../../actions/appActions";
 import { getRecipe } from "../../actions/recipeActions";
 import {
@@ -20,20 +20,26 @@ class AddEditVersion extends Component {
       _id: "",
       version: "",
       notes: "",
-      isNew: false,
+      isNew: this.props.match.params.id === "new",
       errors: {}
     };
 
     const sessionRecipeId = sessionStorage.getItem("recipeId");
-    const { recipe, match } = this.props;
+    const { recipe, recipes, match } = this.props;
     const { id } = match.params; // version id, should be id or 'new'
-    const hasStoreRecipe = recipe && notEmpty(recipe._id);
-    let hasStoreVersion;
+
+    const { inStore: hasStoreRecipe } = hasInStore(
+      sessionRecipeId,
+      recipe,
+      recipes
+    );
 
     if (id === "new") {
       // new version
-      this.state.isNew = true;
+
       if (!hasStoreRecipe && sessionRecipeId) {
+        // recipe not in store, but we have the id in session storage
+        // go fetch it over the wire
         this.props.getRecipe(sessionRecipeId);
       } else {
         // user is on add/edit version route with no recipe
@@ -41,20 +47,21 @@ class AddEditVersion extends Component {
       }
     } else {
       // edit version
-      if (hasStoreRecipe) {
-        hasStoreVersion = recipe.version && recipe.version._id === id;
 
+      const { inStore: hasStoreVersion, storeItem: storeVersion } = hasInStore(
+        id,
+        recipe.version,
+        recipe.versions
+      );
+
+      if (hasStoreRecipe && hasStoreVersion) {
         // has recipe and version
-        if (hasStoreVersion) {
-          this.props.setVersion(recipe.version);
-          this.state._id = recipe.version._id;
-          this.state.version = recipe.version.version;
-          this.state.notes = recipe.version.notes;
-        }
-      }
-
-      if (!hasStoreRecipe || !hasStoreVersion) {
-        // getVesion fetches recipe and brews
+        this.props.setVersion(storeVersion);
+        this.state._id = storeVersion._id;
+        this.state.version = storeVersion.version;
+        this.state.notes = storeVersion.notes;
+      } else {
+        // missing some data, go fetch over the wire
         this.props.getVersion(id);
       }
     }
@@ -113,7 +120,8 @@ class AddEditVersion extends Component {
   }
 
   render() {
-    const { recipe, auth, errors } = this.props;
+    const { recipe, auth, appJunk, errors } = this.props;
+    const { loading } = appJunk;
     const version = {
       version: this.state.version,
       notes: this.state.notes
@@ -122,7 +130,7 @@ class AddEditVersion extends Component {
 
     return (
       <div className="add-edit-version">
-        <RecipeDeets recipe={recipe} author={author} version={null} />
+        <RecipeDeets recipe={recipe} author={author} loading={loading} />
         <VersionForm
           new={this.state.isNew}
           recipe={recipe}
@@ -139,7 +147,9 @@ class AddEditVersion extends Component {
 
 AddEditVersion.propTypes = {
   auth: PropTypes.object.isRequired,
+  appJunk: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
+  recipes: PropTypes.array.isRequired,
   errors: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   getRecipe: PropTypes.func.isRequired,
@@ -157,7 +167,9 @@ AddEditVersion.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  appJunk: state.appJunk,
   recipe: state.recipe,
+  recipes: state.recipes,
   errors: state.errors
 });
 

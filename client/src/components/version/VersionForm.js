@@ -28,7 +28,7 @@ const VersionForm = props => {
         />
         <TextArea
           placeholder="Optionally add some notes"
-          label={`Version ${props.version.version} Notes`}
+          label={`Version ${props.version.version} notes`}
           name="notes"
           autoFocus={false}
           value={props.version.notes}

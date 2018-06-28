@@ -1,8 +1,16 @@
+// brewculator
+$bg-gradient-top: #e59308; // 229, 147, 8
+$bg-gradient-middle: #fbf519; // 251, 245, 25
+$bg-gradient-bottom: #bb3500; // 187, 53, 0
 $bcbg: rgba(white, 0.9);
+
+// bootstrap
+$red: #b93f2a;
+$primary: darken($bg-gradient-bottom, 15%);
+$secondary: darken($bg-gradient-top, 15%);
+$info: darken($bg-gradient-middle, 20%);
 
 $list-group-bg: $bcbg;
 $list-group-border-width: 0;
-
-$primary: darken(#bb3500, 15%);
 
 $headings-line-height: 1;

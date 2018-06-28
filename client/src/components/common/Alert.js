@@ -9,7 +9,7 @@ const Alert = props => {
     }
   };
   return (
-    <div className={`alert ${props.bsStyle}`} role="alert">
+    <div className={`alert ${props.bsStyle} z-depth-3`} role="alert">
       {renderHeading()}
       {props.children}
     </div>

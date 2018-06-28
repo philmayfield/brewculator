@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RecipeDeets from "../layout/RecipeDeets";
-import { notEmpty } from "../../common/empty";
+import hasInStore from "../../common/hasInStore";
 import { clearErrors } from "../../actions/appActions";
 import { getVersion } from "../../actions/versionActions";
 import {
@@ -21,21 +21,23 @@ class AddEditBrew extends Component {
       version: "",
       notes: "",
       date: "",
-      isNew: false,
+      isNew: this.props.match.params.id === "new",
       errors: {}
     };
 
     const sessionVersionId = sessionStorage.getItem("versionId");
     const { recipe, match } = this.props;
     const { id } = match.params; // brew id, should be id or 'new'
-    const hasStoreRecipe = recipe && notEmpty(recipe._id);
-    const version = hasStoreRecipe && recipe.version;
-    const hasStoreVersion = hasStoreRecipe && notEmpty(version._id);
-    let hasStoreBrew, brew;
+
+    const { inStore: hasStoreVersion } = hasInStore(
+      sessionVersionId,
+      recipe.version,
+      recipe.versions
+    );
 
     if (id === "new") {
       // new brew
-      this.state.isNew = true;
+
       if (!hasStoreVersion && sessionVersionId) {
         // version not in store, but we have the id in session storage
         // go fetch it over the wire
@@ -45,22 +47,22 @@ class AddEditBrew extends Component {
         // redirect?
       }
     } else {
-      // edit version
-      if (hasStoreVersion) {
-        hasStoreBrew = version.brew && version.brew._id === id;
+      // edit brew
 
+      const { inStore: hasStoreBrew, storeItem: storeBrew } = hasInStore(
+        id,
+        recipe.version.brew,
+        recipe.version.brews
+      );
+
+      if (hasStoreVersion && hasStoreBrew) {
         // has version and brew
-        if (hasStoreBrew) {
-          brew = version.brew;
-          this.props.setBrew(brew);
-          this.state._id = brew._id;
-          this.state.date = brew.date;
-          this.state.notes = brew.notes;
-        }
-      }
-
-      if (!hasStoreVersion || !hasStoreBrew) {
-        // getBrew fetches recipe and brews
+        this.props.setBrew(storeBrew);
+        this.state._id = storeBrew._id;
+        this.state.date = storeBrew.date;
+        this.state.notes = storeBrew.notes;
+      } else {
+        // missing some data, go fetch over the wire
         this.props.getBrew(id);
       }
     }
@@ -117,7 +119,8 @@ class AddEditBrew extends Component {
   }
 
   render() {
-    const { recipe, auth, errors } = this.props;
+    const { recipe, appJunk, auth, errors } = this.props;
+    const { loading } = appJunk;
     const { version } = recipe;
     const brew = {
       notes: this.state.notes,
@@ -127,7 +130,12 @@ class AddEditBrew extends Component {
 
     return (
       <div className="add-edit-version">
-        <RecipeDeets recipe={recipe} author={author} version={version} />
+        <RecipeDeets
+          recipe={recipe}
+          author={author}
+          version={version}
+          loading={loading}
+        />
         <BrewForm
           new={this.state.isNew}
           brew={brew}
@@ -143,6 +151,7 @@ class AddEditBrew extends Component {
 
 AddEditBrew.propTypes = {
   auth: PropTypes.object.isRequired,
+  appJunk: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -161,6 +170,7 @@ AddEditBrew.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  appJunk: state.appJunk,
   recipe: state.recipe,
   errors: state.errors
 });

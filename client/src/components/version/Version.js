@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { actionConfirm } from "../../actions/appActions";
 import { notEmpty } from "../../common/empty";
+import hasInStore from "../../common/hasInStore";
 import {
   getVersion,
   setVersion,
@@ -25,14 +26,12 @@ class Version extends Component {
 
     const { id } = this.props.match.params;
     const { recipe } = this.props;
-    const { versions } = recipe && recipe;
-    const storeVersion =
-      Array.isArray(versions) && versions.find(version => version._id === id);
-    const hasStoreVersion = storeVersion && notEmpty(storeVersion);
+    const { version, versions } = recipe && recipe;
+    const { inStore, storeItem } = hasInStore(id, version, versions);
 
-    if (hasStoreVersion) {
+    if (inStore) {
       // fetch version from the store
-      this.props.setVersion(storeVersion);
+      this.props.setVersion(storeItem);
       this.props.getAllBrews(id);
     } else {
       // fetch version over the wire, will also fetch recipe & brews
@@ -64,7 +63,7 @@ class Version extends Component {
     const author = auth.users.find(user => user._id === recipe.author);
     let errorContent, controlContent, versionContent;
 
-    if (hasVersion) {
+    if (hasVersion && !loading) {
       versionContent = (
         <ItemWrap label="Brews" items={version.brews} errors={errors}>
           <BrewList brews={version.brews} />
@@ -136,7 +135,12 @@ class Version extends Component {
 
     const recipeContent = (
       <div>
-        <RecipeDeets recipe={recipe} author={author} version={version} />
+        <RecipeDeets
+          recipe={recipe}
+          author={author}
+          version={version}
+          loading={loading}
+        />
         {versionContent}
       </div>
     );

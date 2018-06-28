@@ -5,23 +5,31 @@ import moment from "moment";
 import { notEmpty } from "../../common/empty";
 
 const RecipeDeets = props => {
-  const displayRecipe = (recipe, author) => {
+  const {
+    brew = null,
+    version = null,
+    recipe = null,
+    author = null,
+    loading = false
+  } = props;
+
+  const displayName = recipe => {
+    if (recipe && recipe.name) {
+      return (
+        <h1 className="d-inline-flex flex-wrap align-items-baseline">
+          <span className="mr-3">{recipe.name}</span>
+          <small>{recipe.style}</small>
+        </h1>
+      );
+    }
+  };
+  const displayByLine = (recipe, author) => {
     if (recipe) {
       return (
-        <div>
-          {recipe.name && (
-            <h1 className="d-flex flex-wrap align-items-baseline mb-1">
-              <span className="mr-3">{recipe.name}</span>
-              <small>{recipe.style}</small>
-            </h1>
-          )}
-          <p
-            className={`text-muted ${!props.version && !props.brew && "mb-0"}`}
-          >
-            Added {author && `by ${author.username}`} on{" "}
-            {moment(recipe.date).format("MMM D, YYYY")}
-          </p>
-        </div>
+        <p className={`text-muted ${!version && !brew && "mb-0"}`}>
+          Added {author && `by ${author.username}`} on{" "}
+          {moment(recipe.date).format("MMM D, YYYY")}
+        </p>
       );
     }
   };
@@ -52,19 +60,24 @@ const RecipeDeets = props => {
   const hasGravitiesContent = notEmpty(props.gravitiesContent);
 
   return (
-    <div className="recipe-deets p-3 mb-3 z-depth-3">
-      {displayRecipe(props.recipe, props.author)}
-      <div className="row">
-        {displayVersion(props.version)}
-        {displayBrew(props.brew)}
-      </div>
-      {hasGravitiesContent && (
-        <div>
-          <hr />
-          {props.gravitiesContent}
+    !loading && (
+      <div>
+        {displayName(recipe)}
+        <div className="recipe-deets p-3 mb-3 z-depth-3">
+          {displayByLine(recipe, author)}
+          <div className="row">
+            {displayVersion(version)}
+            {displayBrew(brew)}
+          </div>
+          {hasGravitiesContent && (
+            <div>
+              <hr />
+              {props.gravitiesContent}
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    )
   );
 };
 

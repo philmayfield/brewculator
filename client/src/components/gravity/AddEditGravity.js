@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import hasInStore from "../../common/hasInStore";
 import RecipeDeets from "../layout/RecipeDeets";
-import { notEmpty } from "../../common/empty";
 import { clearErrors } from "../../actions/appActions";
 import { getBrew } from "../../actions/brewActions";
 import {
@@ -23,23 +23,23 @@ class AddEditGravity extends Component {
       temp: "",
       notes: "",
       date: "",
-      isNew: false,
+      isNew: this.props.match.params.id === "new",
       errors: {}
     };
 
     const sessionBrewId = sessionStorage.getItem("brewId");
     const { recipe, match } = this.props;
     const { id } = match.params; // gravity id, should be id or 'new'
-    const hasStoreRecipe = recipe && notEmpty(recipe._id);
-    const version = hasStoreRecipe && recipe.version;
-    const hasStoreVersion = version && notEmpty(version._id);
-    const brew = hasStoreVersion && version.brew;
-    const hasStoreBrew = brew && notEmpty(brew._id);
-    let hasStoreGravity, gravity;
+
+    const { inStore: hasStoreBrew } = hasInStore(
+      sessionBrewId,
+      recipe.version.brew,
+      recipe.version.brews
+    );
 
     if (id === "new") {
       // new gravity
-      this.state.isNew = true;
+
       if (!hasStoreBrew && sessionBrewId) {
         // brew not in store, but we have the id in session storage
         // go fetch it over the wire
@@ -50,22 +50,22 @@ class AddEditGravity extends Component {
       }
     } else {
       // edit gravity
-      if (hasStoreBrew) {
-        hasStoreGravity = brew.gravity && brew.gravity._id === id;
 
-        // has version and brew
-        if (hasStoreGravity) {
-          gravity = brew.gravity;
-          this.props.setGravity(gravity);
-          this.state._id = gravity._id;
-          this.state.brix = gravity.brix;
-          this.state.temp = gravity.temp;
-          this.state.notes = gravity.notes;
-          this.state.date = gravity.date;
-        }
-      }
+      const { inStore: hasStoreGravity, storeItem: storeGravity } = hasInStore(
+        id,
+        recipe.version.brew.gravity,
+        recipe.version.brew.gravities
+      );
 
-      if (!hasStoreBrew || !hasStoreGravity) {
+      if (hasStoreBrew && hasStoreGravity) {
+        // has brew and gravity
+        this.props.setGravity(storeGravity);
+        this.state._id = storeGravity._id;
+        this.state.brix = storeGravity.brix;
+        this.state.temp = storeGravity.temp;
+        this.state.notes = storeGravity.notes;
+        this.state.date = storeGravity.date;
+      } else {
         // getGravity fetches everything
         this.props.getGravity(id);
       }
@@ -132,7 +132,8 @@ class AddEditGravity extends Component {
   }
 
   render() {
-    const { recipe, auth, errors } = this.props;
+    const { recipe, appJunk, auth, errors } = this.props;
+    const { loading } = appJunk;
     const { version } = recipe;
     const { brew } = version;
     const gravity = {
@@ -150,6 +151,7 @@ class AddEditGravity extends Component {
           author={author}
           version={version}
           brew={brew}
+          loading={loading}
         />
         <GravityForm
           new={this.state.isNew}
@@ -166,6 +168,7 @@ class AddEditGravity extends Component {
 
 AddEditGravity.propTypes = {
   auth: PropTypes.object.isRequired,
+  appJunk: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   getBrew: PropTypes.func.isRequired,
@@ -184,6 +187,7 @@ AddEditGravity.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  appJunk: state.appJunk,
   recipe: state.recipe,
   errors: state.errors
 });

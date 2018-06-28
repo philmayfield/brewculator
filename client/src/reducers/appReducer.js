@@ -2,7 +2,8 @@ import {
   IS_LOADING,
   NOT_LOADING,
   ACTION_CONFIRM,
-  CHANGE_CONTEXT
+  CHANGE_CONTEXT,
+  DEFAULT_CONTEXT
 } from "../actions/actionTypes";
 
 const defaultState = {
@@ -35,6 +36,12 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         altControlContext: action.payload
+      };
+
+    case DEFAULT_CONTEXT:
+      return {
+        ...state,
+        altControlContext: false
       };
 
     default:

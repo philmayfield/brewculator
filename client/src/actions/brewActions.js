@@ -1,7 +1,13 @@
 // actions related to brews - get brews(s) / create / update / delete
 
 import axios from "axios";
-import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
+import {
+  getErrors,
+  clearErrors,
+  isLoading,
+  notLoading,
+  defaultContext
+} from "./appActions";
 import { getVersion } from "./versionActions";
 import { getAllGravities, setGravity } from "./gravityActions";
 import { GET_BREW, SET_BREW, GET_BREWS, DELETE_BREW } from "./actionTypes";
@@ -9,6 +15,8 @@ import { GET_BREW, SET_BREW, GET_BREWS, DELETE_BREW } from "./actionTypes";
 // READ - all brews for a version id
 export const getAllBrews = id => dispatch => {
   dispatch(isLoading());
+  dispatch(defaultContext());
+
   axios
     .get(`/api/brews/${id}`)
     .then(res => {
@@ -26,8 +34,8 @@ export const getAllBrews = id => dispatch => {
 
 // READ - one brew by id
 export const getBrew = id => dispatch => {
-  // dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .get(`/api/brew/${id}`)
@@ -59,6 +67,7 @@ export const getBrew = id => dispatch => {
 export const saveBrew = (brew, history) => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   const { _id } = brew;
 
@@ -96,6 +105,7 @@ export const makeBrew = (brew, history) => dispatch => {
 export const deleteBrew = id => dispatch => {
   dispatch(clearErrors());
   dispatch(isLoading());
+  dispatch(defaultContext());
 
   axios
     .delete(`/api/brew/${id}`)

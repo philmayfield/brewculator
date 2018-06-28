@@ -16,21 +16,21 @@ class AreYouSure extends Component {
         <div className="d-flex">
           <Button
             type="button"
+            classes={["btn-danger", "flex-fill"]}
+            value={true}
+            clickOrTo={handleCancel}
+            icon="baselineClose24px"
+          >
+            No dont!
+          </Button>
+          <Button
+            type="button"
             classes={["btn-success", "flex-fill"]}
             value={true}
             clickOrTo={handleConfirm}
             icon="baselineDone24px"
           >
             Yep, do it!
-          </Button>
-          <Button
-            type="button"
-            classes={["btn-danger", "flex-fill"]}
-            value={true}
-            clickOrTo={handleCancel}
-            icon="baselineClose24px"
-          >
-            Cancel
           </Button>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { loginUser } from "../../actions/authActions";
 import { notEmpty } from "../../common/empty";
 import Input from "../common/Input";
 import Alert from "../common/Alert";
+import Button from "../common/Button";
 
 class Login extends Component {
   constructor(props) {
@@ -67,38 +68,55 @@ class Login extends Component {
     );
 
     return (
-      <div className="login">
-        <h1>Login</h1>
-        {this.state.newUser ? newUserMsg : null}
-        <form onSubmit={this.formSubmit}>
-          <Input
-            placeholder="Enter your username"
-            label="Username"
-            type="text"
-            name="username"
-            autoFocus={!this.state.newUser}
-            value={this.state.username}
-            error={errors.username}
-            onChange={this.inputChange}
-          />
-          <Input
-            placeholder="Enter your password"
-            label="Password"
-            type="password"
-            name="password"
-            autoFocus={this.state.newUser}
-            value={this.state.password}
-            error={errors.password}
-            onChange={this.inputChange}
-          />
-          <input className="btn btn-primary" type="submit" value="Login" />
-        </form>
-        <p>
-          Don&rsquo;t have an account?
-          <Link className="ml-2" to="/signup">
-            Sign up now!
-          </Link>
-        </p>
+      <div className="row">
+        <div className="col-sm-12 col-md-8 col-lg-6 m-auto">
+          <h1>Login</h1>
+          <div className="login p-3 mb-3 z-depth-3">
+            {this.state.newUser ? newUserMsg : null}
+            <form onSubmit={this.formSubmit}>
+              <Input
+                placeholder="Enter your username"
+                label="Username"
+                type="text"
+                name="username"
+                autoFocus={!this.state.newUser}
+                value={this.state.username}
+                error={errors.username}
+                onChange={this.inputChange}
+              />
+              <Input
+                placeholder="Enter your password"
+                label="Password"
+                type="password"
+                name="password"
+                autoFocus={this.state.newUser}
+                value={this.state.password}
+                error={errors.password}
+                onChange={this.inputChange}
+              />
+              <Button
+                type="submit"
+                classes={[
+                  "btn-primary",
+                  "mt-5",
+                  "d-flex",
+                  "w-100",
+                  "justify-content-center"
+                ]}
+                clickOrTo={this.formSubmit}
+                icon="baselineAccountCircle24px"
+              >
+                Login
+              </Button>
+            </form>
+          </div>
+          <p className="text-center">
+            Don&rsquo;t have an account?
+            <Link className="ml-2" to="/signup">
+              Sign up now!
+            </Link>
+          </p>
+        </div>
       </div>
     );
   }
