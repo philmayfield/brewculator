@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { registerUser } from "../../actions/authActions";
 import Input from "../common/Input";
+import Button from "../common/Button";
 
 class Register extends Component {
   constructor(props) {
@@ -37,31 +38,55 @@ class Register extends Component {
     const { errors } = this.props;
 
     return (
-      <div className="register">
-        <h1>Sign Up</h1>
-        <form onSubmit={this.formSubmit}>
-          <Input
-            placeholder="Enter a username"
-            label="Username"
-            type="text"
-            name="username"
-            value={this.state.username}
-            error={errors.username}
-            onChange={this.inputChange}
-            required={true}
-          />
-          <Input
-            placeholder="Choose a password"
-            label="Password"
-            type="password"
-            name="password"
-            value={this.state.password}
-            error={errors.password}
-            onChange={this.inputChange}
-            required={true}
-          />
-          <input className="btn btn-primary" type="submit" value="Beer Me" />
-        </form>
+      <div className="row">
+        <div className="col-sm-12 col-md-8 col-lg-6 m-auto">
+          <h1>Sign up</h1>
+          <div className="signup p-3 mb-3 z-depth-3">
+            <form onSubmit={this.formSubmit}>
+              <Input
+                placeholder="Enter a username"
+                label="Username"
+                type="text"
+                name="username"
+                autoFocus={true}
+                value={this.state.username}
+                error={errors.username}
+                onChange={this.inputChange}
+                required={true}
+              />
+              <Input
+                placeholder="Choose a password"
+                label="Password"
+                type="password"
+                name="password"
+                value={this.state.password}
+                error={errors.password}
+                onChange={this.inputChange}
+                required={true}
+              />
+              <Button
+                type="submit"
+                classes={[
+                  "btn-primary",
+                  "mt-5",
+                  "d-flex",
+                  "w-100",
+                  "justify-content-center"
+                ]}
+                clickOrTo={this.formSubmit}
+                icon="baselineLocalDrink24px"
+              >
+                Beer Me
+              </Button>
+            </form>
+          </div>
+          <p className="text-center">
+            Already have an account?
+            <Link className="ml-2" to="/login">
+              Log in now!
+            </Link>
+          </p>
+        </div>
       </div>
     );
   }

@@ -14,7 +14,8 @@ export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/user/register", userData)
     .then(() => {
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch(clearErrors());
+      dispatch(notLoading());
       // successful registration, send user to login page
       return history.push(`/login/${userData.username}`);
     })

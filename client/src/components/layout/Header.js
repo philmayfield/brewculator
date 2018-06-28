@@ -23,18 +23,16 @@ class Header extends Component {
   render() {
     const { isAuth } = this.props.auth;
     const logoImg = getImg("logo");
+    const linkClasses = "btn btn-link btn-empty ml-3";
 
     const loginBtn = (
-      <Link className="btn btn-link btn-empty ml-2" to="/login">
+      <Link className={linkClasses} to="/login">
         Login
       </Link>
     );
 
     const logoutBtn = (
-      <button
-        className="btn btn-link btn-empty ml-2"
-        onClick={this.handleLogout}
-      >
+      <button className={linkClasses} onClick={this.handleLogout}>
         Logout
       </button>
     );
@@ -49,9 +47,15 @@ class Header extends Component {
             className={`d-flex flex-wrap align-items-center justify-content-end w-100 ${isAuth &&
               "loggedIn"}`}
           >
-            <span className="username">
-              {isAuth && this.props.auth.user.username}
-            </span>
+            {isAuth && (
+              <span className="username d-flex align-items-center">
+                <ReactSVG
+                  path={getImg("baselineAccountCircle24px")}
+                  svgClassName={"mr-2"}
+                />
+                {this.props.auth.user.username}
+              </span>
+            )}
             {isAuth ? logoutBtn : loginBtn}
           </nav>
         </div>

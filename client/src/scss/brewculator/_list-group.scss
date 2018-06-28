@@ -1,16 +1,10 @@
 .list-group {
-  border-radius: $border-radius;
 }
 .list-group-item {
-  background: $light-gradient-bg;
-
+  transition: background-color 0.333s;
   & + & {
-    border-top: 1px rgba($primary, 0.05) solid;
+    border-top: 1px rgba($primary, 0.1) solid;
   }
-  &:hover {
-    background: rgba($white, 0.95);
-  }
-
   & > a:hover {
     text-decoration: none;
   }

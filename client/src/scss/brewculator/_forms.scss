@@ -11,3 +11,11 @@
     margin-top: $spacer;
   }
 }
+
+.form-control {
+  &.is-invalid {
+    &:focus {
+      box-shadow: $shadow2;
+    }
+  }
+}

@@ -2,15 +2,52 @@
 $bg-gradient-top: #e59308; // 229, 147, 8
 $bg-gradient-middle: #fbf519; // 251, 245, 25
 $bg-gradient-bottom: #bb3500; // 187, 53, 0
-$bcbg: rgba(white, 0.9);
+$bcbg: rgba(white, 0.75);
+
+// shadows - lifted from materialize
+$st1t: 0.12;
+$st1c: darken($bg-gradient-bottom, 20%);
+$st2t: 0.1;
+$st2c: darken($bg-gradient-bottom, 20%);
+$st3t: 0.15;
+$st3c: darken($bg-gradient-bottom, 20%);
+
+$shadow1: 0 2px 2px 0 rgba($st1c, $st1t), 0 3px 1px -2px rgba($st2c, $st2t),
+  0 1px 5px 0 rgba($st3c, $st3t);
+$shadow2: 0 4px 5px 0 rgba($st1c, $st1t), 0 1px 10px 0 rgba($st2c, $st2t),
+  0 2px 4px -1px rgba($st3c, $st3t);
+$shadow3: 0 8px 17px 2px rgba($st1c, $st1t), 0 3px 14px 2px rgba($st2c, $st2t),
+  0 5px 5px -3px rgba($st3c, $st3t);
+$shadow4: 0 16px 24px 2px rgba($st1c, $st1t), 0 6px 30px 5px rgba($st2c, $st2t),
+  0 8px 10px -7px rgba($st3c, $st3t);
+$shadow5: 0 24px 38px 3px rgba($st1c, $st1t), 0 9px 46px 8px rgba($st2c, $st2t),
+  0 11px 15px -7px rgba($st3c, $st3t);
 
 // bootstrap
+
+// global
+$enable-shadows: true;
+$enable-gradients: true;
+
+// colors
 $red: #b93f2a;
 $primary: darken($bg-gradient-bottom, 15%);
 $secondary: darken($bg-gradient-top, 15%);
 $info: darken($bg-gradient-middle, 20%);
 
-$list-group-bg: $bcbg;
+// list-group
+$list-group-bg: transparent;
 $list-group-border-width: 0;
+$list-group-hover-bg: rgba(white, 0.5);
 
+// typography
 $headings-line-height: 1;
+
+// forms
+$input-bg: rgba(white, 0.9);
+$input-focus-bg: white;
+$input-focus-width: 0;
+$input-border-width: 0;
+$input-border-color: transparent;
+$input-box-shadow: $shadow1;
+$input-focus-box-shadow: $shadow2 !default;

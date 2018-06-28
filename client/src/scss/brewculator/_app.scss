@@ -1,3 +1,15 @@
 .App {
   position: relative;
 }
+
+.info-container {
+  background: $light-gradient-bg;
+  margin-left: -$grid-gutter-width / 2;
+  margin-right: -$grid-gutter-width / 2;
+
+  @include media-breakpoint-up(sm) {
+    border-radius: $border-radius;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

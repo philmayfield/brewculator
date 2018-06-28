@@ -63,7 +63,7 @@ const RecipeDeets = props => {
     !loading && (
       <div>
         {displayName(recipe)}
-        <div className="recipe-deets p-3 mb-3 z-depth-3">
+        <div className="info-container recipe-deets p-3 mb-3 z-depth-3">
           {displayByLine(recipe, author)}
           <div className="row">
             {displayVersion(version)}
