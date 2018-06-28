@@ -1,7 +1,7 @@
 {
-  "name": "brewculator",
+  "name": "Brewculator",
   "version": "1.0.0",
-  "description": "brew day tracker and helper",
+  "description": "Brew day tracker and helper",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Phil Mayfield",
   "license": "MIT",

@@ -55,7 +55,7 @@ class Landing extends Component {
                 </a>.
               </p>
 
-              <p className="text-center mt-5">Built With</p>
+              <p className="text-center mt-5 text-muted small">Built With</p>
               <div className="tech-logos d-flex flex-wrap justify-content-around">
                 <a
                   href="https://getbootstrap.com/"
