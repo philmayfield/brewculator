@@ -116,28 +116,34 @@ class AddEditRecipe extends Component {
 
     formContent = (
       <form className="form-wrapper z-depth-3" onSubmit={this.handleSubmit}>
-        <Input
-          placeholder="Enter a name for this recipe"
-          label="Name"
-          type="text"
-          name="name"
-          autoFocus={true}
-          value={name}
-          error={errors.name}
-          onChange={this.handleInput}
-          required={true}
-        />
-        <Input
-          placeholder="Enter a style for this recipe"
-          label="Style"
-          type="text"
-          name="style"
-          value={style}
-          error={errors.style}
-          onChange={this.handleInput}
-          required={true}
-        />
-        <div className="mt-3">* required field</div>
+        <div className="row">
+          <div className="col-md-6 mb-3">
+            <Input
+              placeholder="Enter a name for this recipe"
+              label="Recipe Name"
+              type="text"
+              name="name"
+              autoFocus={true}
+              value={name}
+              error={errors.name}
+              onChange={this.handleInput}
+              required={true}
+            />
+          </div>
+          <div className="col-md-6 mb-3">
+            <Input
+              placeholder="Enter a style for this recipe"
+              label="Beer Style"
+              type="text"
+              name="style"
+              value={style}
+              error={errors.style}
+              onChange={this.handleInput}
+              required={true}
+            />
+          </div>
+        </div>
+        <div>* required field</div>
       </form>
     );
 

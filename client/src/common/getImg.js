@@ -20,6 +20,7 @@ import baselineEdit24px from "../img/baseline-edit-24px.svg";
 import baselineLocalDrink24px from "../img/baseline-local_drink-24px.svg";
 import baselineMoreVert24px from "../img/baseline-more_vert-24px.svg";
 import baselineSave24px from "../img/baseline-save-24px.svg";
+import roundWarning24px from "../img/round-warning-24px.svg";
 
 let imgs = {
   logo,
@@ -43,7 +44,8 @@ let imgs = {
   baselineDeleteForever24px,
   baselineLocalDrink24px,
   baselineMoreVert24px,
-  baselineSave24px
+  baselineSave24px,
+  roundWarning24px
 };
 
 let getImage = key => imgs[key];

@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { ACTION_CONFIRM } from "../../actions/actionTypes";
 import { notEmpty } from "../../common/empty";
 import Button from "./Button";
+import ReactSVG from "react-svg";
+import getImg from "../../common/getImg";
 
 class AreYouSure extends Component {
   render() {
@@ -12,7 +14,14 @@ class AreYouSure extends Component {
 
     return (
       <div className="are-you-sure w-100">
-        <p className="text-center m-2">{confirmText}</p>
+        <div className="d-flex justify-content-center mb-2">
+          <ReactSVG
+            className="mr-2"
+            svgClassName="danger"
+            path={getImg("roundWarning24px")}
+          />
+          <strong>{confirmText}</strong>
+        </div>
         <div className="d-flex">
           <Button
             type="button"

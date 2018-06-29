@@ -41,7 +41,8 @@ export default (state = defaultState, action) => {
     case DEFAULT_CONTEXT:
       return {
         ...state,
-        altControlContext: false
+        altControlContext: false,
+        confirmObject: {}
       };
 
     default:

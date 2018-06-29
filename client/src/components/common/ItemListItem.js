@@ -17,7 +17,7 @@ const ItemListItem = props => {
   const editBtn = isAuth && (
     <Button
       type="link"
-      classes={["btn-empty", "mr-3"]}
+      classes={["btn-empty", "p-2"]}
       clickOrTo={`/${itemType}/edit/${item._id}`}
       icon="baselineEdit24px"
       svgClasses={["primary"]}
@@ -27,7 +27,7 @@ const ItemListItem = props => {
     <Button
       type="button"
       confirmItem={header}
-      classes={["btn-empty", "text-danger"]}
+      classes={["btn-empty", "p-2", "text-danger"]}
       value={item._id}
       clickOrTo={handleRemoval}
       icon="baselineDeleteForever24px"
@@ -35,7 +35,7 @@ const ItemListItem = props => {
     />
   );
   const makeHeaderFooter = () => (
-    <div className="w-100 d-flex flex-wrap align-items-baseline pr-3">
+    <div className="w-100 d-flex flex-wrap align-items-baseline p-3">
       <h6 className="m-0 mr-3">{header}</h6>
       {sub && <p className="m-0">{sub}</p>}
     </div>
@@ -47,7 +47,7 @@ const ItemListItem = props => {
   );
 
   return (
-    <div className="list-group-item list-group-item-action d-flex align-items-center">
+    <div className="list-group-item list-group-item-action p-0 pr-2 d-flex align-items-center">
       {isLink ? makeLink() : makeHeaderFooter()}
       {editBtn}
       {deleteBtn}
