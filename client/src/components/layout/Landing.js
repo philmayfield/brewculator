@@ -34,9 +34,10 @@ class Landing extends Component {
                   MongoDB all running on an Express Node server.
                 </li>
                 <li>
-                  As an avid home brewer, some of the I&rsquo;ve found the need
-                  for such an app for tracking brewdays. Existing apps have left
-                  something to be desired, and paper&hellip; come on now.
+                  As an avid home brewer, I&rsquo;ve found the need for such an
+                  app for tracking brewdays. Existing apps have left a little
+                  something to be desired, and keeping track with paper&hellip;
+                  come on now.
                 </li>
               </ol>
               <p>
