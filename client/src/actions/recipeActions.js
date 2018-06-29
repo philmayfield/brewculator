@@ -13,7 +13,6 @@ import { getAllVersions } from "./versionActions";
 import {
   GET_RECIPE,
   SET_RECIPE,
-  RESET_RECIPE,
   GET_RECIPES,
   DELETE_RECIPE
 } from "./actionTypes";
@@ -48,13 +47,14 @@ export const getRecipe = id => dispatch => {
   axios
     .get(`/api/recipe/${id}`)
     .then(res => {
+      const payload = checkResetVersion(res.data);
+
       dispatch({
         type: GET_RECIPE,
-        payload: res.data
+        payload
       });
-      sessionStorage.setItem("recipeId", id);
       dispatch(notLoading());
-      return res.data;
+      return payload;
     })
     .then(recipe => {
       Promise.all([
@@ -134,15 +134,24 @@ export const deleteRecipe = id => dispatch => {
 // helpers
 
 export const setRecipe = recipe => {
-  sessionStorage.setItem("recipeId", recipe._id);
+  const payload = checkResetVersion(recipe);
   return {
     type: SET_RECIPE,
-    payload: recipe
+    payload
   };
 };
 
-export const resetRecipe = () => {
-  return {
-    type: RESET_RECIPE
-  };
+const checkResetVersion = payload => {
+  if (payload && payload._id !== sessionStorage.getItem("recipeId")) {
+    payload.version = {
+      brews: [],
+      brew: {
+        gravities: [],
+        gravity: {}
+      }
+    };
+    // set session storage
+    sessionStorage.setItem("recipeId", payload._id);
+  }
+  return payload;
 };

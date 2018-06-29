@@ -17,7 +17,6 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const GET_RECIPES = "GET_RECIPES";
 export const GET_RECIPE = "GET_RECIPE";
 export const SET_RECIPE = "SET_RECIPE";
-export const RESET_RECIPE = "RESET_RECIPE";
 export const DELETE_RECIPE = "DELETE_RECIPE";
 
 // versions

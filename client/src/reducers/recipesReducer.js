@@ -1,6 +1,9 @@
 import { GET_RECIPES, DELETE_RECIPE, SET_RECIPE } from "../actions/actionTypes";
 
 export default (state = [], action) => {
+  // if (action.type === SET_RECIPE) {
+  //   console.log(">", state, action);
+  // }
   switch (action.type) {
     case GET_RECIPES:
       return action.payload;

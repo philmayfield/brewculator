@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   setRecipe,
-  resetRecipe,
   getRecipe,
   deleteRecipe
 } from "../../actions/recipeActions";
@@ -165,7 +164,6 @@ class Recipe extends Component {
 Recipe.propTypes = {
   getRecipe: PropTypes.func.isRequired,
   setRecipe: PropTypes.func.isRequired,
-  resetRecipe: PropTypes.func.isRequired,
   deleteRecipe: PropTypes.func.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   getUsername: PropTypes.func.isRequired,
@@ -199,7 +197,6 @@ export default connect(
   {
     getRecipe,
     setRecipe,
-    resetRecipe,
     deleteRecipe,
     actionConfirm,
     getUsername,

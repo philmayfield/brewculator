@@ -1,7 +1,6 @@
 import {
   GET_RECIPE,
   SET_RECIPE,
-  RESET_RECIPE,
   DELETE_RECIPE,
   GET_VERSIONS,
   GET_VERSION,
@@ -45,18 +44,6 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         ...action.payload
-      };
-
-    case RESET_RECIPE:
-      return {
-        ...state,
-        version: {
-          brews: [],
-          brew: {
-            gravities: [],
-            gravity: {}
-          }
-        }
       };
 
     case DELETE_RECIPE:
