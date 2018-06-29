@@ -4725,13 +4725,17 @@ main {
   .app-control .btn + .btn {
     margin-left: 0.5rem; }
 
-.chartjs-render-monitor {
+.chart-wrap {
   background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 2px 0 rgba(85, 24, 0, 0.12), 0 3px 1px -2px rgba(85, 24, 0, 0.1), 0 1px 5px 0 rgba(85, 24, 0, 0.15); }
+  box-shadow: 0 2px 2px 0 rgba(85, 24, 0, 0.12), 0 3px 1px -2px rgba(85, 24, 0, 0.1), 0 1px 5px 0 rgba(85, 24, 0, 0.15);
+  margin-left: -1rem;
+  margin-right: -1rem; }
   @media (min-width: 576px) {
-    .chartjs-render-monitor {
-      padding: 0.5rem; } }
+    .chart-wrap {
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      margin-left: auto;
+      margin-right: auto; } }
 
 header {
   background: linear-gradient(to top, rgba(255, 255, 255, 0.85), rgba(233, 221, 217, 0.85));

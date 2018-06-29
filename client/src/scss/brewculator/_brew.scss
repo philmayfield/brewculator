@@ -1,9 +1,13 @@
-.chartjs-render-monitor {
+.chart-wrap {
   background-color: rgba(white, 0.75);
-  border-radius: $border-radius;
   box-shadow: $shadow1;
+  margin-left: -$spacer;
+  margin-right: -$spacer;
 
   @include media-breakpoint-up(sm) {
+    border-radius: $border-radius;
     padding: $spacer/2;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

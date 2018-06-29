@@ -134,12 +134,12 @@ class Brew extends Component {
   render() {
     const { recipe, errors, auth, appJunk } = this.props;
     const { version } = recipe && recipe;
-    const brew = version && version.brew;
+    const { brew } = version && version;
     const { isAuth } = auth;
     const { loading, confirmObject, altControlContext } = appJunk;
     const hasVersion = version && notEmpty(version._id);
     const hasBrew = brew && notEmpty(brew._id);
-    const hasGravities = hasBrew && notEmpty(brew.gravities);
+    const hasGravities = brew && notEmpty(brew.gravities);
     const author = auth.users.find(user => user._id === recipe.author);
     let errorContent, gravitiesContent, controlContent, brewContent;
 
@@ -147,20 +147,30 @@ class Brew extends Component {
       const chartData = this.makeChartData(brew.gravities);
       const { og, fg, data, options } = chartData;
       const numDataPoints = data.datasets[0].data.length;
+      const currAbv =
+        numDataPoints > 1
+          ? `Current ABV: ${this.calculateAbv(og, fg)}%`
+          : "You need more gravity readings to calculate the ABV";
+      const ogFgContent = numDataPoints > 1 && (
+        <span className="text-nowrap text-muted">
+          {og} og, {fg} fg
+        </span>
+      );
+
       gravitiesContent = (
         <div>
-          <h6 className="d-flex align-items-center">
+          <h6 className="d-flex flex-wrap align-items-center">
             <ReactSVG
               path={getImg("baselineLocalDrink24px")}
               svgClassName="primary mr-2"
             />
-            Current ABV:
-            {numDataPoints > 1
-              ? ` ${this.calculateAbv(og, fg)}% (${og} og, ${fg} fg currently)`
-              : " -- need more gravity readings to calculate the abv"}
+            <span className="mr-3">{currAbv}</span>
+            {ogFgContent}
           </h6>
           {numDataPoints > 1 && (
-            <Line data={data} options={options} width={600} height={300} />
+            <div className="chart-wrap">
+              <Line data={data} options={options} width={600} height={300} />
+            </div>
           )}
         </div>
       );
