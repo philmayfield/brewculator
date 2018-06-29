@@ -97,7 +97,7 @@ class Version extends Component {
             clickOrTo={this.handleDelete}
             icon="baselineDeleteForever24px"
           >
-            Delete This Version
+            Delete Version
           </Button>
           <Button
             type="link"
@@ -105,7 +105,7 @@ class Version extends Component {
             clickOrTo={`edit/${hasVersion && version._id}`}
             icon="baselineEdit24px"
           >
-            Edit This Version
+            Edit Version
           </Button>
         </AppControl>
       );
@@ -127,7 +127,7 @@ class Version extends Component {
             clickOrTo="/brew/edit/new"
             icon="baselineAddCircle24px"
           >
-            Add a Brew
+            Add Brew
           </Button>
         </AppControl>
       );

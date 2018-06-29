@@ -1,6 +1,5 @@
 .form-wrapper {
-  background: $light-gradient-bg;
-  border-radius: $border-radius;
+  @extend .info-container;
   padding: $spacer;
 }
 

@@ -210,7 +210,7 @@ class Brew extends Component {
             clickOrTo={this.handleDelete}
             icon="baselineDeleteForever24px"
           >
-            Delete This Brew
+            Delete Brew
           </Button>
           <Button
             type="link"
@@ -218,7 +218,7 @@ class Brew extends Component {
             clickOrTo={`edit/${hasBrew && brew._id}`}
             icon="baselineEdit24px"
           >
-            Edit This Brew
+            Edit Brew
           </Button>
         </AppControl>
       );
@@ -240,7 +240,7 @@ class Brew extends Component {
             clickOrTo="/gravity/edit/new"
             icon="baselineAddCircle24px"
           >
-            Add a Gravity Reading
+            Add Reading
           </Button>
         </AppControl>
       );

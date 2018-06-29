@@ -23,8 +23,8 @@ const GravityForm = props => {
     <div className="gravityForm">
       <form className="form-wrapper z-depth-3" onSubmit={props.handleSubmit}>
         <h4>{title}</h4>
-        <div className="row mb-3">
-          <div className="col-md-6 col-lg-4">
+        <div className="row">
+          <div className="col-md-6 col-lg-4 mb-3">
             <Input
               placeholder="Enter the date for reading"
               label={`Reading Date`}
@@ -37,7 +37,7 @@ const GravityForm = props => {
               required={true}
             />
           </div>
-          <div className="col-md-6 col-lg-4">
+          <div className="col-md-6 col-lg-4 mb-3">
             <Input
               placeholder="Enter your refractometer reading"
               label={`Refractometer reading`}
@@ -51,7 +51,7 @@ const GravityForm = props => {
               required={true}
             />
           </div>
-          <div className="col-md-12 col-lg-4">
+          <div className="col-md-12 col-lg-4 mb-3">
             <Input
               placeholder="Enter temperature reading"
               label={`Temperature`}

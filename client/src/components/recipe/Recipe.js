@@ -115,14 +115,14 @@ class Recipe extends Component {
             clickOrTo={`edit/${recipe._id}`}
             icon="baselineEdit24px"
           >
-            Edit This Recipe
+            Edit Recipe
           </Button>
           <Button
             classes={["btn-danger", "flex-fill", hasRecipe ? "" : "d-none"]}
             clickOrTo={this.handleDelete}
             icon="baselineDeleteForever24px"
           >
-            Delete This Recipe
+            Delete Recipe
           </Button>
         </AppControl>
       );
@@ -144,7 +144,7 @@ class Recipe extends Component {
             clickOrTo="/version/edit/new"
             icon="baselineAddCircle24px"
           >
-            Add a Version
+            Add Version
           </Button>
         </AppControl>
       );
