@@ -4582,14 +4582,15 @@ a.text-dark:hover, a.text-dark:focus {
   box-shadow: 0 4px 5px 0 rgba(85, 24, 0, 0.12), 0 1px 10px 0 rgba(85, 24, 0, 0.1), 0 2px 4px -1px rgba(85, 24, 0, 0.15); }
 
 .app-loading {
-  background: linear-gradient(to top, rgba(241, 215, 204, 0.75) 0%, rgba(254, 253, 209, 0.75) 61%, rgba(254, 253, 209, 0.75) 73%, rgba(250, 233, 206, 0.75) 100%);
+  background: linear-gradient(to top, rgba(221, 154, 128, 0.5) 0%, rgba(253, 250, 140, 0.5) 61%, rgba(253, 250, 140, 0.5) 73%, rgba(242, 201, 132, 0.5) 100%);
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 10;
-  overflow: hidden; }
+  z-index: 9;
+  overflow: hidden;
+  transition: opacity 0.333s; }
 
 .loader,
 .loader:after {
@@ -4738,7 +4739,9 @@ main {
 header {
   background: linear-gradient(to top, rgba(255, 255, 255, 0.85), rgba(233, 221, 217, 0.85));
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  min-height: 3rem; }
+  min-height: 3rem;
+  position: relative;
+  z-index: 10; }
 
 .logo {
   margin-top: 0.5rem;

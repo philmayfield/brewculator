@@ -2,18 +2,19 @@
   // background-color: rgba(255, 255, 255, 0.95);
   background: linear-gradient(
     to top,
-    rgba(mix(white, #bb3500, 80%), 0.75) 0%,
-    rgba(mix(white, #fbf519, 80%), 0.75) 61%,
-    rgba(mix(white, #fbf519, 80%), 0.75) 73%,
-    rgba(mix(white, #e59308, 80%), 0.75) 100%
+    rgba(mix(white, #bb3500, 50%), 0.5) 0%,
+    rgba(mix(white, #fbf519, 50%), 0.5) 61%,
+    rgba(mix(white, #fbf519, 50%), 0.5) 73%,
+    rgba(mix(white, #e59308, 50%), 0.5) 100%
   );
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 10;
+  z-index: 9;
   overflow: hidden;
+  transition: opacity 0.333s;
 }
 
 .loader,
