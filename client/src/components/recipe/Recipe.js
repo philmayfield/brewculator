@@ -71,7 +71,8 @@ class Recipe extends Component {
   render() {
     const { recipe, errors, auth, appJunk } = this.props;
     const { isAuth } = auth;
-    const { loading, confirmObject, altControlContext } = appJunk;
+    const { loadingArr, confirmObject, altControlContext } = appJunk;
+    const loading = loadingArr.length > 0;
     const hasRecipe = notEmpty(recipe._id);
     const author = auth.users.find(user => user._id === recipe.author);
 

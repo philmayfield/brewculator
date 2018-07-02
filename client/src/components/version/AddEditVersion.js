@@ -121,7 +121,8 @@ class AddEditVersion extends Component {
 
   render() {
     const { recipe, auth, appJunk, errors } = this.props;
-    const { loading } = appJunk;
+    const { loadingArr } = appJunk;
+    const loading = loadingArr.length > 0;
     const version = {
       version: this.state.version,
       notes: this.state.notes

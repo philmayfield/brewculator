@@ -136,7 +136,8 @@ class Brew extends Component {
     const { version } = recipe && recipe;
     const { brew } = version && version;
     const { isAuth } = auth;
-    const { loading, confirmObject, altControlContext } = appJunk;
+    const { loadingArr, confirmObject, altControlContext } = appJunk;
+    const loading = loadingArr.length > 0;
     const hasVersion = version && notEmpty(version._id);
     const hasBrew = brew && notEmpty(brew._id);
     const hasGravities = brew && notEmpty(brew.gravities);

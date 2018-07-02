@@ -17,7 +17,8 @@ class Recipes extends Component {
   render() {
     const { isAuth } = this.props.auth;
     const { recipes } = this.props;
-    const { loading, confirmObject } = this.props.appJunk;
+    const { loadingArr, confirmObject } = this.props.appJunk;
+    const loading = loadingArr.length > 0;
     const hasRecipes = notEmpty(recipes);
 
     let recipeContent;

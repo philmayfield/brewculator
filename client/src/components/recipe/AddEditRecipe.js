@@ -98,7 +98,8 @@ class AddEditRecipe extends Component {
 
   render() {
     const { recipe, auth, appJunk, errors } = this.props;
-    const { loading } = appJunk;
+    const { loadingArr } = appJunk;
+    const loading = loadingArr.length > 0;
     const hasRecipe = notEmpty(recipe._id);
     const author =
       hasRecipe && auth.users.find(user => user._id === recipe.author);

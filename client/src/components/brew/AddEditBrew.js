@@ -120,7 +120,8 @@ class AddEditBrew extends Component {
 
   render() {
     const { recipe, appJunk, auth, errors } = this.props;
-    const { loading } = appJunk;
+    const { loadingArr } = appJunk;
+    const loading = loadingArr.length > 0;
     const { version } = recipe;
     const brew = {
       notes: this.state.notes,
