@@ -2,13 +2,7 @@
 
 import axios from "axios";
 import { getUsername } from "./authActions";
-import {
-  getErrors,
-  clearErrors,
-  isLoading,
-  notLoading,
-  defaultContext
-} from "./appActions";
+import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
 import { getAllVersions } from "./versionActions";
 import {
   GET_RECIPE,
@@ -20,8 +14,7 @@ import {
 // READ - all recipes
 export const getAllRecipes = () => dispatch => {
   // dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
+  dispatch(isLoading("getAllRecipes"));
 
   axios
     .get("/api/recipe/all")
@@ -32,17 +25,16 @@ export const getAllRecipes = () => dispatch => {
       });
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("getAllRecipes"));
       dispatch(getErrors(err.response.data));
     })
-    .finally(() => dispatch(notLoading()));
+    .finally(() => dispatch(notLoading("getAllRecipes")));
 };
 
 // READ - one recipe by id
 export const getRecipe = id => dispatch => {
   // dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
+  dispatch(isLoading("getRecipe"));
 
   axios
     .get(`/api/recipe/${id}`)
@@ -53,7 +45,7 @@ export const getRecipe = id => dispatch => {
         type: GET_RECIPE,
         payload
       });
-      dispatch(notLoading());
+      dispatch(notLoading("getRecipe"));
       return payload;
     })
     .then(recipe => {
@@ -63,7 +55,7 @@ export const getRecipe = id => dispatch => {
       ]);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("getRecipe"));
       dispatch(getErrors(err.response.data));
     });
 };
@@ -71,8 +63,7 @@ export const getRecipe = id => dispatch => {
 // UPDATE - one recipes by id
 export const saveRecipe = (recipe, history) => dispatch => {
   dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
+  dispatch(isLoading("saveRecipe"));
 
   const { _id } = recipe;
 
@@ -83,11 +74,11 @@ export const saveRecipe = (recipe, history) => dispatch => {
         type: SET_RECIPE,
         payload: res.data
       });
-      dispatch(notLoading());
+      dispatch(notLoading("saveRecipe"));
       return history.push(`/recipe/${_id}`);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("saveRecipe"));
       dispatch(getErrors(err.response.data));
     });
 };
@@ -95,16 +86,16 @@ export const saveRecipe = (recipe, history) => dispatch => {
 // CREATE - one new recipe
 export const makeRecipe = (recipe, history) => dispatch => {
   dispatch(clearErrors());
-  dispatch(isLoading());
+  dispatch(isLoading("makeRecipe"));
 
   axios
     .post("/api/recipe/", recipe)
     .then(({ data }) => {
-      dispatch(notLoading());
+      dispatch(notLoading("makeRecipe"));
       return history.push(`/recipe/${data._id}`);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("makeRecipe"));
       dispatch(getErrors(err.response.data));
     });
 };
@@ -112,8 +103,7 @@ export const makeRecipe = (recipe, history) => dispatch => {
 // DELETE - one recipe by id
 export const deleteRecipe = id => dispatch => {
   dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
+  dispatch(isLoading("deleteRecipe"));
 
   axios
     .delete(`/api/recipe/${id}`)
@@ -123,10 +113,10 @@ export const deleteRecipe = id => dispatch => {
         type: DELETE_RECIPE,
         payload: id
       });
-      dispatch(notLoading());
+      dispatch(notLoading("deleteRecipe"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("deleteRecipe"));
       dispatch(getErrors(err.response.data));
     });
 };

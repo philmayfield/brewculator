@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter,
-  Route
-  // Switch
-} from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import store from "./store";
@@ -25,8 +21,6 @@ import AddEditVersion from "./components/version/AddEditVersion";
 import Brew from "./components/brew/Brew";
 import AddEditBrew from "./components/brew/AddEditBrew";
 import AddEditGravity from "./components/gravity/AddEditGravity";
-
-import "./App.css";
 
 // check for token
 if (localStorage.jwtToken) {

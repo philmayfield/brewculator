@@ -9,26 +9,25 @@ import { CLEAR_ERRORS, GET_USERNAME, SET_CURRENT_USER } from "./actionTypes";
 // CREATE - new user
 export const registerUser = (userData, history) => dispatch => {
   dispatch(clearErrors());
-  dispatch(isLoading());
+  dispatch(isLoading("registerUser"));
 
   axios
     .post("/api/user/register", userData)
     .then(() => {
       dispatch(clearErrors());
-      dispatch(notLoading());
+      dispatch(notLoading("registerUser"));
       // successful registration, send user to login page
       return history.push(`/login/${userData.username}`);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("registerUser"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // GET - user by id
 export const getUser = id => dispatch => {
-  // dispatch(clearErrors());
-  dispatch(isLoading());
+  dispatch(isLoading("getUser"));
 
   axios
     .get(`/api/user/${id}`)
@@ -37,18 +36,17 @@ export const getUser = id => dispatch => {
         type: GET_USERNAME,
         payload: res.data
       });
-      dispatch(notLoading());
+      dispatch(notLoading("getUser"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("getUser"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // GET - username by id
 export const getUsername = id => dispatch => {
-  // dispatch(clearErrors());
-  dispatch(isLoading());
+  dispatch(isLoading("getUsername"));
 
   axios
     .get(`/api/user/username/${id}`)
@@ -57,10 +55,10 @@ export const getUsername = id => dispatch => {
         type: GET_USERNAME,
         payload: res.data
       });
-      dispatch(notLoading());
+      dispatch(notLoading("getUsername"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("getUsername"));
       dispatch(getErrors(err.response.data));
     });
 };
@@ -68,12 +66,12 @@ export const getUsername = id => dispatch => {
 // login a registered user -
 export const loginUser = userData => dispatch => {
   dispatch(clearErrors());
-  dispatch(isLoading());
+  dispatch(isLoading("loginUser"));
 
   axios
     .post("/api/user/login", userData)
     .then(res => {
-      console.log("> logging in...");
+      // console.log("> logging in...");
 
       dispatch({ type: CLEAR_ERRORS });
 
@@ -89,9 +87,11 @@ export const loginUser = userData => dispatch => {
 
       // set current user
       dispatch(setCurrentUser(decoded));
+
+      dispatch(notLoading("loginUser"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("loginUser"));
       dispatch(getErrors(err.response.data));
     });
 };
@@ -106,7 +106,7 @@ export const setCurrentUser = payload => {
 
 // log user out
 export const logoutUser = () => dispatch => {
-  console.log("> logging out...");
+  // console.log("> logging out...");
 
   dispatch(clearErrors());
 

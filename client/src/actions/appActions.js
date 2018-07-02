@@ -41,13 +41,19 @@ export const clearErrors = () => {
 };
 
 // app is loading state
-export const isLoading = () => {
-  return { type: IS_LOADING };
+export const isLoading = payload => {
+  return {
+    type: IS_LOADING,
+    payload
+  };
 };
 
 // app is not loading state
-export const notLoading = () => {
-  return { type: NOT_LOADING };
+export const notLoading = payload => {
+  return {
+    type: NOT_LOADING,
+    payload
+  };
 };
 
 // app control context modifier

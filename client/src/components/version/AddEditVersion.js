@@ -101,7 +101,7 @@ class AddEditVersion extends Component {
         version: this.state.version,
         notes: this.state.notes
       };
-      console.log(">>> New version submit:", newVersion);
+      // console.log(">>> New version submit:", newVersion);
       this.props.makeVersion(newVersion, this.props.history);
     } else {
       newVersion = {
@@ -109,7 +109,7 @@ class AddEditVersion extends Component {
         version: this.state.version,
         notes: this.state.notes
       };
-      console.log(">>> Edit version submit:", newVersion);
+      // console.log(">>> Edit version submit:", newVersion);
       this.props.saveVersion(newVersion, this.props.history);
     }
   }

@@ -1,13 +1,7 @@
 // actions related to gravities - get gravity(ies) / create / update / delete
 
 import axios from "axios";
-import {
-  getErrors,
-  clearErrors,
-  isLoading,
-  notLoading,
-  defaultContext
-} from "./appActions";
+import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
 import { getBrew } from "./brewActions";
 import {
   GET_GRAVITY,
@@ -18,8 +12,7 @@ import {
 
 // READ - all gravities for a brew id
 export const getAllGravities = id => dispatch => {
-  dispatch(isLoading());
-  dispatch(defaultContext());
+  dispatch(isLoading("getAllGravities"));
 
   axios
     .get(`/api/gravities/${id}`)
@@ -28,17 +21,17 @@ export const getAllGravities = id => dispatch => {
         type: GET_GRAVITIES,
         payload: res.data
       });
-      dispatch(notLoading());
+      dispatch(notLoading("getAllGravities"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("getAllGravities"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // READ - one gravity by id
 export const getGravity = id => dispatch => {
-  dispatch(isLoading());
+  dispatch(isLoading("getGravity"));
 
   axios
     .get(`/api/gravity/${id}`)
@@ -48,7 +41,7 @@ export const getGravity = id => dispatch => {
         type: GET_GRAVITY,
         payload: res.data
       });
-      dispatch(notLoading());
+      dispatch(notLoading("getGravity"));
       return res.data;
     })
     .then(gravity => {
@@ -57,17 +50,15 @@ export const getGravity = id => dispatch => {
       return gravity;
     })
     .catch(err => {
-      console.log("err", err);
-      dispatch(notLoading());
+      dispatch(notLoading("getGravity"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // UPDATE - one gravity by id
 export const saveGravity = (gravity, history) => dispatch => {
+  dispatch(isLoading("saveGravity"));
   dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
 
   const { _id } = gravity;
 
@@ -75,37 +66,36 @@ export const saveGravity = (gravity, history) => dispatch => {
     .post(`/api/gravity/${_id}`, gravity)
     .then(({ data }) => {
       dispatch(setGravity(gravity));
-      dispatch(notLoading());
+      dispatch(notLoading("saveGravity"));
       return history.push(`/brew/${data.brew}`);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("saveGravity"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // CREATE - one new gravity
 export const makeGravity = (gravity, history) => dispatch => {
+  dispatch(isLoading("makeGravity"));
   dispatch(clearErrors());
-  dispatch(isLoading());
 
   axios
     .post(`/api/gravity/`, gravity)
     .then(({ data }) => {
-      dispatch(notLoading());
+      dispatch(notLoading("makeGravity"));
       return history.push(`/brew/${data.brew}`);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("makeGravity"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // DELETE - one gravity by id
 export const deleteGravity = id => dispatch => {
+  dispatch(isLoading("deleteGravity"));
   dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
 
   axios
     .delete(`/api/gravity/${id}`)
@@ -115,10 +105,10 @@ export const deleteGravity = id => dispatch => {
         type: DELETE_GRAVITY,
         payload: id
       });
-      dispatch(notLoading());
+      dispatch(notLoading("deleteGravity"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("deleteGravity"));
       dispatch(getErrors(err.response.data));
     });
 };

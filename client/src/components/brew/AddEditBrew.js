@@ -101,14 +101,14 @@ class AddEditBrew extends Component {
         version: this.props.recipe.version._id,
         notes: this.state.notes
       };
-      console.log(">>> New brew submit:", newBrew);
+      // console.log(">>> New brew submit:", newBrew);
       this.props.makeBrew(newBrew, this.props.history);
     } else {
       newBrew = {
         ...this.props.recipe.version.brew,
         notes: this.state.notes
       };
-      console.log(">>> Edit brew submit:", newBrew);
+      // console.log(">>> Edit brew submit:", newBrew);
       this.props.saveBrew(newBrew, this.props.history);
     }
   }

@@ -2,28 +2,32 @@ import {
   IS_LOADING,
   NOT_LOADING,
   ACTION_CONFIRM,
-  CHANGE_CONTEXT,
-  DEFAULT_CONTEXT
+  CHANGE_CONTEXT
 } from "../actions/actionTypes";
 
 const defaultState = {
-  loading: false,
+  loadingArr: [],
   altControlContext: false,
   confirmObject: {}
 };
 
 export default (state = defaultState, action) => {
+  // if (action.type === IS_LOADING || action.type === NOT_LOADING) {
+  //   console.log(">", state, action);
+  // }
   switch (action.type) {
     case IS_LOADING:
       return {
         ...state,
-        loading: true
+        loadingArr: [...state.loadingArr, action.payload]
       };
 
     case NOT_LOADING:
       return {
         ...state,
-        loading: false
+        loadingArr: state.loadingArr.filter(item => item !== action.payload),
+        altControlContext: false,
+        confirmObject: {}
       };
 
     case ACTION_CONFIRM:
@@ -38,12 +42,13 @@ export default (state = defaultState, action) => {
         altControlContext: action.payload
       };
 
-    case DEFAULT_CONTEXT:
-      return {
-        ...state,
-        altControlContext: false,
-        confirmObject: {}
-      };
+    // set default context based on loading state instead
+    // case DEFAULT_CONTEXT:
+    //   return {
+    //     ...state,
+    //     altControlContext: false,
+    //     confirmObject: {}
+    //   };
 
     default:
       return state;

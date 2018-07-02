@@ -12,7 +12,8 @@
     "browser": true,
     "amd": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "globals": {
     "angular": false,
@@ -20,10 +21,7 @@
     "inject": false,
     "document": false
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
     "no-console": 0,
     "no-unused-vars": [
@@ -32,8 +30,6 @@
         "args": "all"
       }
     ],
-    "react/jsx-uses-vars": [
-      "error"
-    ]
+    "react/jsx-uses-vars": ["error"]
   }
 }

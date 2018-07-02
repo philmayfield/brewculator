@@ -1,21 +1,14 @@
 // actions related to brews - get brews(s) / create / update / delete
 
 import axios from "axios";
-import {
-  getErrors,
-  clearErrors,
-  isLoading,
-  notLoading,
-  defaultContext
-} from "./appActions";
+import { getErrors, clearErrors, isLoading, notLoading } from "./appActions";
 import { getVersion } from "./versionActions";
 import { getAllGravities, setGravity } from "./gravityActions";
 import { GET_BREW, SET_BREW, GET_BREWS, DELETE_BREW } from "./actionTypes";
 
 // READ - all brews for a version id
 export const getAllBrews = id => dispatch => {
-  dispatch(isLoading());
-  dispatch(defaultContext());
+  dispatch(isLoading("getAllBrews"));
 
   axios
     .get(`/api/brews/${id}`)
@@ -24,18 +17,17 @@ export const getAllBrews = id => dispatch => {
         type: GET_BREWS,
         payload: res.data
       });
-      dispatch(notLoading());
+      dispatch(notLoading("getAllBrews"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("getAllBrews"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // READ - one brew by id
 export const getBrew = id => dispatch => {
-  dispatch(isLoading());
-  dispatch(defaultContext());
+  dispatch(isLoading("getBrew"));
 
   axios
     .get(`/api/brew/${id}`)
@@ -45,7 +37,7 @@ export const getBrew = id => dispatch => {
         type: GET_BREW,
         payload: res.data
       });
-      dispatch(notLoading());
+      dispatch(notLoading("getBrew"));
       return res.data;
     })
     .then(brew => {
@@ -58,16 +50,15 @@ export const getBrew = id => dispatch => {
       return brew;
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("getBrew"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // UPDATE - one brew by id
 export const saveBrew = (brew, history) => dispatch => {
+  dispatch(isLoading("saveBrew"));
   dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
 
   const { _id } = brew;
 
@@ -75,37 +66,36 @@ export const saveBrew = (brew, history) => dispatch => {
     .post(`/api/brew/${_id}`, brew)
     .then(() => {
       dispatch(setBrew(brew));
-      dispatch(notLoading());
+      dispatch(notLoading("saveBrew"));
       return history.push(`/brew/${_id}`);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("saveBrew"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // CREATE - one new brew
 export const makeBrew = (brew, history) => dispatch => {
+  dispatch(isLoading("makeBrew"));
   dispatch(clearErrors());
-  dispatch(isLoading());
 
   axios
     .post(`/api/brew/`, brew)
     .then(({ data }) => {
-      dispatch(notLoading());
+      dispatch(notLoading("makeBrew"));
       return history.push(`/brew/${data._id}`);
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("makeBrew"));
       dispatch(getErrors(err.response.data));
     });
 };
 
 // DELETE - one brew by id
 export const deleteBrew = id => dispatch => {
+  dispatch(isLoading("deleteBrew"));
   dispatch(clearErrors());
-  dispatch(isLoading());
-  dispatch(defaultContext());
 
   axios
     .delete(`/api/brew/${id}`)
@@ -115,10 +105,10 @@ export const deleteBrew = id => dispatch => {
         type: DELETE_BREW,
         payload: id
       });
-      dispatch(notLoading());
+      dispatch(notLoading("deleteBrew"));
     })
     .catch(err => {
-      dispatch(notLoading());
+      dispatch(notLoading("deleteBrew"));
       dispatch(getErrors(err.response.data));
     });
 };

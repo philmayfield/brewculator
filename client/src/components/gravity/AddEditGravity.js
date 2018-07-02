@@ -111,7 +111,7 @@ class AddEditGravity extends Component {
         temp: this.state.temp,
         notes: this.state.notes
       };
-      console.log(">>> New gravity submit:", newGravity);
+      // console.log(">>> New gravity submit:", newGravity);
       this.props.makeGravity(newGravity, history);
     } else {
       newGravity = {
@@ -121,7 +121,7 @@ class AddEditGravity extends Component {
         temp: this.state.temp,
         notes: this.state.notes
       };
-      console.log(">>> Edit gravity submit:", newGravity);
+      // console.log(">>> Edit gravity submit:", newGravity);
       this.props.saveGravity(newGravity, history);
     }
   }

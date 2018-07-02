@@ -4,18 +4,9 @@ import PropTypes from "prop-types";
 
 class Loading extends Component {
   render() {
-    const { loading } = this.props.appJunk;
-    let loadingGuts = null;
-
-    // if (loading) {
-    //   loadingGuts = (
-    //     <div className="app-loading d-flex align-items-center justify-content-center">
-    //       <div>LOADING&hellip;</div>
-    //     </div>
-    //   );
-    // }
-
-    loadingGuts = (
+    const { loadingArr } = this.props.appJunk;
+    const loading = loadingArr.length > 0;
+    const loadingGuts = (
       <div
         className={`app-loading align-items-center justify-content-center ${
           loading ? "d-flex" : "d-none"
