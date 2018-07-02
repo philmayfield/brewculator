@@ -81,7 +81,10 @@ class Brew extends Component {
         label: "Gravity",
         yAxisID: "gravs",
         borderColor: `rgba(${gravColor}, 1)`,
-        backgroundColor: `rgba(${gravColor}, .25)`
+        backgroundColor: `rgba(${gravColor}, .25)`,
+        pointRadius: 10,
+        pointHitRadius: 10,
+        pointHoverRadius: 10
       };
       const temps = {
         data: gravities.map(g => g.temp),
@@ -89,6 +92,9 @@ class Brew extends Component {
         yAxisID: "temps",
         borderColor: `rgba(${tempColor}, 1)`,
         backgroundColor: `rgba(${tempColor}, .075)`,
+        pointRadius: 10,
+        pointHitRadius: 10,
+        pointHoverRadius: 10,
         spanGaps: true
       };
       const datasets = [gravs, temps];
