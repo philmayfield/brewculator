@@ -129,7 +129,7 @@ const mapStateToProps = state => ({
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   history: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   match: PropTypes.shape({

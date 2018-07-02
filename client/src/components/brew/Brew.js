@@ -51,7 +51,7 @@ class Brew extends Component {
     e.preventDefault();
 
     const { _id, date, version } = this.props.recipe.version.brew;
-    const friendlyDate = moment(date).format("MMM D, YYYY");
+    const friendlyDate = moment.utc(date).format("MMM D, YYYY");
 
     this.props.actionConfirm({
       confirmAction: deleteBrew,

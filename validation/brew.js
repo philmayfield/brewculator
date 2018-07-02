@@ -1,16 +1,18 @@
-// const Validator = require("validator");
+const Validator = require("validator");
 const isEmpty = require("./empty").isEmpty;
-// const notEmpty = require("./empty").notEmpty;
+const notEmpty = require("./empty").notEmpty;
 
-module.exports = function validateBrewInput() {
+module.exports = function validateBrewInput(data = {}) {
   let errors = {};
 
-  // data.notes = notEmpty(data.notes) ? data.notes : "";
+  data.date = notEmpty(data.date) ? data.date + "" : "";
 
-  // // brew validations
-  // if (Validator.isEmpty(data.notes)) {
-  //   errors.notes = "Brew notes are required";
-  // }
+  if (Validator.isEmpty(data.date)) {
+    errors.date = "The date field can not be empty";
+  }
+  if (!Validator.isISO8601(data.date)) {
+    errors.date = "A valid date is required";
+  }
 
   return {
     errors,

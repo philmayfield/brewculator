@@ -20,9 +20,8 @@ class AddEditBrew extends Component {
       _id: "",
       version: "",
       notes: "",
-      date: "",
-      isNew: this.props.match.params.id === "new",
-      errors: {}
+      date: new Date().toISOString().substr(0, 10),
+      isNew: this.props.match.params.id === "new"
     };
 
     const sessionVersionId = sessionStorage.getItem("versionId");
@@ -77,7 +76,7 @@ class AddEditBrew extends Component {
     const ppbrew = prevProps.recipe.version.brew;
 
     // update state once brew comes back
-    if (brew && brew._id !== ppbrew._id) {
+    if (brew && ppbrew && brew._id !== ppbrew._id) {
       this.setState({
         _id: brew._id,
         notes: brew.notes,
@@ -94,22 +93,25 @@ class AddEditBrew extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const { recipe, history } = this.props;
     let newBrew;
 
     if (this.state.isNew) {
       newBrew = {
-        version: this.props.recipe.version._id,
+        version: recipe.version._id,
+        date: this.state.date,
         notes: this.state.notes
       };
       // console.log(">>> New brew submit:", newBrew);
-      this.props.makeBrew(newBrew, this.props.history);
+      this.props.makeBrew(newBrew, history);
     } else {
       newBrew = {
-        ...this.props.recipe.version.brew,
+        ...recipe.version.brew,
+        date: this.state.date,
         notes: this.state.notes
       };
       // console.log(">>> Edit brew submit:", newBrew);
-      this.props.saveBrew(newBrew, this.props.history);
+      this.props.saveBrew(newBrew, history);
     }
   }
 
@@ -154,7 +156,7 @@ AddEditBrew.propTypes = {
   auth: PropTypes.object.isRequired,
   appJunk: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   history: PropTypes.object.isRequired,
   getVersion: PropTypes.func.isRequired,
   saveBrew: PropTypes.func.isRequired,

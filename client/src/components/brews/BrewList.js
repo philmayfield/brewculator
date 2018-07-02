@@ -31,7 +31,7 @@ class BrewList extends Component {
           key={brew._id}
           item={brew}
           itemType="brew"
-          header={moment(brew.date).format("MMM D, YYYY")}
+          header={moment.utc(brew.date).format("MMM D, YYYY")}
           sub={brew.notes}
           isAuth={auth.isAuth}
           handleRemoval={this.handleRemoval.bind(this)}

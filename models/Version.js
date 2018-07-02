@@ -18,6 +18,10 @@ const VersionSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  brew: {
+    type: Schema.Types.ObjectId,
+    ref: "Brew"
+  },
   brews: [
     {
       type: Schema.Types.ObjectId,

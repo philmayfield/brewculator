@@ -137,16 +137,21 @@ router.delete(
   (req, res) => {
     const versionId = req.params.version_id;
 
-    Version.findOneAndRemove({ _id: versionId })
+    Version.findByIdAndDelete(versionId)
       .then(version => {
         if (notEmpty(version)) {
           // deleted the version - now delete the associated brews and gravities
-          Brew.deleteMany({ version: versionId }).catch(err =>
-            res.status(400).json(err)
-          );
-          Gravity.deleteMany({ version: versionId }).catch(err =>
-            res.status(400).json(err)
-          );
+          Brew.find({ version: version._id }).then(brews => {
+            brews.forEach(brew => {
+              Brew.findByIdAndDelete(brew._id)
+                .then(brew => {
+                  Gravity.deleteMany({ brew: brew._id }).catch(err =>
+                    console.log("g dm err >", err)
+                  );
+                })
+                .catch(err => console.log("b fd err >", err));
+            });
+          });
           return res.json({ deleted: true });
         }
         return res.json({

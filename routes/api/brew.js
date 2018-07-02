@@ -56,16 +56,12 @@ router.post(
     // get fields
     const brewFields = {};
     brewFields.version = version_id ? version_id : "";
+    brewFields.date = body.date ? body.date : "";
     brewFields.notes = body.notes ? body.notes : "";
 
     Version.findOne({ _id: version_id })
       .then(version => {
         if (version) {
-          // found the version, add the brew
-
-          // set the recipe id
-          brewFields.recipe = version.recipe;
-
           new Brew(brewFields)
             .save()
             .then(brew => res.json(brew))
@@ -105,6 +101,7 @@ router.post(
 
     // get fields
     const brewFields = {};
+    brewFields.date = body.date ? body.date : "";
     brewFields.notes = body.notes ? body.notes : "";
 
     Brew.findOneAndUpdate(
@@ -136,7 +133,7 @@ router.delete(
   (req, res) => {
     const brewId = req.params.brew_id;
 
-    Brew.findOneAndRemove({ _id: brewId })
+    Brew.findByIdAndDelete(brewId)
       .then(brew => {
         if (notEmpty(brew)) {
           // deleted the brew - now delete the associated gravities

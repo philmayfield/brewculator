@@ -30,8 +30,8 @@ class GravityList extends Component {
         const { _id, date, brix, temp, notes } = gravity;
 
         let sub = `${brix}\u00B0Bx`;
-        sub += temp && ` \u00B7 ${temp}\u00B0F`;
-        sub += notes && ` \u00B7 ${notes}`;
+        sub += temp ? ` \u00B7 ${temp}\u00B0F` : "";
+        sub += notes ? ` \u00B7 ${notes}` : "";
 
         return (
           <ItemListItem

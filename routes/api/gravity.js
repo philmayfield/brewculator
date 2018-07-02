@@ -4,7 +4,7 @@ const passport = require("passport");
 const notEmpty = require("../../validation/empty").notEmpty;
 
 // load validations
-const validateGravityInput = require("../../validation/brew");
+const validateGravityInput = require("../../validation/gravity");
 
 // load gravity and brew model
 const Gravity = require("../../models/Gravity");
@@ -63,12 +63,6 @@ router.post(
     Brew.findOne({ _id: brew_id })
       .then(brew => {
         if (brew) {
-          // found the brew, add the gravity
-
-          // set the recipe and version id
-          // gravityFields.recipe = brew.recipe;
-          // gravityFields.version = brew.version;
-
           new Gravity(gravityFields)
             .save()
             .then(gravity => res.json(gravity))
@@ -121,7 +115,6 @@ router.post(
     )
       .then(gravity => {
         if (gravity) {
-          console.log(`>> updated gravity ${gravityId}`);
           return res.json(gravity);
         }
 

@@ -14,10 +14,16 @@ const BrewSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  gravities: {
+  gravity: {
     type: Schema.Types.ObjectId,
     ref: "Gravity"
-  }
+  },
+  gravities: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Gravity"
+    }
+  ]
 });
 
 let Brew = mongoose.model("brew", BrewSchema);

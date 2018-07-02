@@ -24,8 +24,7 @@ class AddEditRecipe extends Component {
       name: "",
       style: "",
       isNew: this.props.match.params.id === "new",
-      date: Date.now(),
-      errors: {}
+      date: Date.now()
     };
 
     const { id } = this.props.match.params;
@@ -60,7 +59,7 @@ class AddEditRecipe extends Component {
     const pprecipe = prevProps.recipe;
 
     // update state once brew comes back
-    if (recipe && recipe._id !== pprecipe._id) {
+    if (recipe && pprecipe && recipe._id !== pprecipe._id) {
       this.setState({
         _id: recipe._id,
         name: recipe.name,

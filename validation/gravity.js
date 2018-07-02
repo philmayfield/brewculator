@@ -10,10 +10,13 @@ module.exports = function validateGravityInput(data = {}) {
   data.temp = notEmpty(data.temp) ? data.temp + "" : "";
 
   // gravity validations
-  if (Validator.isISO8601(data.date)) {
+  if (Validator.isEmpty(data.date)) {
+    errors.date = "The date field can not be empty";
+  }
+  if (!Validator.isISO8601(data.date)) {
     errors.date = "A valid date is required";
   }
-  if (Validator.isNumeric(data.brix)) {
+  if (!Validator.isNumeric(data.brix)) {
     errors.brix = "Brix reading should be a number";
   }
   if (Validator.isEmpty(data.brix)) {
@@ -21,7 +24,7 @@ module.exports = function validateGravityInput(data = {}) {
   }
 
   // temp validations
-  if (Validator.isNumeric(data.temp)) {
+  if (notEmpty(data.temp) && !Validator.isNumeric(data.temp)) {
     errors.temp = "Temperature should be a number";
   }
 

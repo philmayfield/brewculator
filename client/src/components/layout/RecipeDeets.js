@@ -50,7 +50,7 @@ const RecipeDeets = props => {
       return (
         <div className="col">
           <h5 className="m-0">
-            Brewed {moment(brew.date).format("MMM D, YYYY")}
+            Brewed {moment.utc(brew.date).format("MMM D, YYYY")}
           </h5>
           <p className={`m-0 ${brew.notes ? "" : "d-none"}`}>{brew.notes}</p>
         </div>

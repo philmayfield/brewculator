@@ -76,7 +76,7 @@ class AddEditVersion extends Component {
     const ppversion = prevProps.recipe.version;
 
     // update state once version prop comes back
-    if (version && version._id !== ppversion._id) {
+    if (version && ppversion && version._id !== ppversion._id) {
       this.setState({
         _id: version._id,
         version: version.version,
@@ -151,7 +151,7 @@ AddEditVersion.propTypes = {
   appJunk: PropTypes.object.isRequired,
   recipe: PropTypes.object.isRequired,
   recipes: PropTypes.array.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   history: PropTypes.object.isRequired,
   getRecipe: PropTypes.func.isRequired,
   saveVersion: PropTypes.func.isRequired,

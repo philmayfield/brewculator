@@ -28,7 +28,7 @@ router.get("/all", (req, res) => {
       }
 
       // no recipes found
-      errors.recipeError =
+      errors.recipesError =
         "Hey, there arent any recipes here yet.  Why dont you add some!";
       return res.status(404).json(errors);
     })
@@ -147,19 +147,31 @@ router.delete(
   (req, res) => {
     const recipeId = req.params.recipe_id;
 
-    Recipe.findOneAndRemove({ _id: recipeId })
+    Recipe.findByIdAndDelete(recipeId)
       .then(recipe => {
         if (notEmpty(recipe)) {
           // deleted the recipe - now delete the associated versions, brews and gravities
-          Version.deleteMany({ recipe: recipeId }).catch(err =>
-            res.status(400).json(err)
-          );
-          Brew.deleteMany({ recipe: recipeId }).catch(err =>
-            res.status(400).json(err)
-          );
-          Gravity.deleteMany({ recipe: recipeId }).catch(err =>
-            res.status(400).json(err)
-          );
+          Version.find({ recipe: recipe._id })
+            .then(versions => {
+              versions.forEach(version => {
+                Version.findByIdAndDelete(version._id)
+                  .then(version => {
+                    Brew.find({ version: version._id }).then(brews => {
+                      brews.forEach(brew => {
+                        Brew.findByIdAndDelete(brew._id)
+                          .then(brew => {
+                            Gravity.deleteMany({ brew: brew._id }).catch(err =>
+                              console.log("g dm err >", err)
+                            );
+                          })
+                          .catch(err => console.log("b fd err >", err));
+                      });
+                    });
+                  })
+                  .catch(err => console.log("v fd err >", err));
+              });
+            })
+            .catch(err => res.status(400).json(err));
           return res.json({ deleted: true });
         }
         return res.json({

@@ -22,9 +22,8 @@ class AddEditGravity extends Component {
       brix: "",
       temp: "",
       notes: "",
-      date: "",
-      isNew: this.props.match.params.id === "new",
-      errors: {}
+      date: new Date().toISOString().substr(0, 10),
+      isNew: this.props.match.params.id === "new"
     };
 
     const sessionBrewId = sessionStorage.getItem("brewId");
@@ -62,7 +61,7 @@ class AddEditGravity extends Component {
         this.props.setGravity(storeGravity);
         this.state._id = storeGravity._id;
         this.state.brix = storeGravity.brix;
-        this.state.temp = storeGravity.temp;
+        this.state.temp = storeGravity.temp ? storeGravity.temp : "";
         this.state.notes = storeGravity.notes;
         this.state.date = storeGravity.date;
       } else {
@@ -81,7 +80,7 @@ class AddEditGravity extends Component {
     const ppgravity = prevProps.recipe.version.brew.gravity;
 
     // update state once gravity comes back
-    if (gravity && gravity._id !== ppgravity._id) {
+    if (gravity && ppgravity && gravity._id !== ppgravity._id) {
       this.setState({
         _id: gravity._id,
         brix: gravity.brix ? gravity.brix : "",

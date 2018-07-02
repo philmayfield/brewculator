@@ -63,7 +63,7 @@ VersionForm.propTypes = {
   handleGoBack: PropTypes.func.isRequired,
   recipe: PropTypes.object.isRequired,
   version: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
 };
 
 export default VersionForm;
