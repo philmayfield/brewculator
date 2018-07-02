@@ -88,7 +88,8 @@ class Brew extends Component {
         label: "Temperature",
         yAxisID: "temps",
         borderColor: `rgba(${tempColor}, 1)`,
-        backgroundColor: `rgba(${tempColor}, .075)`
+        backgroundColor: `rgba(${tempColor}, .075)`,
+        spanGaps: true
       };
       const datasets = [gravs, temps];
       return { labels, datasets };
@@ -112,6 +113,9 @@ class Brew extends Component {
               id: "gravs",
               type: "linear",
               position: "left",
+              gridLines: {
+                drawOnChartArea: false
+              },
               ticks: {
                 min: 1
               }
@@ -120,6 +124,9 @@ class Brew extends Component {
               id: "temps",
               type: "linear",
               position: "right",
+              gridLines: {
+                drawOnChartArea: false
+              },
               ticks: {
                 min: 50,
                 max: 90
