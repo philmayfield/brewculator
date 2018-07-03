@@ -26,9 +26,11 @@ const RecipeDeets = props => {
   const displayByLine = (recipe, author) => {
     if (recipe) {
       return (
-        <p className={`text-muted ${!version && !brew && "mb-0"}`}>
+        <p className={`text-muted ${version || brew ? "mb-2" : "mb-0"}`}>
           Added {author && `by ${author.username}`} on{" "}
-          {moment(recipe.date).format("MMM D, YYYY")}
+          <span className="text-nowrap">
+            {moment(recipe.date).format("MMM D, YYYY")}
+          </span>
         </p>
       );
     }
@@ -36,7 +38,7 @@ const RecipeDeets = props => {
   const displayVersion = version => {
     if (version && notEmpty(version._id)) {
       return (
-        <div className="col">
+        <div className="col-auto col-sm-6 mb-3">
           <h5 className="m-0">Version {version.version}</h5>
           <p className={`m-0 ${version.notes ? "" : "d-none"}`}>
             {version.notes}
@@ -48,7 +50,7 @@ const RecipeDeets = props => {
   const displayBrew = brew => {
     if (brew && notEmpty(brew._id)) {
       return (
-        <div className="col">
+        <div className="col-auto col-sm-6 mb-3">
           <h5 className="m-0">
             Brewed {moment.utc(brew.date).format("MMM D, YYYY")}
           </h5>
@@ -71,7 +73,7 @@ const RecipeDeets = props => {
           </div>
           {hasGravitiesContent && (
             <div>
-              <hr />
+              <hr className="mt-0" />
               {props.gravitiesContent}
             </div>
           )}

@@ -173,7 +173,7 @@ class Brew extends Component {
 
       gravitiesContent = (
         <div>
-          <h6 className="d-flex flex-wrap align-items-center">
+          <h6 className="d-flex flex-wrap align-items-center justify-content-center">
             <ReactSVG
               path={getImg("baselineLocalDrink24px")}
               svgClassName="primary mr-2"
