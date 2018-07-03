@@ -73,7 +73,6 @@ class Register extends Component {
                   "w-100",
                   "justify-content-center"
                 ]}
-                clickOrTo={this.formSubmit}
                 icon="baselineLocalDrink24px"
               >
                 Beer Me

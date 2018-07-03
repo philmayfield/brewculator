@@ -85,7 +85,6 @@ const GravityForm = props => {
           <Button
             type="submit"
             classes={["btn-primary", "flex-fill"]}
-            // clickOrTo={props.handleSubmit}
             icon="baselineSave24px"
           >
             {props.new ? "Save New Reading" : "Save Changes"}

@@ -35,23 +35,23 @@ const VersionForm = props => {
           error={props.errors.notes}
           onChange={props.handleInput}
         />
+        <AppControl>
+          <Button
+            classes={["btn-secondary", "flex-fill"]}
+            clickOrTo={props.handleGoBack}
+            icon="baselineArrowBack24px"
+          >
+            Back
+          </Button>
+          <Button
+            type="submit"
+            classes={["btn-primary", "flex-fill"]}
+            icon="baselineSave24px"
+          >
+            {props.new ? "Save New Version" : "Save Changes"}
+          </Button>
+        </AppControl>
       </form>
-      <AppControl>
-        <Button
-          classes={["btn-secondary", "flex-fill"]}
-          clickOrTo={props.handleGoBack}
-          icon="baselineArrowBack24px"
-        >
-          Back
-        </Button>
-        <Button
-          classes={["btn-primary", "flex-fill"]}
-          clickOrTo={props.handleSubmit}
-          icon="baselineSave24px"
-        >
-          {props.new ? "Save New Version" : "Save Changes"}
-        </Button>
-      </AppControl>
     </div>
   );
 };

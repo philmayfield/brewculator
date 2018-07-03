@@ -144,13 +144,6 @@ class AddEditRecipe extends Component {
           </div>
         </div>
         <div>* required field</div>
-      </form>
-    );
-
-    return (
-      <div>
-        <RecipeDeets recipe={sRecipe} author={author} loading={loading} />
-        {errorContent ? errorContent : formContent}
         <AppControl>
           <Button
             classes={["btn-secondary", "flex-fill"]}
@@ -160,13 +153,20 @@ class AddEditRecipe extends Component {
             Back
           </Button>
           <Button
+            type="submit"
             classes={["btn-primary", "flex-fill"]}
-            clickOrTo={this.handleSubmit}
             icon="baselineSave24px"
           >
             {isNew ? "Save New Recipe" : "Save Recipe"}
           </Button>
         </AppControl>
+      </form>
+    );
+
+    return (
+      <div>
+        <RecipeDeets recipe={sRecipe} author={author} loading={loading} />
+        {errorContent ? errorContent : formContent}
       </div>
     );
   }

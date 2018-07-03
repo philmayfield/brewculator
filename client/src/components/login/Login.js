@@ -103,7 +103,6 @@ class Login extends Component {
                   "w-100",
                   "justify-content-center"
                 ]}
-                clickOrTo={this.formSubmit}
                 icon="baselineAccountCircle24px"
               >
                 Login
