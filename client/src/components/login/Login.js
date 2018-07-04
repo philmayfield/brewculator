@@ -12,7 +12,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
-    const user = this.props.match.params.user;
+    const user = this.props.match && this.props.match.params.user;
 
     this.state = {
       username: user ? user : "",
@@ -129,7 +129,7 @@ const mapStateToProps = state => ({
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
   auth: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({

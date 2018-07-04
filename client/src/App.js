@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
+import Root from "./Root";
 import store from "./store";
 
 import setAuthToken from "./common/setAuthToken";
@@ -50,7 +50,7 @@ if (localStorage.jwtToken) {
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
+      <Root>
         <BrowserRouter>
           <div className="App">
             <Header />
@@ -78,7 +78,7 @@ class App extends Component {
             </main>
           </div>
         </BrowserRouter>
-      </Provider>
+      </Root>
     );
   }
 }
