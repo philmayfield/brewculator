@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Root from "./Root";
-import store from "./store";
+import getStore from "./store";
 
 import setAuthToken from "./common/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
@@ -25,6 +25,7 @@ import AddEditGravity from "./components/gravity/AddEditGravity";
 // check for token
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
+  const store = getStore();
 
   // set auth token header to the token
   setAuthToken(token);

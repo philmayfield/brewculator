@@ -1,9 +1,10 @@
 import React from "react";
 import { Provider } from "react-redux";
-import store from "./store";
+import getStore from "./store";
 import PropTypes from "prop-types";
 
-const Root = ({ children }) => {
+const Root = ({ children, initialState = {} }) => {
+  const store = getStore(initialState);
   return <Provider store={store}>{children}</Provider>;
 };
 
