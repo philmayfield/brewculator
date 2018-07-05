@@ -1,15 +1,14 @@
 header {
   background: $light-gradient-bg-inv;
   border-bottom: 1px solid rgba(white, 0.5);
-  min-height: $spacer * 3;
+  min-height: $spacer * 4;
   position: relative;
   z-index: 10;
 }
 
 .logo {
-  margin-top: $spacer/2;
   margin-right: $spacer;
-  margin-bottom: -$spacer/2;
+  margin-bottom: -$spacer * 0.75;
   margin-left: 0;
   width: auto;
   max-width: 20rem;

@@ -4652,6 +4652,7 @@ h1,
 h1,
 .funky-shadow-style {
   bottom: -0.75rem;
+  color: #000;
   display: inline-block;
   position: relative;
   padding-left: 0.5rem;
@@ -4739,14 +4740,13 @@ main {
 header {
   background: linear-gradient(to top, rgba(255, 255, 255, 0.85), rgba(233, 221, 217, 0.85));
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  min-height: 3rem;
+  min-height: 4rem;
   position: relative;
   z-index: 10; }
 
 .logo {
-  margin-top: 0.5rem;
   margin-right: 1rem;
-  margin-bottom: -0.5rem;
+  margin-bottom: -0.75rem;
   margin-left: 0;
   width: auto;
   max-width: 20rem;

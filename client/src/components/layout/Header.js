@@ -38,8 +38,8 @@ class Header extends Component {
     );
 
     return (
-      <header className="z-depth-3 mb-3">
-        <div className="d-flex container">
+      <header className="d-flex z-depth-3 mb-3">
+        <div className="d-flex align-items-center container">
           <Link className="logo" to="/recipes">
             <ReactSVG path={logoImg} svgClassName="" />
           </Link>
