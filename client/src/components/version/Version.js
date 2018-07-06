@@ -9,7 +9,7 @@ import {
   setVersion,
   deleteVersion
 } from "../../actions/versionActions";
-import { getAllBrews, setBrew } from "../../actions/brewActions";
+import { getAllBrews, unsetBrew } from "../../actions/brewActions";
 import ContextChangeBtn from "../common/ContextChangeBtn";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
@@ -38,7 +38,7 @@ class Version extends Component {
       this.props.getVersion(id);
     }
 
-    this.props.setBrew({});
+    this.props.unsetBrew();
 
     this.handleDelete = this.handleDelete.bind(this);
   }
@@ -162,7 +162,7 @@ class Version extends Component {
 Version.propTypes = {
   getVersion: PropTypes.func.isRequired,
   setVersion: PropTypes.func.isRequired,
-  setBrew: PropTypes.func.isRequired,
+  unsetBrew: PropTypes.func.isRequired,
   getAllBrews: PropTypes.func.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   recipe: PropTypes.object.isRequired,
@@ -190,7 +190,7 @@ export default connect(
     getVersion,
     setVersion,
     getAllBrews,
-    setBrew,
+    unsetBrew,
     actionConfirm
   }
 )(Version);

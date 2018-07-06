@@ -7,7 +7,7 @@ import { actionConfirm } from "../../actions/appActions";
 import { notEmpty } from "../../common/empty";
 import { clearErrors } from "../../actions/appActions";
 import { getBrew, setBrew, deleteBrew } from "../../actions/brewActions";
-import { getAllGravities } from "../../actions/gravityActions";
+import { getAllGravities, unsetGravity } from "../../actions/gravityActions";
 import ContextChangeBtn from "../common/ContextChangeBtn";
 import RecipeDeets from "../layout/RecipeDeets";
 import AppControl from "../layout/AppControl";
@@ -43,6 +43,8 @@ class Brew extends Component {
       // fetch brew over the wire, will also fetch recipe, version & gravities
       this.props.getBrew(id);
     }
+
+    this.props.unsetGravity();
 
     this.handleDelete = this.handleDelete.bind(this);
   }
@@ -290,6 +292,7 @@ Brew.propTypes = {
   getBrew: PropTypes.func.isRequired,
   setBrew: PropTypes.func.isRequired,
   getAllGravities: PropTypes.func.isRequired,
+  unsetGravity: PropTypes.func.isRequired,
   actionConfirm: PropTypes.func.isRequired,
   recipe: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
@@ -317,6 +320,7 @@ export default connect(
     getBrew,
     setBrew,
     getAllGravities,
+    unsetGravity,
     actionConfirm
   }
 )(Brew);

@@ -6,6 +6,7 @@ import { getBrew } from "./brewActions";
 import {
   GET_GRAVITY,
   SET_GRAVITY,
+  UNSET_GRAVITY,
   GET_GRAVITIES,
   DELETE_GRAVITY
 } from "./actionTypes";
@@ -118,5 +119,12 @@ export const setGravity = gravity => {
   return {
     type: SET_GRAVITY,
     payload: gravity
+  };
+};
+
+export const unsetGravity = () => {
+  sessionStorage.setItem("gravityId", null);
+  return {
+    type: UNSET_GRAVITY
   };
 };

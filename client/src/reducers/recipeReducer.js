@@ -9,10 +9,12 @@ import {
   GET_BREWS,
   GET_BREW,
   SET_BREW,
+  UNSET_BREW,
   DELETE_BREW,
   GET_GRAVITIES,
   GET_GRAVITY,
   SET_GRAVITY,
+  UNSET_GRAVITY,
   DELETE_GRAVITY
 } from "../actions/actionTypes";
 
@@ -38,6 +40,7 @@ export default (state = defaultState, action) => {
   // if (action.type === GET_BREW) {
   //   console.log(">>>", state, action.payload);
   // }
+  // console.log(">p>", action.payload);
   switch (action.type) {
     case GET_RECIPE:
     case SET_RECIPE:
@@ -108,12 +111,27 @@ export default (state = defaultState, action) => {
         }
       };
 
+    case UNSET_BREW:
+      return {
+        ...state,
+        version: {
+          ...state.version,
+          brew: {
+            gravities: [],
+            gravity: {}
+          }
+        }
+      };
+
     case DELETE_BREW:
       return {
         ...state,
         version: {
           ...state.version,
-          brew: null,
+          brew: {
+            gravities: [],
+            gravity: {}
+          },
           brews: [
             ...state.version.brews.filter(brew => brew._id !== action.payload)
           ]
@@ -150,6 +168,18 @@ export default (state = defaultState, action) => {
               ),
               ...action.payload
             ]
+          }
+        }
+      };
+
+    case UNSET_GRAVITY:
+      return {
+        ...state,
+        version: {
+          ...state.version,
+          brew: {
+            ...state.version.brew,
+            gravity: {}
           }
         }
       };
