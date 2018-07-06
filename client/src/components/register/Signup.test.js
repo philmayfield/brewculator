@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { mount } from "enzyme";
 import Root from "../../Root";
-import Login from "./Login";
+import Signup from "./Signup";
 
 let wrapper;
 const testText = "asdf";
@@ -11,7 +11,7 @@ beforeEach(() => {
   wrapper = mount(
     <Root>
       <BrowserRouter>
-        <Login />
+        <Signup />
       </BrowserRouter>
     </Root>
   );

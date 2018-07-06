@@ -11,6 +11,8 @@ import Button from "../common/Button";
 
 class Recipes extends Component {
   componentDidMount() {
+    // ok to fetch all recipes on loading of recipes route
+    // so we know we are always up to date on the data
     this.props.getAllRecipes();
   }
 

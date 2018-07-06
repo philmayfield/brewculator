@@ -27,7 +27,11 @@ class AddEditRecipe extends Component {
       date: Date.now()
     };
 
-    const { id } = this.props.match.params;
+    let { id } = this.props.match.params;
+
+    if (this.props.test && this.props.testId) {
+      id = this.props.testId;
+    }
 
     if (id !== "new") {
       const { recipe, recipes } = this.props;
@@ -183,6 +187,8 @@ AddEditRecipe.propTypes = {
   recipe: PropTypes.object.isRequired,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   recipes: PropTypes.array.isRequired,
+  test: PropTypes.bool,
+  testId: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string
