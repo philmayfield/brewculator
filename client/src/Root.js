@@ -1,12 +1,13 @@
 import React from "react";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import reduxPromise from "redux-promise";
 import rootReducer from "./reducers";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import PropTypes from "prop-types";
 
-const middleware = [thunk];
+const middleware = [thunk, reduxPromise];
 
 const Root = ({ children, initialState = {} }) => {
   const store = createStore(

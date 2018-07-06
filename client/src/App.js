@@ -33,17 +33,17 @@ class App extends Component {
               <Route path="/login/:user?" component={Login} exact />
               <Route path="/recipes" component={Recipes} exact />
               <Route path="/recipe/:id" component={Recipe} exact />
-              <Route path="/recipe/edit/:id?" component={AddEditRecipe} exact />
+              <Route path="/recipe/edit/:id" component={AddEditRecipe} exact />
               <Route path="/version/:id" component={Version} exact />
               <Route
-                path="/version/edit/:id?"
+                path="/version/edit/:id"
                 component={AddEditVersion}
                 exact
               />
               <Route path="/brew/:id" component={Brew} exact />
-              <Route path="/brew/edit/:id?" component={AddEditBrew} exact />
+              <Route path="/brew/edit/:id" component={AddEditBrew} exact />
               <Route
-                path="/gravity/edit/:id?"
+                path="/gravity/edit/:id"
                 component={AddEditGravity}
                 exact
               />
