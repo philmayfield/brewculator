@@ -15,14 +15,14 @@ export const registerUser = (userData, history) => dispatch => {
     .post("/api/user/register", userData)
     .then(() => {
       dispatch(clearErrors());
-      dispatch(notLoading("registerUser"));
       // successful registration, send user to login page
       return history.push(`/login/${userData.username}`);
     })
     .catch(err => {
-      dispatch(notLoading("registerUser"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("registerUser")));
 };
 
 // GET - user by id
@@ -36,12 +36,12 @@ export const getUser = id => dispatch => {
         type: GET_USERNAME,
         payload: res.data
       });
-      dispatch(notLoading("getUser"));
     })
     .catch(err => {
-      dispatch(notLoading("getUser"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("getUser")));
 };
 
 // GET - username by id
@@ -55,12 +55,12 @@ export const getUsername = id => dispatch => {
         type: GET_USERNAME,
         payload: res.data
       });
-      dispatch(notLoading("getUsername"));
     })
     .catch(err => {
-      dispatch(notLoading("getUsername"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("getUsername")));
 };
 
 // login a registered user -
@@ -87,13 +87,12 @@ export const loginUser = userData => dispatch => {
 
       // set current user
       dispatch(setCurrentUser(decoded));
-
-      dispatch(notLoading("loginUser"));
     })
     .catch(err => {
-      dispatch(notLoading("loginUser"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("loginUser")));
 };
 
 // set currently logged in user

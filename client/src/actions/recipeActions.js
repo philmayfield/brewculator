@@ -26,7 +26,8 @@ export const getAllRecipes = () => dispatch => {
     })
     .catch(err => {
       dispatch(notLoading("getAllRecipes"));
-      dispatch(getErrors(err.response.data));
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
     })
     .finally(() => dispatch(notLoading("getAllRecipes")));
 };
@@ -45,7 +46,7 @@ export const getRecipe = id => dispatch => {
         type: GET_RECIPE,
         payload
       });
-      dispatch(notLoading("getRecipe"));
+
       return payload;
     })
     .then(recipe => {
@@ -55,9 +56,10 @@ export const getRecipe = id => dispatch => {
       ]);
     })
     .catch(err => {
-      dispatch(notLoading("getRecipe"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("getRecipe")));
 };
 
 // UPDATE - one recipes by id
@@ -74,13 +76,13 @@ export const saveRecipe = (recipe, history) => dispatch => {
         type: SET_RECIPE,
         payload: res.data
       });
-      dispatch(notLoading("saveRecipe"));
       return history.push(`/recipe/${_id}`);
     })
     .catch(err => {
-      dispatch(notLoading("saveRecipe"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("saveRecipe")));
 };
 
 // CREATE - one new recipe
@@ -91,13 +93,13 @@ export const makeRecipe = (recipe, history) => dispatch => {
   axios
     .post("/api/recipe/", recipe)
     .then(({ data }) => {
-      dispatch(notLoading("makeRecipe"));
       return history.push(`/recipe/${data._id}`);
     })
     .catch(err => {
-      dispatch(notLoading("makeRecipe"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("makeRecipe")));
 };
 
 // DELETE - one recipe by id
@@ -113,12 +115,12 @@ export const deleteRecipe = id => dispatch => {
         type: DELETE_RECIPE,
         payload: id
       });
-      dispatch(notLoading("deleteRecipe"));
     })
     .catch(err => {
-      dispatch(notLoading("deleteRecipe"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("deleteRecipe")));
 };
 
 // helpers

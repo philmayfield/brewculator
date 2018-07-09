@@ -22,12 +22,12 @@ export const getAllGravities = id => dispatch => {
         type: GET_GRAVITIES,
         payload: res.data
       });
-      dispatch(notLoading("getAllGravities"));
     })
     .catch(err => {
-      dispatch(notLoading("getAllGravities"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("getAllGravities")));
 };
 
 // READ - one gravity by id
@@ -42,7 +42,6 @@ export const getGravity = id => dispatch => {
         type: GET_GRAVITY,
         payload: res.data
       });
-      dispatch(notLoading("getGravity"));
       return res.data;
     })
     .then(gravity => {
@@ -51,9 +50,10 @@ export const getGravity = id => dispatch => {
       return gravity;
     })
     .catch(err => {
-      dispatch(notLoading("getGravity"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("getGravity")));
 };
 
 // UPDATE - one gravity by id
@@ -67,13 +67,13 @@ export const saveGravity = (gravity, history) => dispatch => {
     .post(`/api/gravity/${_id}`, gravity)
     .then(({ data }) => {
       dispatch(setGravity(gravity));
-      dispatch(notLoading("saveGravity"));
       return history.push(`/brew/${data.brew}`);
     })
     .catch(err => {
-      dispatch(notLoading("saveGravity"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("saveGravity")));
 };
 
 // CREATE - one new gravity
@@ -84,13 +84,13 @@ export const makeGravity = (gravity, history) => dispatch => {
   axios
     .post(`/api/gravity/`, gravity)
     .then(({ data }) => {
-      dispatch(notLoading("makeGravity"));
       return history.push(`/brew/${data.brew}`);
     })
     .catch(err => {
-      dispatch(notLoading("makeGravity"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("makeGravity")));
 };
 
 // DELETE - one gravity by id
@@ -106,12 +106,12 @@ export const deleteGravity = id => dispatch => {
         type: DELETE_GRAVITY,
         payload: id
       });
-      dispatch(notLoading("deleteGravity"));
     })
     .catch(err => {
-      dispatch(notLoading("deleteGravity"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("deleteGravity")));
 };
 
 export const setGravity = gravity => {

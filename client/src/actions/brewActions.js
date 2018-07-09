@@ -23,12 +23,12 @@ export const getAllBrews = id => dispatch => {
         type: GET_BREWS,
         payload: res.data
       });
-      dispatch(notLoading("getAllBrews"));
     })
     .catch(err => {
-      dispatch(notLoading("getAllBrews"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("getAllBrews")));
 };
 
 // READ - one brew by id
@@ -43,7 +43,6 @@ export const getBrew = id => dispatch => {
         type: GET_BREW,
         payload: res.data
       });
-      dispatch(notLoading("getBrew"));
       return res.data;
     })
     .then(brew => {
@@ -55,9 +54,10 @@ export const getBrew = id => dispatch => {
       return brew;
     })
     .catch(err => {
-      dispatch(notLoading("getBrew"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("getBrew")));
 };
 
 // UPDATE - one brew by id
@@ -71,13 +71,13 @@ export const saveBrew = (brew, history) => dispatch => {
     .post(`/api/brew/${_id}`, brew)
     .then(() => {
       dispatch(setBrew(brew));
-      dispatch(notLoading("saveBrew"));
       return history.push(`/brew/${_id}`);
     })
     .catch(err => {
-      dispatch(notLoading("saveBrew"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("saveBrew")));
 };
 
 // CREATE - one new brew
@@ -88,13 +88,13 @@ export const makeBrew = (brew, history) => dispatch => {
   axios
     .post(`/api/brew/`, brew)
     .then(({ data }) => {
-      dispatch(notLoading("makeBrew"));
       return history.push(`/brew/${data._id}`);
     })
     .catch(err => {
-      dispatch(notLoading("makeBrew"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("makeBrew")));
 };
 
 // DELETE - one brew by id
@@ -110,12 +110,12 @@ export const deleteBrew = id => dispatch => {
         type: DELETE_BREW,
         payload: id
       });
-      dispatch(notLoading("deleteBrew"));
     })
     .catch(err => {
-      dispatch(notLoading("deleteBrew"));
-      dispatch(getErrors(err.response.data));
-    });
+      const error = err.response ? err.response.data : err;
+      dispatch(getErrors(error));
+    })
+    .finally(() => dispatch(notLoading("deleteBrew")));
 };
 
 export const setBrew = brew => {

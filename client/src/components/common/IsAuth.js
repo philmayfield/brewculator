@@ -27,6 +27,8 @@ class IsAuth extends Component {
       const currentTime = Date.now() / 1000;
 
       if (decoded.exp < currentTime) {
+        console.log("login has expired...");
+
         // log out user
         this.props.logoutUser();
 
