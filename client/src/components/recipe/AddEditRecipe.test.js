@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { mount } from "enzyme";
 import moxios from "moxios";
 import Root from "../../Root";
-import AddEditRecipe from "../recipe/AddEditRecipe";
+import AddEditRecipe from "./AddEditRecipe";
 import Input from "../common/Input";
 
 let wrapper;

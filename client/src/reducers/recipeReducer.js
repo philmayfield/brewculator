@@ -34,8 +34,8 @@ const defaultState = {
 };
 
 export default (state = defaultState, action) => {
-  // if (action.type === GET_GRAVITY || action.type === SET_GRAVITY) {
-  //   console.log(">>>", state, action.payload);
+  // if (action.type === GET_VERSION || action.type === SET_VERSION) {
+  //   console.log(">>>", action.payload);
   // }
   // if (action.type === GET_BREW) {
   //   console.log(">>>", state, action.payload);
@@ -70,7 +70,7 @@ export default (state = defaultState, action) => {
           ...state.versions.filter(
             version => version._id !== action.payload._id
           ),
-          ...action.payload
+          action.payload
         ]
       };
 
@@ -106,7 +106,7 @@ export default (state = defaultState, action) => {
             ...state.version.brews.filter(
               brew => brew._id !== action.payload._id
             ),
-            ...action.payload
+            action.payload
           ]
         }
       };
@@ -166,7 +166,7 @@ export default (state = defaultState, action) => {
               ...state.version.brew.gravities.filter(
                 gravity => gravity._id !== action.payload._id
               ),
-              ...action.payload
+              action.payload
             ]
           }
         }
