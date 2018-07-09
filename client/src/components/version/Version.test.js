@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { mount } from "enzyme";
 import moxios from "moxios";
 import Root from "../../Root";
-import Version from "../version/Version";
+import Version from "./Version";
 import RecipeDeets from "../layout/RecipeDeets";
 import Alert from "../common/Alert";
 

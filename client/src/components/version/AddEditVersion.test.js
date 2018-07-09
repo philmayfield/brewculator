@@ -57,7 +57,7 @@ describe("The new form", () => {
     wrapper = mount(
       <Root>
         <BrowserRouter>
-          <AddEditVersion match={{ params: { id: "12345" } }} history={{}} />
+          <AddEditVersion match={{ params: { id: "new" } }} history={{}} />
         </BrowserRouter>
       </Root>
     );
