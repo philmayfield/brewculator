@@ -26,6 +26,11 @@ class Landing extends Component {
             <h1>Hello Friends!</h1>
             <div className="info-container p-3 z-depth-3">
               <p>If you&rsquo;ve found this, then welcome!</p>
+              <p>
+                My name is Phil Mayfield, and I made this! Brewculator is a brew
+                day logging and tracking app, designed to be easily usable from
+                a mobile device.
+              </p>
               <p>This web app was developed to serve two main purposes.</p>
               <ol>
                 <li>
@@ -35,9 +40,9 @@ class Landing extends Component {
                 </li>
                 <li>
                   As an avid home brewer, I&rsquo;ve found the need for such an
-                  app for tracking brewdays. Existing apps have left a little
-                  something to be desired, and keeping track with paper&hellip;
-                  come on now.
+                  app for tracking brew days. Existing apps have left a little
+                  something to be desired, and keeping track with a pad of
+                  paper&hellip; I mean come on now.
                 </li>
               </ol>
               <p>
