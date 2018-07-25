@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 import Root from "../Root";
 import App from "../App";
 import Header from "../components/layout/Header";
@@ -8,7 +8,11 @@ import Header from "../components/layout/Header";
 let wrapper;
 
 beforeEach(() => {
-  wrapper = shallow(<App />);
+  wrapper = mount(<App testing={true} />);
+});
+
+afterEach(() => {
+  wrapper.unmount();
 });
 
 it("shows the layout components", () => {
