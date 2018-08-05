@@ -46,6 +46,15 @@ class Landing extends Component {
                 </li>
               </ol>
               <p>
+                Go ahead and play with it! You can create a login (no email or
+                anything is required) or just use a tester account with these
+                credentials&hellip;
+              </p>
+              <p className="text-center">
+                <strong>Login:</strong> tester
+                <strong className="ml-3">Password:</strong> tester
+              </p>
+              <p>
                 Please understand that this is not a commercial product by any
                 means, and is not intended to be used as such. Just a personal
                 project for me to nerd out on.
@@ -96,7 +105,7 @@ class Landing extends Component {
                   <ReactSVG className="tech-icon" path={getImg("heroku")} />
                 </a>
                 <a
-                  href="https://www.javascript.com/"
+                  href="https://www.ecma-international.org/"
                   title="JavaScript"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -104,8 +113,8 @@ class Landing extends Component {
                   <ReactSVG className="tech-icon" path={getImg("js")} />
                 </a>
                 <a
-                  href="https://www.ecma-international.org/"
-                  title="Javascript"
+                  href="https://www.mongodb.com/"
+                  title="mongoDB"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
