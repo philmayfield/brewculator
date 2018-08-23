@@ -62,12 +62,13 @@ class Landing extends Component {
               <p>
                 If you feel like spooling up your own version, feel free to{" "}
                 <a
-                  href="https://bitbucket.org/philmayfield/brewculator/"
+                  href="https://github.com/philmayfield/brewculator"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  check out the repo on BitBucket
-                </a>.
+                  check out the repo on GitHub
+                </a>
+                .
               </p>
 
               <p className="text-center mt-5 text-muted small">Built With</p>
