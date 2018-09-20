@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import getImg from "../../common/getImg";
-import ReactSVG from "react-svg";
-import AppControl from "../layout/AppControl";
-import Button from "../common/Button";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import getImg from '../../common/getImg';
+import ReactSVG from 'react-svg';
+import AppControl from '../layout/AppControl';
+import Button from '../common/Button';
 
 class Landing extends Component {
   componentDidMount() {
     if (this.props.auth.isAuth) {
-      this.props.history.push("/recipes");
+      this.props.history.push('/recipes');
     }
   }
 
@@ -17,7 +17,7 @@ class Landing extends Component {
     return (
       <div>
         <ReactSVG
-          path={getImg("phil")}
+          src={getImg('phil')}
           className="mx-auto d-flex justify-content-center"
           svgClassName="phil round-img"
         />
@@ -60,7 +60,7 @@ class Landing extends Component {
                 project for me to nerd out on.
               </p>
               <p>
-                If you feel like spooling up your own version, feel free to{" "}
+                If you feel like spooling up your own version, feel free to{' '}
                 <a
                   href="https://github.com/philmayfield/brewculator"
                   target="_blank"
@@ -79,7 +79,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("bootstrap")} />
+                  <ReactSVG className="tech-icon" src={getImg('bootstrap')} />
                 </a>
                 <a
                   href="https://expressjs.com/"
@@ -87,7 +87,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("express")} />
+                  <ReactSVG className="tech-icon" src={getImg('express')} />
                 </a>
                 <a
                   href="https://git-scm.com/"
@@ -95,7 +95,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("git")} />
+                  <ReactSVG className="tech-icon" src={getImg('git')} />
                 </a>
                 <a
                   href="https://www.heroku.com/"
@@ -103,7 +103,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("heroku")} />
+                  <ReactSVG className="tech-icon" src={getImg('heroku')} />
                 </a>
                 <a
                   href="https://www.ecma-international.org/"
@@ -111,7 +111,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("js")} />
+                  <ReactSVG className="tech-icon" src={getImg('js')} />
                 </a>
                 <a
                   href="https://www.mongodb.com/"
@@ -119,7 +119,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("mongo")} />
+                  <ReactSVG className="tech-icon" src={getImg('mongo')} />
                 </a>
                 <a
                   href="https://nodejs.org/"
@@ -127,7 +127,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("node")} />
+                  <ReactSVG className="tech-icon" src={getImg('node')} />
                 </a>
                 <a
                   href="https://reactjs.org/"
@@ -135,7 +135,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("react")} />
+                  <ReactSVG className="tech-icon" src={getImg('react')} />
                 </a>
                 <a
                   href="https://redux.js.org/"
@@ -143,7 +143,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("redux")} />
+                  <ReactSVG className="tech-icon" src={getImg('redux')} />
                 </a>
                 <a
                   href="https://sass-lang.com/"
@@ -151,7 +151,7 @@ class Landing extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ReactSVG className="tech-icon" path={getImg("sass")} />
+                  <ReactSVG className="tech-icon" src={getImg('sass')} />
                 </a>
               </div>
             </div>
@@ -160,7 +160,7 @@ class Landing extends Component {
         <AppControl>
           <Button
             type="link"
-            classes={["btn-secondary", "flex-fill"]}
+            classes={['btn-secondary', 'flex-fill']}
             clickOrTo={`/login`}
             icon="baselineAccountCircle24px"
           >
@@ -168,7 +168,7 @@ class Landing extends Component {
           </Button>
           <Button
             type="link"
-            classes={["btn-primary", "flex-fill"]}
+            classes={['btn-primary', 'flex-fill']}
             clickOrTo={`/signup`}
             icon="baselineEdit24px"
           >

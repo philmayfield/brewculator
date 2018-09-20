@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import moment from "moment";
-import { Line } from "react-chartjs-2";
-import { actionConfirm } from "../../actions/appActions";
-import { notEmpty } from "../../common/empty";
-import { clearErrors } from "../../actions/appActions";
-import { getBrew, setBrew, deleteBrew } from "../../actions/brewActions";
-import { getAllGravities, unsetGravity } from "../../actions/gravityActions";
-import ContextChangeBtn from "../common/ContextChangeBtn";
-import RecipeDeets from "../layout/RecipeDeets";
-import AppControl from "../layout/AppControl";
-import ItemWrap from "../common/ItemWrap";
-import GravityList from "../gravities/GravityList";
-import AreYouSure from "../common/AreYouSure";
-import Alert from "../common/Alert";
-import calculateGravity from "../../common/calculateGravity";
-import Button from "../common/Button";
-import ReactSVG from "react-svg";
-import getImg from "../../common/getImg";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import { Line } from 'react-chartjs-2';
+import { actionConfirm } from '../../actions/appActions';
+import { notEmpty } from '../../common/empty';
+import { clearErrors } from '../../actions/appActions';
+import { getBrew, setBrew, deleteBrew } from '../../actions/brewActions';
+import { getAllGravities, unsetGravity } from '../../actions/gravityActions';
+import ContextChangeBtn from '../common/ContextChangeBtn';
+import RecipeDeets from '../layout/RecipeDeets';
+import AppControl from '../layout/AppControl';
+import ItemWrap from '../common/ItemWrap';
+import GravityList from '../gravities/GravityList';
+import AreYouSure from '../common/AreYouSure';
+import Alert from '../common/Alert';
+import calculateGravity from '../../common/calculateGravity';
+import Button from '../common/Button';
+import ReactSVG from 'react-svg';
+import getImg from '../../common/getImg';
 
 class Brew extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class Brew extends Component {
     e.preventDefault();
 
     const { _id, date, version } = this.props.recipe.version.brew;
-    const friendlyDate = moment.utc(date).format("MMM D, YYYY");
+    const friendlyDate = moment.utc(date).format('MMM D, YYYY');
 
     this.props.actionConfirm({
       confirmAction: deleteBrew,
@@ -73,15 +73,15 @@ class Brew extends Component {
 
   getData(gravities) {
     if (Array.isArray(gravities)) {
-      const gravColor = "151,187,205";
-      const tempColor = "220,53,69";
+      const gravColor = '151,187,205';
+      const tempColor = '220,53,69';
       const labels = gravities.map(g =>
-        moment.utc(g.date).format("MMM D, YYYY")
+        moment.utc(g.date).format('MMM D, YYYY')
       );
       const gravs = {
         data: gravities.map(g => calculateGravity(g.brix)),
-        label: "Gravity",
-        yAxisID: "gravs",
+        label: 'Gravity',
+        yAxisID: 'gravs',
         borderColor: `rgba(${gravColor}, 1)`,
         backgroundColor: `rgba(${gravColor}, .25)`,
         pointRadius: 8,
@@ -90,8 +90,8 @@ class Brew extends Component {
       };
       const temps = {
         data: gravities.map(g => g.temp),
-        label: "Temperature",
-        yAxisID: "temps",
+        label: 'Temperature',
+        yAxisID: 'temps',
         borderColor: `rgba(${tempColor}, 1)`,
         backgroundColor: `rgba(${tempColor}, .075)`,
         pointRadius: 8,
@@ -118,9 +118,9 @@ class Brew extends Component {
         scales: {
           yAxes: [
             {
-              id: "gravs",
-              type: "linear",
-              position: "left",
+              id: 'gravs',
+              type: 'linear',
+              position: 'left',
               gridLines: {
                 drawOnChartArea: false
               },
@@ -129,9 +129,9 @@ class Brew extends Component {
               }
             },
             {
-              id: "temps",
-              type: "linear",
-              position: "right",
+              id: 'temps',
+              type: 'linear',
+              position: 'right',
               gridLines: {
                 drawOnChartArea: false
               },
@@ -166,7 +166,7 @@ class Brew extends Component {
       const currAbv =
         numDataPoints > 1
           ? `Current ABV: ${this.calculateAbv(og, fg)}%`
-          : "You need more gravity readings to calculate the ABV";
+          : 'You need more gravity readings to calculate the ABV';
       const ogFgContent = numDataPoints > 1 && (
         <span className="text-nowrap text-muted">
           {og} og, {fg} fg
@@ -177,7 +177,7 @@ class Brew extends Component {
         <div>
           <h6 className="d-flex flex-wrap align-items-center justify-content-center">
             <ReactSVG
-              path={getImg("baselineLocalDrink24px")}
+              src={getImg('baselineLocalDrink24px')}
               svgClassName="primary mr-2"
             />
             <span className="mr-3">{currAbv}</span>
@@ -222,7 +222,7 @@ class Brew extends Component {
         <AppControl>
           <ContextChangeBtn />
           <Button
-            classes={["btn-danger", "flex-fill", hasBrew ? "" : "d-none"]}
+            classes={['btn-danger', 'flex-fill', hasBrew ? '' : 'd-none']}
             clickOrTo={this.handleDelete}
             icon="baselineDeleteForever24px"
           >
@@ -230,7 +230,7 @@ class Brew extends Component {
           </Button>
           <Button
             type="link"
-            classes={["btn-primary", "flex-fill", hasBrew ? "" : "d-none"]}
+            classes={['btn-primary', 'flex-fill', hasBrew ? '' : 'd-none']}
             clickOrTo={`edit/${hasBrew && brew._id}`}
             icon="baselineEdit24px"
           >
@@ -244,7 +244,7 @@ class Brew extends Component {
           <ContextChangeBtn />
           <Button
             type="link"
-            classes={["btn-secondary", "flex-fill"]}
+            classes={['btn-secondary', 'flex-fill']}
             clickOrTo={`/version/${version._id}`}
             icon="baselineArrowBack24px"
           >
@@ -252,7 +252,7 @@ class Brew extends Component {
           </Button>
           <Button
             type="link"
-            classes={["btn-primary", "flex-fill", hasVersion ? "" : "d-none"]}
+            classes={['btn-primary', 'flex-fill', hasVersion ? '' : 'd-none']}
             clickOrTo="/gravity/edit/new"
             icon="baselineAddCircle24px"
           >

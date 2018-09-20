@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { ACTION_CONFIRM } from "../../actions/actionTypes";
-import { notEmpty } from "../../common/empty";
-import Button from "./Button";
-import ReactSVG from "react-svg";
-import getImg from "../../common/getImg";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { ACTION_CONFIRM } from '../../actions/actionTypes';
+import { notEmpty } from '../../common/empty';
+import Button from './Button';
+import ReactSVG from 'react-svg';
+import getImg from '../../common/getImg';
 
 class AreYouSure extends Component {
   render() {
     const { handleConfirm, handleCancel } = this.props;
-    const { confirmText = "Are you sure?" } = this.props.confirmObject;
+    const { confirmText = 'Are you sure?' } = this.props.confirmObject;
 
     return (
       <div className="are-you-sure w-100">
@@ -18,14 +18,14 @@ class AreYouSure extends Component {
           <ReactSVG
             className="mr-2"
             svgClassName="danger"
-            path={getImg("roundWarning24px")}
+            src={getImg('roundWarning24px')}
           />
           <strong>{confirmText}</strong>
         </div>
         <div className="d-flex">
           <Button
             type="button"
-            classes={["btn-danger", "flex-fill"]}
+            classes={['btn-danger', 'flex-fill']}
             value={true}
             clickOrTo={handleCancel}
             icon="baselineClose24px"
@@ -34,7 +34,7 @@ class AreYouSure extends Component {
           </Button>
           <Button
             type="button"
-            classes={["btn-success", "flex-fill"]}
+            classes={['btn-success', 'flex-fill']}
             value={true}
             clickOrTo={handleConfirm}
             icon="baselineDone24px"

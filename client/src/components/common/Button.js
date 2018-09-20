@@ -1,28 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ReactSVG from "react-svg";
-import getImg from "../../common/getImg";
-import { Link } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactSVG from 'react-svg';
+import getImg from '../../common/getImg';
+import { Link } from 'react-router-dom';
 
 const Button = props => {
   const {
     children,
-    classes = ["btn-primary"],
-    svgClasses = ["light"],
+    classes = ['btn-primary'],
+    svgClasses = ['light'],
     clickOrTo,
     icon,
     value = null,
     confirmItem = null,
-    type = "button"
+    type = 'button'
   } = props;
   const iconPath = icon && getImg(icon);
-  const className = `btn ${classes && classes.join(" ")}`;
-  const svgClassName = `${children && children.length && "mr-2"} ${svgClasses &&
-    svgClasses.join(" ")}`;
+  const className = `btn ${classes && classes.join(' ')}`;
+  const svgClassName = `${children && children.length && 'mr-2'} ${svgClasses &&
+    svgClasses.join(' ')}`;
 
-  return type === "link" ? (
+  return type === 'link' ? (
     <Link className={className} to={clickOrTo}>
-      {iconPath && <ReactSVG path={iconPath} svgClassName={svgClassName} />}
+      {iconPath && <ReactSVG src={iconPath} svgClassName={svgClassName} />}
       {children}
     </Link>
   ) : (
@@ -33,7 +33,7 @@ const Button = props => {
       value={value}
       data-confirm-item={confirmItem}
     >
-      {iconPath && <ReactSVG path={iconPath} svgClassName={svgClassName} />}
+      {iconPath && <ReactSVG src={iconPath} svgClassName={svgClassName} />}
       {children}
     </button>
   );
